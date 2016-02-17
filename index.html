@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- RadioTimer, Copyright 2016 François Revol -->
+<html manifest="cache.manifest">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Radio Timer</title>
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+<div id="wrapper">
+<header>
+	<span id="live_timer">00:00</span>
+</header>
+<div id="top">
+<br />
+</div>
+
+<section id="manual_text">
+<h1 class="en">Welcome to RadioTimer.</h1>
+<h1 class="fr">Bienvenue dans RadioTimer.</h1>
+<br/>
+<p class="en">This allows you to track time when recording a radio session prepared from an etherpad or any other text document with proper H1 and H2 formating.</p>
+<p class="fr">Il permet de suivre le temps d'un enregistrement radio préparé depuis un etherpad ou n'importe-quel document texte formaté avec les H1 et H2 prévu.</p>
+<br/>
+
+<h2 class="en">Pad Controls</h2>
+<div class="en">
+<ul>
+<li>⏏ (Eject): </li>
+<li>URL field: </li>
+<li>Load: </li>
+</ul>
+</div>
+<h2 class="fr">Contrôles du pad</h2>
+<div class="fr">
+<ul>
+<li>⏏ (Ejecter): </li>
+<li>Champ URL: </li>
+<li>Charger: </li>
+</ul>
+</div>
+
+<div class="en">You can also copy from an etherpad and paste in the input field below:<br/></div>
+<div class="fr">Vous pouvez également copier depuis un etherpad et coller dans le champ texte ci-dessous&nbsp;:<br/></div>
+<form id="pasteform">
+<input type="text" id="pastetarget" placeholder="paste something here…" value=""/>
+</form>
+<br />
+<br />
+
+<h2 class="en">Session Controls</h2>
+<div class="en">
+<ul>
+<li>⏮ (Previous session): </li>
+<li>⏪ (Previous item): </li>
+<li>⏹ (Stop): </li>
+<li>⏵ (Play): </li>
+<li>⏸ / ⏯ (Pause): </li>
+<li>⏩ (Next item): </li>
+<li>⏭ (Next session): </li>
+</ul>
+</div>
+<h2 class="fr">Contrôles de session</h2>
+<div class="fr">
+<ul>
+<li>⏮ (Session précédente): </li>
+<li>⏪ (Item précédent): </li>
+<li>⏹ (Arrêt): </li>
+<li>⏵ (Lecture): </li>
+<li>⏸ / ⏯ (Pause): </li>
+<li>⏩ (Item suivant): </li>
+<li>⏭ (Session suivante): </li>
+</ul>
+</div>
+<br />
+</section>
+
+<section id="contents">
+<div class="en"><i>This will be replaced by the pad content.</i><br/></div>
+<div class="fr"><i>Ceci sera remplacé par le contenu du pad.</i><br/></div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+</section>
+</div>
+
+<br />
+<br />
+<br />
+<br />
+
+<footer>
+    <form id="padform">
+        <input type="button" id="eject" value="⏏" title="Eject" />
+        <input type="text" id="url" placeholder="URL to an etherpad…" value=""/>
+<!https://bimestriel.framapad.org/p/underscore_201603>
+        <input type="submit" id="load" value="Load" />
+    </form>
+    <form id="controls">
+        <input type="button" id="session_prev" value="⏮" title="Previous session"/>
+        <input type="button" id="item_prev" value="⏪" title="Previous item"/>
+        <input type="button" id="item_stop" value="⏹" title="Stop" />
+        <input type="button" id="item_play" value="⏵" title="Play" />
+        <input type="button" id="item_pause" value="⏸" title="Pause" />
+        <input type="button" id="item_next" value="⏩" title="Next item" />
+        <input type="button" id="session_next" value="⏭" title="Next session" />
+    <!--<button id="reset">Clear All Tasks</button>-->
+    </form>
+	<span>
+	<div id="progress_h1"><span id="current_h1">Session</span><div id="bar"></div></div> <div id="progress_h2"><span id="current_h2">Item</span><div id="bar"></div></div>
+	</span>
+</footer>
+<script src="js/zepto.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
+
