@@ -1,0 +1,1 @@
+* TODO disable all #contents>A HREF onclick when playing to avoid accidentally replacing the page.
