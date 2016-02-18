@@ -30,3 +30,8 @@ Directly importing from an etherpad URL doesn't work when running online (from a
 
 You can still copy-paste the etherpad content, although it's less easy to use.
 
+## TODO
+
+- [ ] disable all #contents>A HREF onclick when playing to avoid accidentally replacing the page.
+- [ ] default contents and manual hidden and paste input field disabled in Safari and Android browser !?
+
