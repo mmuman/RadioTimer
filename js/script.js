@@ -463,3 +463,14 @@ function localizeUI() {
 
 localizeUI();
 
+// autoload pad passed as parameter
+if (document.location.search) {
+	var args = document.location.search.slice(1).split('&');
+	for (i in args) {
+		if (/^pad=/.test(args[i])) {
+			var url = args[i].replace(/^pad=/, "");
+			$('input[id="url"]').attr("value", url);
+			$("#padform").submit();
+		}
+	}
+}
