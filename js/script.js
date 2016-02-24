@@ -1,5 +1,30 @@
 /* RadioTimer, Copyright 2016 François Revol */
 
+var buttonChars = {
+	"eject":"⏏",
+	"session_prev":"⏮",
+	"item_prev":"⏪",
+	"item_stop":"⏹",
+	"item_play":"⏵",
+	"item_pause":"⏸",
+	"item_pauseplay":"⏯",
+	"item_next":"⏩",
+	"session_next":"⏭"
+};
+
+// work around empty buttons on Android
+var buttonCharsASCII = {
+	"eject":"^",
+	"session_prev":"|<<",
+	"item_prev":"<<",
+	"item_stop":"#",
+	"item_play":">",
+	"item_pause":"||",
+	"item_pauseplay":">||",
+	"item_next":">>",
+	"session_next":">>|"
+};
+
 if(navigator.onLine){
     // browser is online so I can load the list from the server
     //server.list(init);
@@ -127,15 +152,15 @@ function update(){
 
 
 	//if (startTime) {
-	var state = "⏏";
+	var state = buttonChars.eject;
 	if (sessions.length)
-		state = "⏹";
+		state = buttonChars.item_stop;
 	if (paused)
-		state = "⏸";
+		state = buttonChars.item_pause;
 	if (timerHandle) {
-		state = "⏵";
+		state = buttonChars.item_play;
 		if (paused)
-			state = "⏯";
+			state = buttonChars.item_pauseplay;
 	}
 	$("#live_timer").empty();
 	$("#live_timer").append(state + "&nbsp;");
@@ -151,6 +176,10 @@ $("#eject").click(function (e) {
 	console.log(e.target)
 	$("#padform>#url").each(function(index){this.style.display = "initial";});
 	$("#padform>#load").each(function(index){this.style.display = "initial";});
+	$('#current_h1').empty();
+	$('#current_h1').append("(Session)");
+	$('#current_h2').empty();
+	$('#current_h2').append("(Item)");
 	$("section#contents").empty();
 	$("section#manual_text").each(function(index){this.style.display = "initial";});
 	$('section#manual_text')[0].scrollIntoView( true );
@@ -332,9 +361,10 @@ $("#item_pause").click(function (e) {
 	highlightCurrent();
 	paused = !paused;
 	if (paused)
-		$("#controls>#item_pause").attr('value', '⏯');
+		$("#controls>#item_pause").attr('value', buttonChars.item_pauseplay);
 	else
-		$("#controls>#item_pause").attr('value', '⏸');
+		$("#controls>#item_pause").attr('value', buttonChars.item_pause);
+	update();
 	return false;
 });
 
@@ -379,6 +409,23 @@ $("#pastetarget").on("paste", function(e){
 });
 
 
+// attempt to work around boggus Unicode chars in fonts (Android)
+if ($("#session_prev")[0].clientWidth != $("#item_prev")[0].clientWidth) {
+	//window.alert("sz:" + $("#session_prev")[0].clientWidth + ":"+ $("#item_prev")[0].clientWidth);
+	buttonChars = buttonCharsASCII;
+	//window.alert(buttonChars.item_prev);
+	$("#padform>#eject").attr('value', buttonChars.eject);
+	$("#controls>#session_prev").attr('value', buttonChars.session_prev);
+	$("#controls>#session_next").attr('value', buttonChars.session_next);
+	$("#controls>#item_prev").attr('value', buttonChars.item_prev);
+	$("#controls>#item_next").attr('value', buttonChars.item_next);
+	$("#controls>#item_play").attr('value', buttonChars.item_play);
+	$("#controls>#item_stop").attr('value', buttonChars.item_stop);
+	$("#controls>#item_pause").attr('value', buttonChars.item_pause);
+	// TODO: fix help text too?
+}
+
+
 // localise
 function getLang()
 {
@@ -390,14 +437,9 @@ function getLang()
 
 function localizeUI() {
 	var lang = getLang();
+	var hideEn = true;
 
-	if (lang == "en")
-		return;
-	if (/fr/.test(lang) != true)
-		return;
-	$(".en").each(function(index){this.style.display = "none";});
-
-	if (lang == "fr") {
+	if (/^fr$|^fr-/.test(lang) == true) {
 		$("#padform>#eject").attr('title', 'Ejecter');
 		$("#padform>#load").attr('value', 'Charger');
 		$("#padform>#load").attr('title', 'Charger');
@@ -411,7 +453,11 @@ function localizeUI() {
 		$("#pastetarget").attr('placeholder', 'collez ici…');
 
 		$(".fr").each(function(index){this.style.display = "initial";});
-	}
+	} else
+		hideEn = false;
+
+	if (hideEn)
+		$(".en").each(function(index){this.style.display = "none";});
 
 }
 
