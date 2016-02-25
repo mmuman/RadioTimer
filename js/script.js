@@ -194,6 +194,7 @@ function timerFunc(){
 $("#eject").click(function (e) {
 	console.log(e.target)
 	$("#padform>#url").each(function(index){this.style.display = "initial";});
+	$("#padform>#progress").each(function(index){this.style.display = "none";});
 	$("#padform>#load").each(function(index){this.style.display = "initial";});
 	$('#current_h1').empty();
 	$('#current_h1').append("(Session)");
@@ -242,6 +243,8 @@ function padLoaded(){
 
 	$("#padform>#url").each(function(index){this.style.display = "none";});
 	$("#padform>#load").each(function(index){this.style.display = "none";});
+	$("#padform>#progress").children().children().unwrap();
+	$("#padform>#progress").each(function(index){this.style.display = "none";});
 
 	// make sure top is visible
 	$('div#top')[0].scrollIntoView( true );
@@ -255,6 +258,9 @@ $("#padform").submit(function (e) {
 	var url=$('input[id="url"]').attr("value");
 	url += '/export/html';
 	console.log('loadPad: ' + url);
+	$("#padform>#url").each(function(index){this.style.display = "none";});
+	$("#padform>#progress").each(function(index){this.style.display = "inline";});
+	$("#padform>#progress").wrapInner("<progress>");
 	$("section#contents").empty();
 	$.get(url, function(response){
 		$("section#contents").append(response);
