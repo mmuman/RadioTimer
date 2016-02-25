@@ -368,7 +368,7 @@ $("#item_stop").click(function (e) {
 	update();
 	itemStartTime = startTime = null;
 	paused = false;
-	$("#controls>#item_pause").attr('value', '⏸');
+	$("#controls>#item_pause").attr('value', buttonChars.item_pause);
 	return false;
 });
 
@@ -380,7 +380,7 @@ $("#item_play").click(function (e) {
 	$("#controls>#session_prev").attr('disabled', 'disabled');
 	$("#controls>#session_next").attr('disabled', 'disabled');
 	paused = false;
-	$("#controls>#item_pause").attr('value', '⏸');
+	$("#controls>#item_pause").attr('value', buttonChars.item_pause);
 	if (timerHandle)
 		return false;
 	timerHandle = setInterval(timerFunc, 500);
