@@ -193,21 +193,21 @@ function timerFunc(){
 
 $("#eject").click(function (e) {
 	//console.log(e.target)
-	$("#padform>#url").each(function(index){this.style.display = "initial";});
-	$("#padform>#progress").each(function(index){this.style.display = "none";});
-	$("#padform>#load").each(function(index){this.style.display = "initial";});
+	$("#padform>#url").show();
+	$("#padform>#progress").hide();
+	$("#padform>#load").show();
 	$('#current_h1').empty();
 	$('#current_h1').append("(Session)");
 	$('#current_h2').empty();
 	$('#current_h2').append("(Item)");
 	$("section#contents").empty();
-	$("section#manual_text").each(function(index){this.style.display = "initial";});
+	$("section#manual_text").show();
 	$('section#manual_text')[0].scrollIntoView( true );
 	return false;
 });
 
 function padLoaded(){
-	$("section#manual_text").each(function(index){this.style.display = "none";});
+	$("section#manual_text").hide();
 
 	sessions = Array();
 	session = -1;
@@ -241,10 +241,10 @@ function padLoaded(){
 		//console.log(this);
 	});
 
-	$("#padform>#url").each(function(index){this.style.display = "none";});
-	$("#padform>#load").each(function(index){this.style.display = "none";});
+	$("#padform>#url").hide();
+	$("#padform>#load").hide();
 	$("#padform>#progress").children().children().unwrap();
-	$("#padform>#progress").each(function(index){this.style.display = "none";});
+	$("#padform>#progress").hide();
 
 	// make sure top is visible
 	$('div#top')[0].scrollIntoView( true );
@@ -258,8 +258,8 @@ $("#padform").submit(function (e) {
 	var url=$('input[id="url"]').attr("value");
 	url += '/export/html';
 	console.log('loadPad: ' + url);
-	$("#padform>#url").each(function(index){this.style.display = "none";});
-	$("#padform>#progress").each(function(index){this.style.display = "inline";});
+	$("#padform>#url").hide();
+	$("#padform>#progress").show();
 	$("#padform>#progress").wrapInner("<progress>");
 	$("section#contents").empty();
 	$.get(url, function(response){
@@ -489,12 +489,12 @@ function localizeUI() {
 		$("#controls>#item_pause").attr('title', 'Pause');
 		$("#pastetarget").attr('placeholder', 'collez ici…');
 
-		$(".fr").each(function(index){this.style.display = "initial";});
+		$(".fr").show();
 	} else
 		hideEn = false;
 
 	if (hideEn)
-		$(".en").each(function(index){this.style.display = "none";});
+		$(".en").hide();
 
 }
 
