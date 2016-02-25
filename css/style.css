@@ -15,6 +15,9 @@ form { display:inline }
 	font-size:4em;
 	opacity: .75;
 }
+#live_timer.late {
+	background: darkred;
+}
 #live_timer:hover {
 	opacity: .30;
 }

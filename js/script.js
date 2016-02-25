@@ -164,11 +164,7 @@ function update(){
 	}
 	$("#progress_h1>#bar").each(function(index){this.style.width = "" + p + "%";});
 
-	if (late)
-		$("#live_timer").each(function(index){this.style['background-color'] = "darkred";});
-	else
-		$("#live_timer").each(function(index){this.style['background-color'] = "LightSlateGrey";});
-
+	$("#live_timer").toggleClass("late", late);
 
 	//if (startTime) {
 	var state = buttonChars.eject;
