@@ -192,7 +192,7 @@ function timerFunc(){
 }
 
 $("#eject").click(function (e) {
-	console.log(e.target)
+	//console.log(e.target)
 	$("#padform>#url").each(function(index){this.style.display = "initial";});
 	$("#padform>#progress").each(function(index){this.style.display = "none";});
 	$("#padform>#load").each(function(index){this.style.display = "initial";});
@@ -216,7 +216,7 @@ function padLoaded(){
 	// index H1 and sum up times from H2
 	$('section#contents').children().each(function(index){
 		if (this.tagName == "H1") {
-			console.log("[%d]: %o %s", index, this, this.tagName);
+			//console.log("[%d]: %o %s", index, this, this.tagName);
 			session++;
 			sessions[session] = [ index, 0, Array(), Array() ];
 		}
@@ -226,7 +226,7 @@ function padLoaded(){
 			var m = this.textContent.match(re);
 			if (m) {
 				var t = parseInt(m[1]) * 60 + parseInt(m[2]);
-				console.log(t);
+				//console.log(t);
 				sessions[session][1] += t;
 				sessions[session][2].push(index);
 				sessions[session][3].push(t);
@@ -238,7 +238,7 @@ function padLoaded(){
 		var secs = this[1];
 		var t = " [" + formatMS(secs) + "]";
 		$('section#contents').children()[this[0]].innerHTML += t;
-		console.log(this);
+		//console.log(this);
 	});
 
 	$("#padform>#url").each(function(index){this.style.display = "none";});
@@ -304,13 +304,13 @@ $("#padform").submit(function (e) {
 });
 
 $("#controls").submit(function (e) {
-	console.log(e.target)
+	//console.log(e.target)
 	return false;
 });
 
 
 $("#session_prev").click(function (e) {
-	console.log(e.target)
+	//console.log(e.target)
 	if (session > 0) {
 		session--;
 	}
@@ -322,7 +322,7 @@ $("#session_prev").click(function (e) {
 });
 
 $("#session_next").click(function (e) {
-	console.log(e.target)
+	//console.log(e.target)
 	if (session < sessions.length - 1) {
 		session++;
 	}
@@ -334,7 +334,7 @@ $("#session_next").click(function (e) {
 });
 
 $("#item_prev").click(function (e) {
-	console.log(e.target)
+	//console.log(e.target)
 	var s = sessions[session];
 	if (item > 0) {
 		item--;
@@ -347,7 +347,7 @@ $("#item_prev").click(function (e) {
 });
 
 $("#item_next").click(function (e) {
-	console.log(e.target)
+	//console.log(e.target)
 	var s = sessions[session];
 	if (item < s[2].length - 1) {
 		item++;
@@ -360,7 +360,7 @@ $("#item_next").click(function (e) {
 });
 
 $("#item_stop").click(function (e) {
-	console.log(e)
+	//console.log(e)
 	highlightCurrent();
 	$("#padform>#eject").removeAttr('disabled', 'disabled');
 	$("#controls>#session_prev").removeAttr('disabled', 'disabled');
@@ -377,7 +377,7 @@ $("#item_stop").click(function (e) {
 });
 
 $("#item_play").click(function (e) {
-	console.log(e)
+	//console.log(e)
 	highlightCurrent();
 	update();
 	$("#padform>#eject").attr('disabled', 'disabled');
@@ -394,7 +394,7 @@ $("#item_play").click(function (e) {
 });
 
 $("#item_pause").click(function (e) {
-	console.log(e)
+	//console.log(e)
 	highlightCurrent();
 	paused = !paused;
 	if (paused)
@@ -407,7 +407,7 @@ $("#item_pause").click(function (e) {
 
 
 $("#progress_h1").click(function (e) {
-	console.log(e)
+	//console.log(e)
 	highlightCurrent();
 	var s = sessions[session][0];
 	$('section#contents').children()[s].scrollIntoView( true );
@@ -415,7 +415,7 @@ $("#progress_h1").click(function (e) {
 });
 
 $("#progress_h2").click(function (e) {
-	console.log(e)
+	//console.log(e)
 	highlightCurrent();
 	var i = sessions[session][2][item];
 	$('section#contents').children()[i].scrollIntoView( true );
@@ -426,8 +426,8 @@ $("#progress_h2").click(function (e) {
 update();
 
 $("#pastetarget").on("paste", function(e){
-	console.log("e: %o", e);
-	console.log("c: %o", e.clipboardData);
+	//console.log("e: %o", e);
+	//console.log("c: %o", e.clipboardData);
 	console.log("s: %o", e.clipboardData.types);
 	console.log("f: %o", e.clipboardData.files);
 	e.preventDefault();
