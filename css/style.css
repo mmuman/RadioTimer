@@ -1,8 +1,27 @@
 /* RadioTimer, Copyright 2016 François Revol */
 body {}
-header { position: fixed; width: 100% }
-footer { position: fixed; width: 100%; bottom: 1em; }
+
+header {
+	position: fixed;
+	top: 1em;
+	right: 1em;
+}
+
+footer {
+	position: fixed;
+	width: 100%;
+	bottom: 0em;
+	left: 0em;
+	padding: 0.5em;
+	background-color: LightSlateGrey;
+	opacity: .70;
+}
+footer:hover {
+	opacity: 1.0;
+}
+
 form { display:inline }
+
 #live_timer {
 	display:inline;
 	float: right;
@@ -21,11 +40,17 @@ form { display:inline }
 #live_timer:hover {
 	opacity: .30;
 }
+
+#progress_h1_h2 {
+	width: 100%;
+	white-space: nowrap;
+}
 #progress_h2 {
 	background-color: goldenrod;
 	background-color: rgba(218, 165, 32, 128);
 	position:relative;
-	width: 25%;
+	min-width: 25%;
+	max-width: 45%;
 	vertical-align: bottom;
 	border: 1px solid black;
 	padding: 3px;
@@ -35,7 +60,8 @@ form { display:inline }
 	background-color: orangered;
 	background-color: rgba(255, 69, 0, 128);
 	position:relative;
-	width: 25%;
+	min-width: 25%;
+	max-width: 45%;
 	vertical-align: bottom;
 	border: 1px solid black;
 	padding: 3px;
@@ -54,7 +80,8 @@ form { display:inline }
 	background-color: rgba(218, 165, 32, 128);*/
 	white-space: nowrap;
 	position:absolute;
-	left:0%
+	left: 0%
+	padding-left: 3px;
 }
 #current_h1 {
 	/*background-color: orangered;
@@ -62,6 +89,7 @@ form { display:inline }
 	white-space: nowrap;
 	position:absolute;
 	left: 0%;
+	padding-left: 3px;
 }
 /*#progress_h2>*/
 #bar {
