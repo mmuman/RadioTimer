@@ -70,7 +70,8 @@ form { display:inline }
 #current_h2 {
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	max-width:50%;
+	overflow: hidden;
+	max-width:100%;
 	position:absolute;
 	left: 0%
 	padding-left: 3px;
@@ -78,7 +79,8 @@ form { display:inline }
 #current_h1 {
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	max-width:50%;
+	overflow: hidden;
+	max-width:100%;
 	position:absolute;
 	left: 0%;
 	padding-left: 3px;
