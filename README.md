@@ -37,4 +37,5 @@ You can still copy-paste the etherpad content, although it's less easy to use.
 - [ ] fix loading in Safari and Android browser
 - [x] fix CSS positioning in Android browser
 - [x] fix button glyphs in Safari (Unicode arrow)
-
+- [ ] handle settings (cookie?): toolbar transparency, scroll on next item...
+- [ ] profit!
