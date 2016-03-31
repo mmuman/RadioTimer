@@ -101,6 +101,12 @@ var itemStartTime = null;
 var timerHandle = null;
 var paused = false;
 
+// scroll to top of next item?
+var doNextItemScrollArgs = true;
+if (/Firefox/.test(navigator.userAgent)) {
+	doNextItemScrollArgs = {block: "start", behavior: "smooth"};
+}
+
 function formatMS(secs){
 	var m = "0" + Math.floor(secs / 60);
 	m = m.substr(m.length-2);
@@ -129,7 +135,7 @@ function highlightCurrent(){
 	$('#current_h1').append(h1.textContent);
 	$('#current_h2').empty();
 	$('#current_h2').append(h2.textContent);
-	$('section#contents').children()[i].scrollIntoView( true );
+	$('section#contents').children()[i].scrollIntoView( doNextItemScrollArgs );
 }
 
 function update(){
