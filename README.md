@@ -1,4 +1,4 @@
-# RadioTimer
+# RadioTimer 📻⏳
 HTML5 time tracking for radio broadcast recording sessions
 
 RadioTimer helps you see how far you are in your notes exported from an Etherpad instance, or any other text you paste to it that is formated with H1 and H2 tags.
