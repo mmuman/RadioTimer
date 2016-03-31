@@ -379,7 +379,7 @@ $("#item_stop").click(function (e) {
 	}
 	update();
 	itemStartTime = startTime = null;
-	paused = false;
+	//paused = false;
 	$("#controls>#item_pause").attr('value', buttonChars.item_pause);
 	return false;
 });
@@ -391,7 +391,7 @@ $("#item_play").click(function (e) {
 	$("#padform>#eject").attr('disabled', 'disabled');
 	$("#controls>#session_prev").attr('disabled', 'disabled');
 	$("#controls>#session_next").attr('disabled', 'disabled');
-	paused = false;
+	//paused = false;
 	$("#controls>#item_pause").attr('value', buttonChars.item_pause);
 	if (timerHandle)
 		return false;
