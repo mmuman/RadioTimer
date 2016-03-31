@@ -31,6 +31,18 @@ var buttonChars = {
 	"session_next":"⏭"
 };
 
+var buttonCharsMac = {
+	"eject":"⏏",
+	"session_prev":"⏮",
+	"item_prev":"⏪",
+	"item_stop":"⏹",
+	"item_play":"\u25B6\uFE00",
+	"item_pause":"⏸",
+	"item_pauseplay":"⏯",
+	"item_next":"⏩",
+	"session_next":"⏭"
+};
+
 // work around empty buttons on Android
 var buttonCharsASCII = {
 	"eject":"^",
@@ -442,10 +454,8 @@ $("#pastetarget").on("paste", function(e){
 });
 
 
-// attempt to work around boggus Unicode chars in fonts (Android)
-if ($("#session_prev")[0].clientWidth != $("#item_prev")[0].clientWidth) {
-	//window.alert("sz:" + $("#session_prev")[0].clientWidth + ":"+ $("#item_prev")[0].clientWidth);
-	buttonChars = buttonCharsASCII;
+function fixupButtons()
+{
 	//window.alert(buttonChars.item_prev);
 	$("#padform>#eject").attr('value', buttonChars.eject);
 	$("#controls>#session_prev").attr('value', buttonChars.session_prev);
@@ -456,6 +466,19 @@ if ($("#session_prev")[0].clientWidth != $("#item_prev")[0].clientWidth) {
 	$("#controls>#item_stop").attr('value', buttonChars.item_stop);
 	$("#controls>#item_pause").attr('value', buttonChars.item_pause);
 	// TODO: fix help text too?
+}
+
+// attempt to work around boggus Unicode chars in fonts (Android)
+// XXX: /Android/.test(navigator.userAgent) ?
+if ($("#session_prev")[0].clientWidth != $("#item_prev")[0].clientWidth) {
+	//window.alert("sz:" + $("#session_prev")[0].clientWidth + ":"+ $("#item_prev")[0].clientWidth);
+	buttonChars = buttonCharsASCII;
+	fixupButtons();
+}
+// attempt to work around boggus Unicode chars in fonts (Safari)
+if (/Safari/.test(navigator.userAgent)) {
+	buttonChars = buttonCharsMac;
+	fixupButtons();
 }
 
 
