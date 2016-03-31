@@ -14,10 +14,10 @@ footer {
 	left: 0em;
 	padding: 0.5em;
 	background-color: LightSlateGrey;
-	opacity: .70;
+	/*opacity: .70;*/
 }
 footer:hover {
-	opacity: 1.0;
+	/*opacity: 1.0;*/
 }
 
 form { display:inline }
