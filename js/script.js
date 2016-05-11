@@ -115,7 +115,7 @@ function formatMS(secs){
 	return m + ":" + s;
 }
 
-function highlightCurrent(){
+function highlightCurrent(doScroll = true){
 	$('.current').removeClass("current");
 	var s = null;
 	if (sessions.length)
@@ -135,7 +135,8 @@ function highlightCurrent(){
 	$('#current_h1').append(h1.textContent);
 	$('#current_h2').empty();
 	$('#current_h2').append(h2.textContent);
-	$('section#contents').children()[i].scrollIntoView( doNextItemScrollArgs );
+	if (doScroll)
+		$('section#contents').children()[i].scrollIntoView( doNextItemScrollArgs );
 }
 
 function update(){
@@ -166,7 +167,7 @@ function update(){
 			p = 0;
 			late = false;
 		}
-		highlightCurrent();
+		highlightCurrent(!paused);
 	}
 	$("#progress_h2>#bar").each(function(index){this.style.width = "" + p + "%";});
 
