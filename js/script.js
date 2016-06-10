@@ -320,7 +320,17 @@ $("#padform").submit(function (e) {
 	$("#padform>#progress").show();
 	$("#padform>#progress").wrapInner("<progress>");
 	$("section#contents").empty();
-	loadEtherpad(url);
+
+	// Etherpad instances
+	// TODO: add other paterns
+	//if (/framapad.org\/p\//.test(url)) {
+	if (/https?:\/\/.*pad.*\/p\//.test(url)) {
+		loadEtherpad(url);
+	} else {
+		window.alert("unknown platform; try pasting enriched content");
+		$("#eject").click();
+	}
+
 	return false;
 });
 
