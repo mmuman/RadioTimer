@@ -313,6 +313,32 @@ function loadEtherpad(url){
 	})
 }
 
+function loadGoogleDocs(url){
+	console.log('loadGoogleDocs: ' + url);
+	//$.support.cors = true;
+	//console.log($.support.cors);
+
+
+	window.alert("sadly google's CORS policy won't let it work... try copy-pasting from the page.");
+	$("#eject").click();
+	return;
+
+	// XXX: maybe putting it in an iframe and let people log-in first?
+	// it's not actually forbidden, it's just that it's not recognized as the
+	// same origin, so google wants us to log-in.
+	/* This doesn't work either due to cross-origin...
+	$("section#contents").append('<iframe id="gdoc" src="'+url+'">');
+	var iframe = document.getElementById('gdoc');
+	var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+	window.alert(iframeDocument.length);
+	*/
+
+	$.get(url, function(response){
+		$("section#contents").append(response);
+		padLoaded();
+	});
+}
+
 $("#padform").submit(function (e) {
 	var url=$('input[id="url"]').attr("value");
 	console.log('loadPad: ' + url);
@@ -324,8 +350,10 @@ $("#padform").submit(function (e) {
 	// Etherpad instances
 	// TODO: add other paterns
 	//if (/framapad.org\/p\//.test(url)) {
-	if (/https?:\/\/.*pad.*\/p\//.test(url)) {
+	if (/^https?:\/\/.*pad.*\/p\//.test(url)) {
 		loadEtherpad(url);
+	} else if (/^https:\/\/docs\.google\.com\/document\//.test(url)) {
+		loadGoogleDocs(url);
 	} else {
 		window.alert("unknown platform; try pasting enriched content");
 		$("#eject").click();
