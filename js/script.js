@@ -269,14 +269,10 @@ function padLoaded(){
 	update();
 }
 
-$("#padform").submit(function (e) {
-	var url=$('input[id="url"]').attr("value");
+function loadEtherpad(url){
 	url += '/export/html';
-	console.log('loadPad: ' + url);
-	$("#padform>#url").hide();
-	$("#padform>#progress").show();
-	$("#padform>#progress").wrapInner("<progress>");
-	$("section#contents").empty();
+	console.log('loadEtherpad: ' + url);
+
 	$.get(url, function(response){
 		$("section#contents").append(response);
 		// this.remove() doesn't work in Android it seems
@@ -315,6 +311,16 @@ $("#padform").submit(function (e) {
 
 		padLoaded();
 	})
+}
+
+$("#padform").submit(function (e) {
+	var url=$('input[id="url"]').attr("value");
+	console.log('loadPad: ' + url);
+	$("#padform>#url").hide();
+	$("#padform>#progress").show();
+	$("#padform>#progress").wrapInner("<progress>");
+	$("section#contents").empty();
+	loadEtherpad(url);
 	return false;
 });
 
