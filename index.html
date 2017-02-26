@@ -22,24 +22,49 @@
 <h1 class="fr">Bienvenue dans RadioTimer.</h1>
 <p class="en">This allows you to track time when recording a radio session prepared from an etherpad or any other text document with proper H1 and H2 formating.</p>
 <p class="fr">Il permet de suivre le temps d'un enregistrement radio préparé depuis un etherpad ou n'importe-quel document texte formaté avec les H1 et H2 prévu.</p>
+<p class="en">You can prepare several sessions to record separately, each with any number of items you want to track time on. RadioTimer will automatically sum up the expected times for each session.</p>
+<p class="fr">Il est possible de préparer plusieurs sessions à enregistrer séparément. RadioTimer additionnera automatiquement les temps assignés à chaque item pour chaque session.</p>
 <p class="en">Source code is <a href="https://github.com/mmuman/RadioTimer">available on GitHub</a>, under GPLv3.</p>
 <p class="fr">Le code source est <a href="https://github.com/mmuman/RadioTimer">disponible sur GitHub</a>, sous GPLv3.</p>
 <br/>
 
+<h2 class="en">Expected content formatting</h2>
+<div class="en">
+<p>In order for RadioTimer to extract the needed informations, content must be formated as such:
+<ul>
+<li><code>H1</code> (Heading 1) tag mentions the title of each separate session to record.</li>
+<li><code>H2</code> (Heading 2) tag mentions the title of each item in the session .</li>
+<li>H2 tags shall have a <code>[MM:SS]</code> mark in the text to indicate the expected run time of the item.</li>
+</ul>
+RadioTimer will automatically calculate the total time per session and mention it in the session titles.
+</p>
+</div>
+<h2 class="fr">Formatage attendu du contenu</h2>
+<div class="fr">
+<p>Pour que RadioTimer puisse extraire les informations pertinentes, le contenu doit être formaté ainsi&nbsp;:
+<ul>
+<li>Un tag <code>H1</code> (Titre 1) mentionne le titre de chaque session à enregistrer.</li>
+<li>Un tag <code>H2</code> (Titre 2) mentionne le nom de chaque item dans la session.</li>
+<li>Les tags H2 doivent contenir une marque <code>[MM:SS]</code> indiquant la durée estimée de l'item.</li>
+</ul>
+RadioTimer will automatically calculate the total time per session and mention it in the session titles.
+</p>
+</div>
+
 <h2 class="en">Pad Controls</h2>
 <div class="en">
 <ul>
-<li>⏏ (Eject): </li>
-<li>URL field: </li>
-<li>Load: </li>
+<li><b>⏏ (Eject)</b>: Unload the current content and go back to the welcome page.</li>
+<li><b>URL field</b>: URL of the pad to load from. It must support HTML export and allow cross-site loading.</li>
+<li><b>Load</b>: Load content from the current pad URL (it will use the HTML export from it).</li>
 </ul>
 </div>
 <h2 class="fr">Contrôles du pad</h2>
 <div class="fr">
 <ul>
-<li>⏏ (Ejecter): </li>
-<li>Champ URL: </li>
-<li>Charger: </li>
+<li><b>⏏ (Ejecter)</b>: Décharger le contenu actuel et revenir à la page d'accueil.</li>
+<li><b>Champ URL</b>: URL du pad où récupérer le contenu. Il doit supporter l'export HTML et le chargement depuis un autre domaine (cross-site).</li>
+<li><b>Charger</b>: Charger le contenu depuis l'URL spécifiée (l'export HTML sera utilisé).</li>
 </ul>
 </div>
 
@@ -54,25 +79,25 @@
 <h2 class="en">Session Controls</h2>
 <div class="en">
 <ul>
-<li>⏮ (Previous session): </li>
-<li>⏪ (Previous item): </li>
-<li>⏹ (Stop): </li>
-<li>⏵ (Play): </li>
-<li>⏸ / ⏯ (Pause): </li>
-<li>⏩ (Next item): </li>
-<li>⏭ (Next session): </li>
+<li><b>⏮ (Previous session)</b>: Go to the previous session. Disabled when playing.</li>
+<li><b>⏪ (Previous item)</b>: Forcibly go to previous item in the current session. Session timer keeps running, but item time starts again.</li>
+<li><b>⏹ (Stop)</b>: Stop playback.</li>
+<li><b>⏵ (Play)</b>: Start playing the text (recording the session).</li>
+<li><b>⏸ / ⏯ (Pause)</b>: Do not go to the next item automatically, but stay on the current one even if late.</li>
+<li><b>⏩ (Next item)</b>: Forcibly go to next item in the session. Session timer keeps running, but item time starts again.</li>
+<li><b>⏭ (Next session)</b>: Go to next session. Disabled when playing.</li>
 </ul>
 </div>
 <h2 class="fr">Contrôles de session</h2>
 <div class="fr">
 <ul>
-<li>⏮ (Session précédente): </li>
-<li>⏪ (Item précédent): </li>
-<li>⏹ (Arrêt): </li>
-<li>⏵ (Lecture): </li>
-<li>⏸ / ⏯ (Pause): </li>
-<li>⏩ (Item suivant): </li>
-<li>⏭ (Session suivante): </li>
+<li><b>⏮ (Session précédente)</b>: Aller à la session précédente. Désactivé lors de la lecture.</li>
+<li><b>⏪ (Item précédent)</b>: Aller à l'item précédent. Le timer continue, mais le temps de l'item repart à zéro.</li>
+<li><b>⏹ (Arrêt)</b>: Arrêter la lecture.</li>
+<li><b>⏵ (Lecture)</b>: Commencer la lecture du texte (l'enregistrement de la session).</li>
+<li><b>⏸ / ⏯ (Pause)</b>: Désactiver le passage automatique à l'item suivant, et rester sur l'item actuel même en cas de retard sur l'horaire.</li>
+<li><b>⏩ (Item suivant)</b>: Aller à l'item suivant. Le timer continue, mais le temps de l'item repart à zéro.</li>
+<li><b>⏭ (Session suivante)</b>: Aller à la session suivante. Désactivé lors de la lecture.</li>
 </ul>
 </div>
 <br />
