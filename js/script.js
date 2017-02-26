@@ -134,7 +134,9 @@ function formatMS(secs){
 	return m + ":" + s;
 }
 
-function highlightCurrent(doScroll = true){
+function highlightCurrent(doScroll){
+	if (doScroll == null)
+		doScroll = true;
 	$('.current').removeClass("current");
 	$('#current_h1').empty();
 	$('#current_h2').empty();
