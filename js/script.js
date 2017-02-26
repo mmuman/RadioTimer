@@ -106,6 +106,8 @@ $(window).bind('offline', function(){
 //					expected:	expected runtime in seconds
 //					estimated:	estimated runtime in seconds (from reading speed)
 //					words:		total word count for the item
+//					music:		true if item is played audio, takes expected time
+//					plus:		true if item is played audio, but we want to add speech time
 //				}, ...
 //			]
 //		}, ...
@@ -275,7 +277,18 @@ function padLoaded(){
 			};
 		} else if (this.tagName == "H2") {
 			//console.log("[%d]: %o %s; %s", index, this, this.tagName, this.innerHTML);
-			var re = /.*\[([0-9]+):([0-9]+)\].*/;
+
+			var music = false; // item has audio
+			var plus = false; // add text speech to audio play time
+			var re = /.* (ZIK|MUSIC|AUDIO)(\+)?.*/;
+			var m = this.textContent.match(re);
+			//console.log(m);
+			if (m) {
+				music = m[1] != null;
+				plus = m[2] != null;
+			}
+
+			re = /.*\[([0-9]+):([0-9]+)\].*/;
 			var m = this.textContent.match(re);
 			//XXX: add item anyway even without time tag?
 			if (m) {
@@ -288,6 +301,8 @@ function padLoaded(){
 					expected: t,
 					estimated: 0,
 					words: 0,
+					music: music,
+					plus: plus
 				});
 			}
 		} else {
@@ -314,7 +329,13 @@ function padLoaded(){
 	$(sessions).each(function(index){
 		// update total estimated time
 		for (i in this.items) {
-			this.estimated += this.items[i].estimated;
+			var t = this.items[i].estimated;
+			if (this.items[i].music)
+				t = this.items[i].expected;
+			if (this.items[i].plus)
+				t += this.items[i].estimated;
+			this.items[i].estimated = t;
+			this.estimated += t;
 			this.words += this.items[i].words;
 			var t = " 💬[" + formatMS(this.items[i].estimated) + "]";
 			$('section#contents').children()[this.items[i].h2].innerHTML += t;
