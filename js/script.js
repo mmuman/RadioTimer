@@ -660,16 +660,16 @@ function fixupButtons()
 	// TODO: fix help text too?
 }
 
+// attempt to work around boggus Unicode chars in fonts (Safari)
+if (/Safari/.test(navigator.userAgent)) {
+	buttonChars = buttonCharsMac;
+	fixupButtons();
+}
 // attempt to work around boggus Unicode chars in fonts (Android)
 // XXX: /Android/.test(navigator.userAgent) ?
 if ($("#session_prev")[0].clientWidth != $("#item_prev")[0].clientWidth) {
 	//window.alert("sz:" + $("#session_prev")[0].clientWidth + ":"+ $("#item_prev")[0].clientWidth);
 	buttonChars = buttonCharsASCII;
-	fixupButtons();
-}
-// attempt to work around boggus Unicode chars in fonts (Safari)
-if (/Safari/.test(navigator.userAgent)) {
-	buttonChars = buttonCharsMac;
 	fixupButtons();
 }
 
