@@ -93,6 +93,19 @@ $(window).bind('offline', function(){
     setConnected(false);
 });
 
+// structure of the sessions:
+//	[
+//		{
+//			h1: index of the H1 tag in the section#contents
+//			expected: expected total runtime in seconds
+//			items: [
+//				{
+//					h1: index of the H2 tag in the section#contents
+//					expected: expected runtime in seconds
+//				}, ...
+//			]
+//		}, ...
+
 var sessions = Array();
 var session = -1;
 var item = 0;
@@ -117,36 +130,34 @@ function formatMS(secs){
 
 function highlightCurrent(doScroll = true){
 	$('.current').removeClass("current");
-	var s = null;
-	if (sessions.length)
-		s = sessions[session][0];
-	//console.log(s);
+	$('#current_h1').empty();
+	$('#current_h2').empty();
 	var i = null;
 	if (sessions.length)
-		i = sessions[session][2][item];
-	//console.log(i);
-	var h1 = $('section#contents').children()[s];
-	var h2 = $('section#contents').children()[i];
-	//console.log(h1);
-	//console.log(h2);
+		i = sessions[session].h1;
+	var h1 = $('section#contents').children()[i];
 	$(h1).toggleClass("current");
-	$(h2).toggleClass("current");
-	$('#current_h1').empty();
 	$('#current_h1').append(h1.textContent);
-	$('#current_h2').empty();
-	$('#current_h2').append(h2.textContent);
-	if (doScroll)
+
+	if (sessions.length && item < sessions[session].items.length) {
+		i = sessions[session].items[item].h2;
+		var h2 = $('section#contents').children()[i];
+		$(h2).toggleClass("current");
+		$('#current_h2').append(h2.textContent);
+	}
+	if (doScroll) {
 		$('section#contents').children()[i].scrollIntoView( doNextItemScrollArgs );
+	}
 }
 
 function update(){
 	var t = (new Date()).getTime();
 	var s;
 	if (sessions.length)
-		s = sessions[session][1];
+		s = sessions[session].expected;
 	var i;
-	if (sessions.length && sessions[session][3].length)
-		i = sessions[session][3][item];
+	if (sessions.length && sessions[session].items.length)
+		i = sessions[session].items[item].expected;
 	var d;
 	var p;
 	var late = false;
@@ -160,7 +171,7 @@ function update(){
 	if (d >= i) {
 		late = true;
 		p = 100;
-		if (!paused && item < sessions[session][3].length - 1) {
+		if (!paused && item < sessions[session].items.length - 1) {
 			item++;
 			if (timerHandle)
 				itemStartTime = (new Date()).getTime();
@@ -217,12 +228,14 @@ $("#eject").click(function (e) {
 	$('#current_h2').append("(Item)");
 	$("section#contents").empty();
 	$("section#manual_text").show();
+	$("section#settings").show();
 	$('section#manual_text')[0].scrollIntoView( true );
 	return false;
 });
 
 function padLoaded(){
 	$("section#manual_text").hide();
+	$("section#settings").hide();
 
 	sessions = Array();
 	session = -1;
@@ -233,7 +246,11 @@ function padLoaded(){
 		if (this.tagName == "H1") {
 			//console.log("[%d]: %o %s", index, this, this.tagName);
 			session++;
-			sessions[session] = [ index, 0, Array(), Array() ];
+			sessions[session] = {
+				h1: index,
+				expected: 0,
+				items: Array()
+			};
 		}
 		if (this.tagName == "H2") {
 			//console.log("[%d]: %o %s; %s", index, this, this.tagName, this.innerHTML);
@@ -242,17 +259,16 @@ function padLoaded(){
 			if (m) {
 				var t = parseInt(m[1]) * 60 + parseInt(m[2]);
 				//console.log(t);
-				sessions[session][1] += t;
-				sessions[session][2].push(index);
-				sessions[session][3].push(t);
+				sessions[session].expected += t;
+				sessions[session].items.push({ h2: index, expected: t});
 			}
 		}
 		return true;
 	});
 	$(sessions).each(function(index){
-		var secs = this[1];
+		var secs = this.expected;
 		var t = " [" + formatMS(secs) + "]";
-		$('section#contents').children()[this[0]].innerHTML += t;
+		$('section#contents').children()[this.h1].innerHTML += t;
 		//console.log(this);
 	});
 
@@ -265,7 +281,7 @@ function padLoaded(){
 	$('div#top')[0].scrollIntoView( true );
 	session = 0;
 	highlightCurrent();
-	$('section#contents').children()[sessions[session][0]].scrollIntoView( true );
+	$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
 	update();
 }
 
@@ -376,7 +392,7 @@ $("#session_prev").click(function (e) {
 	item = 0;
 	highlightCurrent();
 	update();
-	$('section#contents').children()[sessions[session][0]].scrollIntoView( true );
+	$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
 	return false;
 });
 
@@ -388,7 +404,7 @@ $("#session_next").click(function (e) {
 	item = 0;
 	highlightCurrent();
 	update();
-	$('section#contents').children()[sessions[session][0]].scrollIntoView( true );
+	$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
 	return false;
 });
 
@@ -408,7 +424,7 @@ $("#item_prev").click(function (e) {
 $("#item_next").click(function (e) {
 	//console.log(e.target)
 	var s = sessions[session];
-	if (item < s[2].length - 1) {
+	if (item < s.items.length - 1) {
 		item++;
 	}
 	if (timerHandle)
@@ -468,7 +484,7 @@ $("#item_pause").click(function (e) {
 $("#progress_h1").click(function (e) {
 	//console.log(e)
 	highlightCurrent();
-	var s = sessions[session][0];
+	var s = sessions[session].h1;
 	$('section#contents').children()[s].scrollIntoView( true );
 	return false;
 });
@@ -476,7 +492,7 @@ $("#progress_h1").click(function (e) {
 $("#progress_h2").click(function (e) {
 	//console.log(e)
 	highlightCurrent();
-	var i = sessions[session][2][item];
+	var i = sessions[session].items[item].h2;
 	$('section#contents').children()[i].scrollIntoView( true );
 	return false;
 });
