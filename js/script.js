@@ -256,6 +256,14 @@ function padLoaded(){
 	$("section#manual_text").hide();
 	$("section#settings").hide();
 
+	// make sure links do not replace the document, can be annoying when recording
+	// cf. http://html.com/attributes/a-target/#a_target_blank_Open_in_New_Browser_Tab_or_Window
+	// document.links didn't seem to work...
+	// see also https://mathiasbynens.github.io/rel-noopener/
+	$('section#contents').find('a[href]').filter(function() {
+		return this.hostname != window.location.hostname;
+	}).attr('target', '_blank').attr('rel', 'noopener');
+
 	var wpm = $('#settings_wpm').val();
 
 	sessions = Array();
