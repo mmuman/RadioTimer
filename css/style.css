@@ -109,3 +109,8 @@ h1.current {
 	display: none;
 }
 
+@media print {
+	header, footer {
+		display: none;
+	}
+}
