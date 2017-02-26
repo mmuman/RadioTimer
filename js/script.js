@@ -235,6 +235,8 @@ $("#eject").click(function (e) {
 	$("section#contents").empty();
 	$("section#manual_text").show();
 	$("section#settings").show();
+	$('#show_titles').show();
+	$('#do_print').show();
 	$('section#manual_text')[0].scrollIntoView( true );
 	return false;
 });
@@ -519,6 +521,8 @@ $("#item_next").click(function (e) {
 $("#item_stop").click(function (e) {
 	//console.log(e)
 	highlightCurrent();
+	$('#show_titles').show();
+	$('#do_print').show();
 	$("#padform>#eject").removeAttr('disabled', 'disabled');
 	$("#controls>#session_prev").removeAttr('disabled', 'disabled');
 	$("#controls>#session_next").removeAttr('disabled', 'disabled');
@@ -537,6 +541,8 @@ $("#item_play").click(function (e) {
 	//console.log(e)
 	highlightCurrent();
 	update();
+	$('#show_titles').hide();
+	$('#do_print').hide();
 	$("#padform>#eject").attr('disabled', 'disabled');
 	$("#controls>#session_prev").attr('disabled', 'disabled');
 	$("#controls>#session_next").attr('disabled', 'disabled');
@@ -559,6 +565,22 @@ $("#item_pause").click(function (e) {
 	else
 		$("#controls>#item_pause").attr('value', buttonChars.item_pause);
 	update();
+	return false;
+});
+
+$("#show_titles").click(function (e) {
+	if (sessions.length == 0 || timerHandle != null)
+		return false;
+	$('section#contents').children().filter(function(){
+		return !(/H1|H2|H3|H4/.test(this.tagName));
+	}).toggle();
+	return false;
+});
+
+$("#do_print").click(function (e) {
+	if (sessions.length == 0 || timerHandle != null)
+		return false;
+	window.print();
 	return false;
 });
 
@@ -664,6 +686,8 @@ function localizeUI() {
 		$("#controls>#item_play").attr('title', 'Lecture');
 		$("#controls>#item_stop").attr('title', 'Arrêt');
 		$("#controls>#item_pause").attr('title', 'Pause');
+		$("#controls>#show_titles").attr('title', 'Montrer seulement les titres');
+		$("#controls>#do_print").attr('title', 'Imprimer le contenu actuel');
 		$("#pastetarget").attr('placeholder', 'collez ici…');
 
 		$(".fr").show();
