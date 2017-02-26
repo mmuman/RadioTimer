@@ -363,7 +363,6 @@ function padLoaded(){
 			this.estimated += t;
 			this.words += this.items[i].words;
 			t = " 🗩[" + formatMS(this.items[i].estimated) + "]";
-			console.log($('section#contents').children().eq(this.items[i].h2).find('span').get());
 			$('section#contents').children().eq(this.items[i].h2).find('span').append(t);
 		}
 		var t = '<span class="right-align">';
