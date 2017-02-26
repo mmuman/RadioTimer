@@ -96,12 +96,16 @@ $(window).bind('offline', function(){
 // structure of the sessions:
 //	[
 //		{
-//			h1: index of the H1 tag in the section#contents
-//			expected: expected total runtime in seconds
+//			h1:			index of the H1 tag in the section#contents
+//			expected:	expected total runtime in seconds
+//			estimated:	estimated total runtime in seconds (from reading speed)
+//			words:		total word count for the session
 //			items: [
 //				{
-//					h1: index of the H2 tag in the section#contents
-//					expected: expected runtime in seconds
+//					h1:			index of the H2 tag in the section#contents
+//					expected:	expected runtime in seconds
+//					estimated:	estimated runtime in seconds (from reading speed)
+//					words:		total word count for the item
 //				}, ...
 //			]
 //		}, ...
@@ -233,41 +237,90 @@ $("#eject").click(function (e) {
 	return false;
 });
 
+function countWords(s) {
+	// cf. http://www.mediacollege.com/internet/javascript/text/count-words.html
+	// (but it's a bit broken)
+	// URLs should count as a single word so it's ok
+	s = s.replace(/(^\s*)|(\s*$)/gi,"");
+	s = s.replace(/\n/," ");
+	s = s.replace(/\s{1,}/gi," ");
+	s = s.split(' ');
+	if (s.length == 1 && s[0].length == 0)
+		return 0;
+	return s.length;
+}
+
 function padLoaded(){
 	$("section#manual_text").hide();
 	$("section#settings").hide();
 
+	var wpm = $('#settings_wpm').val();
+
 	sessions = Array();
 	session = -1;
-	item = 0;
+	item = -1;
 
 	// index H1 and sum up times from H2
 	$('section#contents').children().each(function(index){
 		if (this.tagName == "H1") {
 			//console.log("[%d]: %o %s", index, this, this.tagName);
 			session++;
+			item = -1;
 			sessions[session] = {
 				h1: index,
 				expected: 0,
+				estimated: 0,
+				words: 0,
 				items: Array()
 			};
-		}
-		if (this.tagName == "H2") {
+		} else if (this.tagName == "H2") {
 			//console.log("[%d]: %o %s; %s", index, this, this.tagName, this.innerHTML);
 			var re = /.*\[([0-9]+):([0-9]+)\].*/;
 			var m = this.textContent.match(re);
+			//XXX: add item anyway even without time tag?
 			if (m) {
+				item++;
 				var t = parseInt(m[1]) * 60 + parseInt(m[2]);
 				//console.log(t);
 				sessions[session].expected += t;
-				sessions[session].items.push({ h2: index, expected: t});
+				sessions[session].items.push({
+					h2: index,
+					expected: t,
+					estimated: 0,
+					words: 0,
+				});
 			}
+		} else {
+			// skip text before first H1
+			if (session < 0)
+				return true;
+			if (item < 0)
+				return true;
+			// estimate the item runtime based on word count
+			var words = sessions[session].items[item].words;
+			var text = this.textContent;
+			//var text = $(this).text();
+			//XXX:somehow text from bullet lists don't have any whitespace between items
+			// but this should be enough for us
+			words += countWords(text);
+			sessions[session].items[item].words = words;
+			sessions[session].items[item].estimated = words * 60 / wpm;
+			//console.log('w: '+words+' t: '+sessions[session].items[item].estimated+' : '+text)
 		}
 		return true;
 	});
+	// reset to first item
+	item = 0;
 	$(sessions).each(function(index){
-		var secs = this.expected;
-		var t = " [" + formatMS(secs) + "]";
+		// update total estimated time
+		for (i in this.items) {
+			this.estimated += this.items[i].estimated;
+			this.words += this.items[i].words;
+			var t = " 💬[" + formatMS(this.items[i].estimated) + "]";
+			$('section#contents').children()[this.items[i].h2].innerHTML += t;
+		}
+		var t = " ⏱[" + formatMS(this.expected) + "]";
+		t += " 💬[" + formatMS(this.estimated) + "]";
 		$('section#contents').children()[this.h1].innerHTML += t;
 		//console.log(this);
 	});
