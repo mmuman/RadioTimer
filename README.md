@@ -35,6 +35,7 @@ You can still copy-paste the etherpad content, although it's less easy to use.
 - [x] some documentation.
 - [ ] count words automatically, estimate speaking time and warn on underestimated items.
 - [ ] real prompter mode?
+- [ ] allow using a synchronization API to automatically start multiple RadioTimer clients at the same time, cf [French article](https://blog.cloudfrancois.fr/synchroniser-une-presentation-slides-html-css-js-entre-plusieurs-navigateurs/).
 - [ ] disable all #contents>A HREF onclick when playing to avoid accidentally replacing the page.
 - [x] default contents and manual hidden and paste input field disabled in Safari and Android browser !?
 - [ ] fix loading in Safari and Android browser
