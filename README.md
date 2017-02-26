@@ -32,6 +32,9 @@ You can still copy-paste the etherpad content, although it's less easy to use.
 
 ## TODO
 
+- [x] some documentation.
+- [ ] count words automatically, estimate speaking time and warn on underestimated items.
+- [ ] real prompter mode?
 - [ ] disable all #contents>A HREF onclick when playing to avoid accidentally replacing the page.
 - [x] default contents and manual hidden and paste input field disabled in Safari and Android browser !?
 - [ ] fix loading in Safari and Android browser
