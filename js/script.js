@@ -225,6 +225,9 @@ function timerFunc(){
 
 $("#eject").click(function (e) {
 	//console.log(e.target)
+	sessions = Array();
+	session = -1;
+	item = 0;
 	$("#padform>#url").show();
 	$("#padform>#progress").hide();
 	$("#padform>#load").show();
