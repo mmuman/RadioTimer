@@ -73,7 +73,7 @@ form { display:inline }
 	overflow: hidden;
 	max-width:100%;
 	position:absolute;
-	left: 0%
+	left: 0%;
 	padding-left: 3px;
 }
 #current_h1 {
