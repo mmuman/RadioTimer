@@ -28,7 +28,9 @@ var buttonChars = {
 	"item_pause":"⏸",
 	"item_pauseplay":"⏯",
 	"item_next":"⏩",
-	"session_next":"⏭"
+	"session_next":"⏭",
+	"show_titles":"🗏",
+	"do_print": "🖶"
 };
 
 var buttonCharsMac = {
@@ -40,7 +42,9 @@ var buttonCharsMac = {
 	"item_pause":"⏸",
 	"item_pauseplay":"⏯",
 	"item_next":"⏩",
-	"session_next":"⏭"
+	"session_next":"⏭",
+	"show_titles":"🗏",
+	"do_print": "🖶"
 };
 
 // work around empty buttons on Android
@@ -53,7 +57,9 @@ var buttonCharsASCII = {
 	"item_pause":"||",
 	"item_pauseplay":">||",
 	"item_next":">>",
-	"session_next":">>|"
+	"session_next":">>|",
+	"show_titles":"T",
+	"do_print": "P"
 };
 
 if(navigator.onLine){
@@ -657,6 +663,8 @@ function fixupButtons()
 	$("#controls>#item_play").attr('value', buttonChars.item_play);
 	$("#controls>#item_stop").attr('value', buttonChars.item_stop);
 	$("#controls>#item_pause").attr('value', buttonChars.item_pause);
+	$("#controls>#show_titles").attr('value', buttonChars.show_titles);
+	$("#controls>#do_print").attr('value', buttonChars.do_print);
 	// TODO: fix help text too?
 }
 
