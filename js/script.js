@@ -493,6 +493,15 @@ $("#pastetarget").on("paste", function(e){
 	var text = e.clipboardData.getData("text/html");
 	if (!text)
 		text = e.clipboardData.getData("text/plain");
+
+	// make sure we don't add script elements
+	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt].*\/[^>]*>/, "<!noscript />")
+	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt].*\/[Ss][Cc][Rr][Ii][Pp][Tt][^>]*>/, "<!noscript />")
+	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt]/, "<!-- ")
+	text = text.replace(/<\/[Ss][Cc][Rr][Ii][Pp][Tt].*>/, " -->")
+	// discard other links
+	text = text.replace(/<[Ll][Ii][Nn][Kk]/, "<!link")
+
 	//console.log(text);
 	$("section#contents").empty();
 	$("section#contents").append(text);
