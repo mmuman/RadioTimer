@@ -103,6 +103,14 @@ h1.current {
 	background-color: orangered;
 	background-color: rgba(255, 69, 0, 128);
 }
+#contents h1,
+#contents h2 {
+	clear: both;
+}
+h1 span.right-align,
+h2 span.right-align {
+	float: right;
+}
 
 /* default: hide translations */
 .fr {

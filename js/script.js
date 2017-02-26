@@ -291,6 +291,10 @@ function padLoaded(){
 		} else if (this.tagName == "H2") {
 			//console.log("[%d]: %o %s; %s", index, this, this.tagName, this.innerHTML);
 
+			// reformat hints to be right-aligned
+			var re = /^(.*)\s+(\[([0-9]+):([0-9]+)\].*)$/;
+			this.innerHTML = this.textContent.replace(re, '$1 <span class="right-align">$2</span>');
+
 			var music = false; // item has audio
 			var plus = false; // add text speech to audio play time
 			var re = /.* (ZIK|MUSIC|AUDIO)(\+)?.*/;
@@ -350,12 +354,15 @@ function padLoaded(){
 			this.items[i].estimated = t;
 			this.estimated += t;
 			this.words += this.items[i].words;
-			var t = " 💬[" + formatMS(this.items[i].estimated) + "]";
-			$('section#contents').children()[this.items[i].h2].innerHTML += t;
+			t = " 🗩[" + formatMS(this.items[i].estimated) + "]";
+			console.log($('section#contents').children().eq(this.items[i].h2).find('span').get());
+			$('section#contents').children().eq(this.items[i].h2).find('span').append(t);
 		}
-		var t = " ⏱[" + formatMS(this.expected) + "]";
-		t += " 💬[" + formatMS(this.estimated) + "]";
-		$('section#contents').children()[this.h1].innerHTML += t;
+		var t = '<span class="right-align">';
+		t += " ⏱[" + formatMS(this.expected) + "]";
+		t += " 🗩[" + formatMS(this.estimated) + "]";
+		t += '</span>';
+		$('section#contents').children().eq(this.h1).append(t);
 		//console.log(this);
 	});
 
