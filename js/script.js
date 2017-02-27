@@ -150,17 +150,21 @@ function highlightCurrent(doScroll){
 	if (sessions.length)
 		i = sessions[session].h1;
 	var h1 = $('section#contents').children()[i];
-	$(h1).toggleClass("current");
-	$('#current_h1').append(h1.textContent);
+	if (h1) {
+		$(h1).toggleClass("current");
+		$('#current_h1').append(h1.textContent);
+	}
 
 	if (sessions.length && item < sessions[session].items.length) {
 		i = sessions[session].items[item].h2;
 		var h2 = $('section#contents').children()[i];
-		$(h2).toggleClass("current");
-		$('#current_h2').append(h2.textContent);
+		if (h2) {
+			$(h2).toggleClass("current");
+			$('#current_h2').append(h2.textContent);
+		}
 	}
 	if (doScroll) {
-		$('section#contents').children()[i].scrollIntoView( doNextItemScrollArgs );
+		$('section#contents').children().get(0).scrollIntoView( doNextItemScrollArgs );
 	}
 }
 
@@ -253,8 +257,7 @@ $("#eject").click(function (e) {
 	$("section#contents").empty();
 	$("section#manual_text").show();
 	$("section#settings").show();
-	$('#show_titles').show();
-	$('#do_print').show();
+	$('#extra_btns').show();
 	$('section#manual_text')[0].scrollIntoView( true );
 	return false;
 });
@@ -507,7 +510,7 @@ function exportBookmarks() {
 
 	if (bookmarks) {
 		var win = window.open('data:'+bookmarks.type+','+encodeURIComponent(bookmarks.contents), "Bookmarks Export: " + bookmarks.title);
-		win.blur();
+		//win.blur();
 	}
 }
 
@@ -609,8 +612,7 @@ $("#item_next").click(function (e) {
 $("#item_stop").click(function (e) {
 	//console.log(e)
 	highlightCurrent();
-	$('#show_titles').show();
-	$('#do_print').show();
+	$('#extra_btns').show();
 	$("#padform>#eject").removeAttr('disabled', 'disabled');
 	$("#controls>#session_prev").removeAttr('disabled', 'disabled');
 	$("#controls>#session_next").removeAttr('disabled', 'disabled');
@@ -633,8 +635,7 @@ $("#item_play").click(function (e) {
 	//console.log(e)
 	highlightCurrent();
 	update();
-	$('#show_titles').hide();
-	$('#do_print').hide();
+	$('#extra_btns').hide();
 	$("#padform>#eject").attr('disabled', 'disabled');
 	$("#controls>#session_prev").attr('disabled', 'disabled');
 	$("#controls>#session_next").attr('disabled', 'disabled');
@@ -684,6 +685,13 @@ $('#export_bookmarks').click(function (e) {
 	if (sessions.length == 0 || timerHandle != null)
 		return false;
 	exportBookmarks();
+	return false;
+});
+
+$('#show_settings').click(function (e) {
+	if (timerHandle != null)
+		return false;
+	$('section#settings').toggle();
 	return false;
 });
 
