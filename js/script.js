@@ -456,6 +456,29 @@ function loadGoogleDocs(url){
 	});
 }
 
+// generate chapter marks for session 's',
+// for 'from' times (expected, estimated, real),
+// omitting items less than 'ignore' seconds
+function generateChapterMarks(s, from, ignore) {
+	//00:00:00[.000] Intro
+	if (s == null)
+		s = 0;
+	if (from == null)
+		from = 'expected';
+	if (ignore == null)
+		ignore = 0;
+	var t = 0;
+	var lines = [];
+	var c = $("section#contents").children();
+	lines.push("# "+c.eq(sessions[s].h1).contents().eq(0).text());
+	for (i in sessions[s].items) {
+		lines.push("00:"+formatMS(t)+" "+c.eq(sessions[s].items[i].h2).contents().eq(0).text());
+		if (from in sessions[s].items[i])
+			t += sessions[s].items[i][from];
+	}
+	return lines.join('\n');
+}
+
 $("#padform").submit(function (e) {
 	var url=$('input[id="url"]').attr("value");
 	console.log('loadPad: ' + url);
