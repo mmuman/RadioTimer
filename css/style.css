@@ -35,11 +35,11 @@ form { display:inline }
 	opacity: .75;
 }
 #live_timer #main {
-	font-size:4em;
+	font-size:3em;
 	clear: right;
 }
 #live_timer #item {
-	font-size:2em;
+	font-size:1.5em;
 	text-align: center;
 }
 #live_timer.late {
