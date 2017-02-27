@@ -692,6 +692,7 @@ $('#show_settings').click(function (e) {
 	if (timerHandle != null)
 		return false;
 	$('section#settings').toggle();
+	$('section#settings').get(0).scrollIntoView(true);
 	return false;
 });
 
