@@ -52,7 +52,7 @@ var buttonCharsASCII = {
 	"eject":"^",
 	"session_prev":"|<<",
 	"item_prev":"<<",
-	"item_stop":"#",
+	"item_stop":"[]",
 	"item_play":">",
 	"item_pause":"||",
 	"item_pauseplay":">||",
