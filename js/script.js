@@ -794,6 +794,9 @@ function localizeUI() {
 		$("#controls>#show_titles").attr('title', 'Montrer seulement les titres');
 		$("#controls>#do_print").attr('title', 'Imprimer le contenu actuel');
 		$("#pastetarget").attr('placeholder', 'collez ici…');
+		$('#settings_export_which option[value="recorded"]').text('Enregistré');
+		$('#settings_export_which option[value="expected"]').text('Assigné');
+		$('#settings_export_which option[value="estimated"]').text('Estimé');
 
 		$(".fr").show();
 	} else
