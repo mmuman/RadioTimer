@@ -20,7 +20,7 @@ footer:hover {
 	/*opacity: 1.0;*/
 }
 
-form { display:inline }
+form { display:inline; clear: none }
 
 #live_timer {
 	display:inline;
@@ -52,18 +52,27 @@ form { display:inline }
 	display: none;
 }
 
+#allbuttons {
+	float: left;
+	clear: none;
+}
+
 #progress_h1_h2 {
-	width: 100%;
+	min-width: 230px;
+	display: run-in block;
+	overflow: hidden;
+	clear: none;
 	white-space: nowrap;
+	padding-left: 0.5em;
+	padding-right: 1em;
 }
 #progress_h1,
 #progress_h2 {
 	position:relative;
-	min-width: 25%;
-	max-width: 45%;
+	width: 47%;
 	vertical-align: bottom;
 	border: 1px solid DarkSlateGray;
-	padding: 3px;
+	padding: 0.3em;
 	display: inline-block;
 }
 #progress_h2 {
