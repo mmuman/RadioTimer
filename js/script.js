@@ -164,7 +164,7 @@ function highlightCurrent(doScroll){
 		}
 	}
 	if (doScroll) {
-		$('section#contents').children().get(0).scrollIntoView( doNextItemScrollArgs );
+		$('section#contents').children().get(i).scrollIntoView( doNextItemScrollArgs );
 	}
 }
 
