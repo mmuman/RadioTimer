@@ -56,20 +56,8 @@ form { display:inline }
 	width: 100%;
 	white-space: nowrap;
 }
+#progress_h1,
 #progress_h2 {
-	background-color: goldenrod;
-	background-color: rgba(218, 165, 32, 128);
-	position:relative;
-	min-width: 25%;
-	max-width: 45%;
-	vertical-align: bottom;
-	border: 1px solid DarkSlateGray;
-	padding: 3px;
-	display:inline-block;
-}
-#progress_h1 {
-	background-color: orangered;
-	background-color: rgba(255, 69, 0, 128);
 	position:relative;
 	min-width: 25%;
 	max-width: 45%;
@@ -78,16 +66,16 @@ form { display:inline }
 	padding: 3px;
 	display: inline-block;
 }
-#current_h2 {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	max-width:100%;
-	position:absolute;
-	left: 0%;
-	padding-left: 3px;
+#progress_h2 {
+	background-color: goldenrod;
+	background-color: rgba(218, 165, 32, 128);
 }
-#current_h1 {
+#progress_h1 {
+	background-color: orangered;
+	background-color: rgba(255, 69, 0, 128);
+}
+#current_h1,
+#current_h2 {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
