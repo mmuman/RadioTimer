@@ -614,14 +614,18 @@ $("#item_stop").click(function (e) {
 	$("#padform>#eject").removeAttr('disabled', 'disabled');
 	$("#controls>#session_prev").removeAttr('disabled', 'disabled');
 	$("#controls>#session_next").removeAttr('disabled', 'disabled');
+	var stopping = false;
 	if (timerHandle) {
 		clearInterval(timerHandle);
 		timerHandle = null;
+		stopping = true;
 	}
 	update();
 	itemStartTime = startTime = null;
 	//paused = false;
 	//$("#controls>#item_pause").attr('value', buttonChars.item_pause);
+	if (stopping && $('#settings_export_auto').prop('checked'))
+		exportBookmarks();
 	return false;
 });
 
