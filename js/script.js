@@ -170,6 +170,7 @@ function highlightCurrent(doScroll){
 
 function update(){
 	var t = (new Date()).getTime();
+	//t = Math.round(t / 1000) * 1000;
 	var s;
 	if (sessions.length)
 		s = sessions[session].expected;
@@ -586,6 +587,7 @@ $("#session_next").click(function (e) {
 $("#item_prev").click(function (e) {
 	//console.log(e.target)
 	var t = (new Date()).getTime();
+	t = Math.round(t / 1000) * 1000;
 	var s = sessions[session];
 	if (timerHandle) {
 		if (sessions.length && sessions[session].items.length)
@@ -607,6 +609,7 @@ $("#item_prev").click(function (e) {
 $("#item_next").click(function (e) {
 	//console.log(e.target)
 	var t = (new Date()).getTime();
+	t = Math.round(t / 1000) * 1000;
 	var s = sessions[session];
 	if (timerHandle) {
 		if (sessions.length && sessions[session].items.length)
@@ -660,7 +663,7 @@ $("#item_play").click(function (e) {
 	if (timerHandle)
 		return false;
 	timerHandle = setInterval(timerFunc, 500);
-	itemStartTime = startTime = (new Date()).getTime();
+	itemStartTime = startTime = Math.round((new Date()).getTime() / 1000) * 1000;
 	if (sessions.length && sessions[session].items.length) {
 		sessions[session].items[item].start = 0;
 		sessions[session].items[item].recorded = 0;
