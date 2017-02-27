@@ -204,6 +204,8 @@ function update(){
 		highlightCurrent(!paused);
 	}
 	$("#progress_h2>#bar").each(function(index){this.style.width = "" + p + "%";});
+	if (sessions.length && sessions[session].items.length)
+		$("#progress_h2").prop('title', '-' + formatMS(sessions[session].items[item].expected - d));
 
 	d = 0;
 	if (startTime) {
@@ -218,6 +220,8 @@ function update(){
 		p = 100;
 	}
 	$("#progress_h1>#bar").each(function(index){this.style.width = "" + p + "%";});
+	if (sessions.length)
+		$("#progress_h1").prop('title', '-' + formatMS(sessions[session].expected - d));
 
 	$("#live_timer").toggleClass("late", late);
 
