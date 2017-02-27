@@ -470,13 +470,34 @@ function generateChapterMarks(s, from, ignore) {
 	var t = 0;
 	var lines = [];
 	var c = $("section#contents").children();
-	lines.push("# "+c.eq(sessions[s].h1).contents().eq(0).text());
+	var title = c.eq(sessions[s].h1).contents().eq(0).text().trim();
+	lines.push("# "+title);
 	for (i in sessions[s].items) {
-		lines.push("00:"+formatMS(t)+" "+c.eq(sessions[s].items[i].h2).contents().eq(0).text());
+		lines.push("00:"+formatMS(t)+" "+c.eq(sessions[s].items[i].h2).contents().eq(0).text().trim());
 		if (from in sessions[s].items[i])
 			t += sessions[s].items[i][from];
 	}
-	return lines.join('\n');
+	var marks = {
+		type: 'text/plain;charset=UTF-8',
+		title: title,
+		contents: lines.join('\n')
+	}
+	return marks;
+}
+
+function exportBookmarks() {
+	var format = $('#settings_export_format').val();
+	var from = $('#settings_export_which').val();
+	var bookmarks = null;
+
+	if (format == 'chaptermarks') {
+		bookmarks = generateChapterMarks(session, from);
+	}
+
+	if (bookmarks) {
+		var win = window.open('data:'+bookmarks.type+','+encodeURIComponent(bookmarks.contents), "Bookmarks Export: " + bookmarks.title);
+		win.blur();
+	}
 }
 
 $("#padform").submit(function (e) {
@@ -621,6 +642,13 @@ $("#do_print").click(function (e) {
 	if (sessions.length == 0 || timerHandle != null)
 		return false;
 	window.print();
+	return false;
+});
+
+$('#export_bookmarks').click(function (e) {
+	if (sessions.length == 0 || timerHandle != null)
+		return false;
+	exportBookmarks();
 	return false;
 });
 
