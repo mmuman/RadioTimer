@@ -799,8 +799,10 @@ function localizeUI() {
 		$("#controls>#item_play").attr('title', 'Lecture');
 		$("#controls>#item_stop").attr('title', 'Arrêt');
 		$("#controls>#item_pause").attr('title', 'Pause');
-		$("#controls>#show_titles").attr('title', 'Montrer seulement les titres');
-		$("#controls>#do_print").attr('title', 'Imprimer le contenu actuel');
+		$("#controls #show_titles").attr('title', 'Montrer seulement les titres');
+		$("#controls #do_print").attr('title', 'Imprimer le contenu actuel');
+		$("#controls #export_bookmarks").attr('title', 'Exporter les signets pour la session');
+		$("#controls #show_settings").attr('title', 'Montrer les paramètres');
 		$("#pastetarget").attr('placeholder', 'collez ici…');
 		$('#settings_export_which option[value="recorded"]').text('Enregistré');
 		$('#settings_export_which option[value="expected"]').text('Assigné');
