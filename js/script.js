@@ -771,8 +771,8 @@ function fixupButtons()
 	$("#controls>#item_play").attr('value', buttonChars.item_play);
 	$("#controls>#item_stop").attr('value', buttonChars.item_stop);
 	$("#controls>#item_pause").attr('value', buttonChars.item_pause);
-	$("#controls>#show_titles").attr('value', buttonChars.show_titles);
-	$("#controls>#do_print").attr('value', buttonChars.do_print);
+	$("#controls #show_titles").attr('value', buttonChars.show_titles);
+	$("#controls #do_print").attr('value', buttonChars.do_print);
 	// TODO: fix help text too?
 }
 
