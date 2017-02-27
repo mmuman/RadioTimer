@@ -27,18 +27,29 @@ form { display:inline }
 	float: right;
 	/*position: absolute;*/
 	/*background: initial;*/
+	/*font-family: "Nimbus Mono L", "Liberation Mono", "Bitstream Vera Sans Mono", "Courier 10 Pitch", "DejaVu Sans Mono", "FreeMono", Courier, Monospace;*/
 	background: LightSlateGrey;
 	right: 30px;
 	padding:10px;
 	/*top: 5px;*/
-	font-size:4em;
 	opacity: .75;
+}
+#live_timer #main {
+	font-size:4em;
+	clear: right;
+}
+#live_timer #item {
+	font-size:2em;
+	text-align: center;
 }
 #live_timer.late {
 	background: darkred;
 }
 #live_timer:hover {
 	opacity: .30;
+}
+#live_timer #main #remaining {
+	display: none;
 }
 
 #progress_h1_h2 {

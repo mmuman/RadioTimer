@@ -204,8 +204,12 @@ function update(){
 		highlightCurrent(!paused);
 	}
 	$("#progress_h2>#bar").each(function(index){this.style.width = "" + p + "%";});
-	if (sessions.length && sessions[session].items.length)
-		$("#progress_h2").prop('title', '-' + formatMS(sessions[session].items[item].expected - d));
+	$("#live_timer #item #running").text(formatMS(d));
+	if (i) {
+		var txt = ((i - d < 0) ? "+" : "-") + formatMS(Math.abs(i - d));
+		$("#progress_h2").prop('title', txt);
+		$("#live_timer #item #remaining").text(txt);
+	}
 
 	d = 0;
 	if (startTime) {
@@ -220,8 +224,6 @@ function update(){
 		p = 100;
 	}
 	$("#progress_h1>#bar").each(function(index){this.style.width = "" + p + "%";});
-	if (sessions.length)
-		$("#progress_h1").prop('title', '-' + formatMS(sessions[session].expected - d));
 
 	$("#live_timer").toggleClass("late", late);
 
@@ -236,10 +238,13 @@ function update(){
 		if (paused)
 			state = buttonChars.item_pauseplay;
 	}
-	$("#live_timer").empty();
-	$("#live_timer").append(state + "&nbsp;");
-	$("#live_timer").append(formatMS(d) + "&nbsp;");
-	//}
+	$("#live_timer #status").text(state);
+	$("#live_timer #main #running").text(formatMS(d));
+	if (s) {
+		var txt = ((s - d < 0) ? "+" : "-") + formatMS(Math.abs(s - d));
+		$("#progress_h1").prop('title', txt);
+		$("#live_timer #main #remaining").text(txt);
+	}
 }
 
 function timerFunc(){
@@ -517,6 +522,11 @@ function exportBookmarks() {
 		//win.blur();
 	}
 }
+
+$("#live_timer").click(function (e) {
+	$("#live_timer #main #running").toggle();
+	$("#live_timer #main #remaining").toggle();
+});
 
 $("#padform").submit(function (e) {
 	var url=$('input[id="url"]').attr("value");
