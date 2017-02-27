@@ -193,7 +193,7 @@ function update(){
 		p = 100;
 		if (!paused && item < sessions[session].items.length - 1) {
 			if (timerHandle) {
-				itemStartTime = (new Date()).getTime();
+				itemStartTime = t;
 				if (sessions.length && sessions[session].items.length)
 					sessions[session].items[item].start = (itemStartTime - startTime) / 1000;
 			}
@@ -585,9 +585,9 @@ $("#session_next").click(function (e) {
 
 $("#item_prev").click(function (e) {
 	//console.log(e.target)
+	var t = (new Date()).getTime();
 	var s = sessions[session];
 	if (timerHandle) {
-		t = (new Date()).getTime();
 		if (sessions.length && sessions[session].items.length)
 			sessions[session].items[item].recorded = (t - itemStartTime) / 1000;
 	}
@@ -595,7 +595,7 @@ $("#item_prev").click(function (e) {
 		item--;
 	}
 	if (timerHandle) {
-		itemStartTime = (new Date()).getTime();
+		itemStartTime = t;
 		if (sessions.length && sessions[session].items.length)
 			sessions[session].items[item].start = (itemStartTime - startTime) / 1000;
 	}
@@ -606,9 +606,9 @@ $("#item_prev").click(function (e) {
 
 $("#item_next").click(function (e) {
 	//console.log(e.target)
+	var t = (new Date()).getTime();
 	var s = sessions[session];
 	if (timerHandle) {
-		t = (new Date()).getTime();
 		if (sessions.length && sessions[session].items.length)
 			sessions[session].items[item].recorded = (t - itemStartTime) / 1000;
 	}
@@ -616,7 +616,7 @@ $("#item_next").click(function (e) {
 		item++;
 	}
 	if (timerHandle) {
-		itemStartTime = (new Date()).getTime();
+		itemStartTime = t;
 		if (sessions.length && sessions[session].items.length)
 			sessions[session].items[item].start = (itemStartTime - startTime) / 1000;
 	}
