@@ -28,11 +28,11 @@ form { display:inline; clear: none }
 	/*position: absolute;*/
 	/*background: initial;*/
 	/*font-family: "Nimbus Mono L", "Liberation Mono", "Bitstream Vera Sans Mono", "Courier 10 Pitch", "DejaVu Sans Mono", "FreeMono", Courier, Monospace;*/
-	background: LightSlateGrey;
+	background: LightGrey;
 	right: 30px;
 	padding:10px;
 	/*top: 5px;*/
-	opacity: .75;
+	opacity: .85;
 }
 #live_timer #main {
 	font-size:3em;
@@ -43,7 +43,7 @@ form { display:inline; clear: none }
 	text-align: center;
 }
 #live_timer.late {
-	background: darkred;
+	background: red;
 }
 #live_timer:hover {
 	opacity: .30;
