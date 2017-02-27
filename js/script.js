@@ -163,7 +163,7 @@ function highlightCurrent(doScroll){
 			$('#current_h2').append(h2.textContent);
 		}
 	}
-	if (doScroll) {
+	if (doScroll && sessions.length) {
 		$('section#contents').children().get(i).scrollIntoView( doNextItemScrollArgs );
 	}
 }
@@ -508,6 +508,8 @@ function generateChapterMarks(s, from, ignore) {
 }
 
 function exportBookmarks() {
+	if (sessions.length < 1)
+		return;
 	var format = $('#settings_export_format').val();
 	var from = $('#settings_export_which').val();
 	var bookmarks = null;
