@@ -62,6 +62,8 @@ var buttonCharsASCII = {
 	"do_print": "P"
 };
 
+var padImportErrorMessage = "Sorry, failed to import pad. Maybe your browser refused the request to CORS policy.";
+
 if(navigator.onLine){
     // browser is online so I can load the list from the server
     //server.list(init);
@@ -413,7 +415,7 @@ function loadEtherpad(url){
 	url += '/export/html';
 	console.log('loadEtherpad: ' + url);
 
-	$.get(url, function(response){
+	var r = $.get(url, function(response, status, xhr){
 		$("section#contents").append(response);
 		// this.remove() doesn't work in Android it seems
 		// it's not a good idea to alter a list while iterating over it anyway
@@ -450,7 +452,14 @@ function loadEtherpad(url){
 				.wrap('<span />');
 
 		padLoaded();
-	})
+	});
+	r.onerror = function(e) {
+		console.log(e)
+		alert(padImportErrorMessage);
+		$("#padform>#progress").children().children().unwrap();
+		$("#padform>#progress").hide();
+	};
+	console.log(r);
 }
 
 function loadGoogleDocs(url){
@@ -827,6 +836,8 @@ function localizeUI() {
 		$('#settings_export_which option[value="recorded"]').text('Enregistré');
 		$('#settings_export_which option[value="expected"]').text('Assigné');
 		$('#settings_export_which option[value="estimated"]').text('Estimé');
+
+		padImportErrorMessage = "Désolé, le chargement du pad a échoué. Il est probable que la configuration CORS de votre navigateur l'interdise.";
 
 		$(".fr").show();
 	} else
