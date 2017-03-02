@@ -1,9 +1,0 @@
-CACHE MANIFEST
-# V0.0.12
-
-# This is a comment
-CACHE:
-index.html
-css/style.css
-js/script.js
-js/zepto.min.js

@@ -112,43 +112,6 @@ var buttonCharsASCII = {
 
 var padImportErrorMessage = "Sorry, failed to import pad. Maybe your browser refused the request to CORS policy.";
 
-if(navigator.onLine){
-    // browser is online so I can load the list from the server
-    //server.list(init);
-    // set the connection status to true
-    setConnected(true);
-} else {
-    // Not online, set the connection status to false
-    setConnected(false);
-}
-
-
-function setConnected(isConnected){
-    var buttons = 'input[type="submit"], button';
-    if( isConnected ){
-		console.log('online');
-        $(buttons).removeAttr('disabled', 'disabled');
-    } else {
-		console.log('offline');
-        $(buttons).attr('disabled', 'disabled');
-    }
-}
-
-
-$(window).bind('online', function(){
-    // If the list was never loaded
-    if( ! loaded ){
-        // we load the list from the server
-        //server.list(init);
-    }
-    // set the connection status to true
-    setConnected(true);
-});
-$(window).bind('offline', function(){
-    // set the connection status to false
-    setConnected(false);
-});
-
 // structure of the sessions:
 //	[
 //		{
