@@ -20,46 +20,46 @@ if (/Android/.test(navigator.userAgent)) {
 */
 
 var buttonChars = {
-	"eject":"⏏",
-	"session_prev":"⏮",
-	"item_prev":"⏪",
-	"item_stop":"⏹",
-	"item_play":"⏵",
-	"item_pause":"⏸",
-	"item_pauseplay":"⏯",
-	"item_next":"⏩",
-	"session_next":"⏭",
-	"show_titles":"🗏",
-	"do_print": "🖶"
+	btn_eject:"⏏",
+	btn_session_prev:"⏮",
+	btn_item_prev:"⏪",
+	btn_item_stop:"⏹",
+	btn_item_play:"⏵",
+	btn_item_pause:"⏸",
+	btn_item_pauseplay:"⏯",
+	btn_item_next:"⏩",
+	btn_session_next:"⏭",
+	btn_show_titles:"🗏",
+	btn_do_print: "🖶"
 };
 
 var buttonCharsMac = {
-	"eject":"⏏",
-	"session_prev":"⏮",
-	"item_prev":"⏪",
-	"item_stop":"⏹",
-	"item_play":"\u25B6\uFE00",
-	"item_pause":"⏸",
-	"item_pauseplay":"⏯",
-	"item_next":"⏩",
-	"session_next":"⏭",
-	"show_titles":"🗏",
-	"do_print": "🖶"
+	btn_eject:"⏏",
+	btn_session_prev:"⏮",
+	btn_item_prev:"⏪",
+	btn_item_stop:"⏹",
+	btn_item_play:"\u25B6\uFE00",
+	btn_item_pause:"⏸",
+	btn_item_pauseplay:"⏯",
+	btn_item_next:"⏩",
+	btn_session_next:"⏭",
+	btn_show_titles:"🗏",
+	btn_do_print: "🖶"
 };
 
 // work around empty buttons on Android
 var buttonCharsASCII = {
-	"eject":"^",
-	"session_prev":"|<<",
-	"item_prev":"<<",
-	"item_stop":"[]",
-	"item_play":">",
-	"item_pause":"||",
-	"item_pauseplay":">||",
-	"item_next":">>",
-	"session_next":">>|",
-	"show_titles":"T",
-	"do_print": "P"
+	btn_eject:"^",
+	btn_session_prev:"|<<",
+	btn_item_prev:"<<",
+	btn_item_stop:"[]",
+	btn_item_play:">",
+	btn_item_pause:"||",
+	btn_item_pauseplay:">||",
+	btn_item_next:">>",
+	btn_session_next:">>|",
+	btn_show_titles:"T",
+	btn_do_print: "P"
 };
 
 var padImportErrorMessage = "Sorry, failed to import pad. Maybe your browser refused the request to CORS policy.";
@@ -231,15 +231,15 @@ function update(){
 	$("#live_timer").toggleClass("late", late);
 
 	//if (startTime) {
-	var state = buttonChars.eject;
+	var state = buttonChars.btn_eject;
 	if (sessions.length)
-		state = buttonChars.item_stop;
+		state = buttonChars.btn_item_stop;
 	if (paused)
-		state = buttonChars.item_pause;
+		state = buttonChars.btn_item_pause;
 	if (timerHandle) {
-		state = buttonChars.item_play;
+		state = buttonChars.btn_item_play;
 		if (paused)
-			state = buttonChars.item_pauseplay;
+			state = buttonChars.btn_item_pauseplay;
 	}
 	$("#live_timer #status").text(state);
 	$("#live_timer #main #running").text(formatMS(d));
@@ -254,14 +254,14 @@ function timerFunc(){
 	update();
 }
 
-$("#eject").click(function (e) {
+$("#btn_eject").click(function (e) {
 	//console.log(e.target)
 	sessions = Array();
 	session = -1;
 	item = 0;
 	$("#padform>#url").show();
 	$("#padform>#progress").hide();
-	$("#padform>#load").show();
+	$("#btn_load").show();
 	$('#current_h1').empty();
 	$('#current_h1').append("(Session)");
 	$('#current_h2').empty();
@@ -399,7 +399,7 @@ function padLoaded(){
 	});
 
 	$("#padform>#url").hide();
-	$("#padform>#load").hide();
+	$("#btn_load").hide();
 	$("#padform>#progress").children().children().unwrap();
 	$("#padform>#progress").hide();
 
@@ -469,7 +469,7 @@ function loadGoogleDocs(url){
 
 
 	window.alert("sadly google's CORS policy won't let it work... try copy-pasting from the page.");
-	$("#eject").click();
+	$("#btn_eject").click();
 	return;
 
 	// XXX: maybe putting it in an iframe and let people log-in first?
@@ -557,7 +557,7 @@ $("#padform").submit(function (e) {
 		loadGoogleDocs(url);
 	} else {
 		window.alert("unknown platform; try pasting enriched content");
-		$("#eject").click();
+		$("#btn_eject").click();
 	}
 
 	return false;
@@ -569,7 +569,7 @@ $("#controls").submit(function (e) {
 });
 
 
-$("#session_prev").click(function (e) {
+$("#btn_session_prev").click(function (e) {
 	//console.log(e.target)
 	if (session > 0) {
 		session--;
@@ -581,7 +581,7 @@ $("#session_prev").click(function (e) {
 	return false;
 });
 
-$("#session_next").click(function (e) {
+$("#btn_session_next").click(function (e) {
 	//console.log(e.target)
 	if (session < sessions.length - 1) {
 		session++;
@@ -593,7 +593,7 @@ $("#session_next").click(function (e) {
 	return false;
 });
 
-$("#item_prev").click(function (e) {
+$("#btn_item_prev").click(function (e) {
 	//console.log(e.target)
 	var t = (new Date()).getTime();
 	t = Math.round(t / 1000) * 1000;
@@ -615,7 +615,7 @@ $("#item_prev").click(function (e) {
 	return false;
 });
 
-$("#item_next").click(function (e) {
+$("#btn_item_next").click(function (e) {
 	//console.log(e.target)
 	var t = (new Date()).getTime();
 	t = Math.round(t / 1000) * 1000;
@@ -637,13 +637,13 @@ $("#item_next").click(function (e) {
 	return false;
 });
 
-$("#item_stop").click(function (e) {
+$("#btn_item_stop").click(function (e) {
 	//console.log(e)
 	highlightCurrent();
 	$('#extra_btns').show();
-	$("#padform>#eject").removeAttr('disabled', 'disabled');
-	$("#controls>#session_prev").removeAttr('disabled', 'disabled');
-	$("#controls>#session_next").removeAttr('disabled', 'disabled');
+	$("#btn_eject").removeAttr('disabled', 'disabled');
+	$("#btn_session_prev").removeAttr('disabled', 'disabled');
+	$("#btn_session_next").removeAttr('disabled', 'disabled');
 	var stopping = false;
 	if (timerHandle) {
 		clearInterval(timerHandle);
@@ -659,14 +659,14 @@ $("#item_stop").click(function (e) {
 	return false;
 });
 
-$("#item_play").click(function (e) {
+$("#btn_item_play").click(function (e) {
 	//console.log(e)
 	highlightCurrent();
 	update();
 	$('#extra_btns').hide();
-	$("#padform>#eject").attr('disabled', 'disabled');
-	$("#controls>#session_prev").attr('disabled', 'disabled');
-	$("#controls>#session_next").attr('disabled', 'disabled');
+	$("#btn_eject").attr('disabled', 'disabled');
+	$("#btn_session_prev").attr('disabled', 'disabled');
+	$("#btn_session_next").attr('disabled', 'disabled');
 	//paused = false;
 	//$("#controls>#item_pause").attr('value', buttonChars.item_pause);
 	if (timerHandle)
@@ -681,19 +681,19 @@ $("#item_play").click(function (e) {
 	return false;
 });
 
-$("#item_pause").click(function (e) {
+$("#btn_item_pause").click(function (e) {
 	//console.log(e)
 	highlightCurrent();
 	paused = !paused;
 	if (paused)
-		$("#controls>#item_pause").attr('value', buttonChars.item_pauseplay);
+		$("#btn_item_pause").attr('value', buttonChars.item_pauseplay);
 	else
-		$("#controls>#item_pause").attr('value', buttonChars.item_pause);
+		$("#btn_item_pause").attr('value', buttonChars.item_pause);
 	update();
 	return false;
 });
 
-$("#show_titles").click(function (e) {
+$("#btn_show_titles").click(function (e) {
 	if (sessions.length == 0 || timerHandle != null)
 		return false;
 	$('section#contents').children().filter(function(){
@@ -702,21 +702,21 @@ $("#show_titles").click(function (e) {
 	return false;
 });
 
-$("#do_print").click(function (e) {
+$("#btn_do_print").click(function (e) {
 	if (sessions.length == 0 || timerHandle != null)
 		return false;
 	window.print();
 	return false;
 });
 
-$('#export_bookmarks').click(function (e) {
+$('#btn_export_bookmarks').click(function (e) {
 	if (sessions.length == 0 || timerHandle != null)
 		return false;
 	exportBookmarks();
 	return false;
 });
 
-$('#show_settings').click(function (e) {
+$('#btn_show_settings').click(function (e) {
 	if (timerHandle != null)
 		return false;
 	$('section#settings').toggle();
@@ -777,16 +777,16 @@ $("#pastetarget").on("paste", function(e){
 function fixupButtons()
 {
 	//window.alert(buttonChars.item_prev);
-	$("#padform>#eject").attr('value', buttonChars.eject);
-	$("#controls>#session_prev").attr('value', buttonChars.session_prev);
-	$("#controls>#session_next").attr('value', buttonChars.session_next);
-	$("#controls>#item_prev").attr('value', buttonChars.item_prev);
-	$("#controls>#item_next").attr('value', buttonChars.item_next);
-	$("#controls>#item_play").attr('value', buttonChars.item_play);
-	$("#controls>#item_stop").attr('value', buttonChars.item_stop);
-	$("#controls>#item_pause").attr('value', buttonChars.item_pause);
-	$("#controls #show_titles").attr('value', buttonChars.show_titles);
-	$("#controls #do_print").attr('value', buttonChars.do_print);
+	$("#btn_eject").attr('value', buttonChars.eject);
+	$("#btn_session_prev").attr('value', buttonChars.session_prev);
+	$("#btn_session_next").attr('value', buttonChars.session_next);
+	$("#btn_item_prev").attr('value', buttonChars.item_prev);
+	$("#btn_item_next").attr('value', buttonChars.item_next);
+	$("#btn_item_play").attr('value', buttonChars.item_play);
+	$("#btn_item_stop").attr('value', buttonChars.item_stop);
+	$("#btn_item_pause").attr('value', buttonChars.item_pause);
+	$("#btn_show_titles").attr('value', buttonChars.show_titles);
+	$("#btn_do_print").attr('value', buttonChars.do_print);
 	// TODO: fix help text too?
 }
 
@@ -797,8 +797,8 @@ if (/Safari/.test(navigator.userAgent)) {
 }
 // attempt to work around boggus Unicode chars in fonts (Android)
 // XXX: /Android/.test(navigator.userAgent) ?
-if ($("#session_prev")[0].clientWidth != $("#item_prev")[0].clientWidth) {
-	//window.alert("sz:" + $("#session_prev")[0].clientWidth + ":"+ $("#item_prev")[0].clientWidth);
+if ($("#btn_session_prev")[0].clientWidth != $("#btn_item_prev")[0].clientWidth) {
+	//window.alert("sz:" + $("#btn_session_prev")[0].clientWidth + ":"+ $("#btn_item_prev")[0].clientWidth);
 	buttonChars = buttonCharsASCII;
 	fixupButtons();
 }
@@ -818,20 +818,20 @@ function localizeUI() {
 	var hideEn = true;
 
 	if (/^fr$|^fr-/.test(lang) == true) {
-		$("#padform>#eject").attr('title', 'Ejecter');
-		$("#padform>#load").attr('value', 'Charger');
-		$("#padform>#load").attr('title', 'Charger');
-		$("#controls>#session_prev").attr('title', 'Session précédente');
-		$("#controls>#session_next").attr('title', 'Session suivante');
-		$("#controls>#item_prev").attr('title', 'Item précédent');
-		$("#controls>#item_next").attr('title', 'Item suivant');
-		$("#controls>#item_play").attr('title', 'Lecture');
-		$("#controls>#item_stop").attr('title', 'Arrêt');
-		$("#controls>#item_pause").attr('title', 'Pause');
-		$("#controls #show_titles").attr('title', 'Montrer seulement les titres');
-		$("#controls #do_print").attr('title', 'Imprimer le contenu actuel');
-		$("#controls #export_bookmarks").attr('title', 'Exporter les signets pour la session');
-		$("#controls #show_settings").attr('title', 'Montrer les paramètres');
+		$("#btn_eject").attr('title', 'Ejecter');
+		$("#btn_load").attr('value', 'Charger');
+		$("#btn_load").attr('title', 'Charger');
+		$("#btn_session_prev").attr('title', 'Session précédente');
+		$("#btn_session_next").attr('title', 'Session suivante');
+		$("#btn_item_prev").attr('title', 'Item précédent');
+		$("#btn_item_next").attr('title', 'Item suivant');
+		$("#btn_item_play").attr('title', 'Lecture');
+		$("#btn_item_stop").attr('title', 'Arrêt');
+		$("#btn_item_pause").attr('title', 'Pause');
+		$("#btn_show_titles").attr('title', 'Montrer seulement les titres');
+		$("#btn_do_print").attr('title', 'Imprimer le contenu actuel');
+		$("#btn_export_bookmarks").attr('title', 'Exporter les signets pour la session');
+		$("#btn_show_settings").attr('title', 'Montrer les paramètres');
 		$("#pastetarget").attr('placeholder', 'collez ici…');
 		$('#settings_export_which option[value="recorded"]').text('Enregistré');
 		$('#settings_export_which option[value="expected"]').text('Assigné');
