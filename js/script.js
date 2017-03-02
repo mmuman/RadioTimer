@@ -676,7 +676,7 @@ $("#btn_item_stop").click(function (e) {
 	update();
 	itemStartTime = startTime = null;
 	//paused = false;
-	//$("#btn_item_pause").attr('value', buttonChars.btn_item_pause);
+	//$("#btn_item_pause").prop('value', buttonChars.btn_item_pause);
 	if (stopping && $('#settings_export_auto').prop('checked'))
 		exportBookmarks();
 	return false;
@@ -691,7 +691,7 @@ $("#btn_item_play").click(function (e) {
 	$("#btn_session_prev").attr('disabled', 'disabled');
 	$("#btn_session_next").attr('disabled', 'disabled');
 	//paused = false;
-	//$("#btn_item_pause").attr('value', buttonChars.btn_item_pause);
+	//$("#btn_item_pause").prop('value', buttonChars.btn_item_pause);
 	if (timerHandle)
 		return false;
 	timerHandle = setInterval(timerFunc, 500);
@@ -709,9 +709,9 @@ $("#btn_item_pause").click(function (e) {
 	highlightCurrent();
 	paused = !paused;
 	if (paused)
-		$("#btn_item_pause").attr('value', buttonChars.btn_item_pauseplay);
+		$("#btn_item_pause").prop('value', buttonChars.btn_item_pauseplay);
 	else
-		$("#btn_item_pause").attr('value', buttonChars.btn_item_pause);
+		$("#btn_item_pause").prop('value', buttonChars.btn_item_pause);
 	update();
 	return false;
 });
@@ -801,7 +801,7 @@ function fixupButtons()
 {
 	//window.alert(buttonChars.btn_item_prev);
 	for (id in buttonChars) {
-		$('#' + id).attr('value', buttonChars[id]);
+		$('#' + id).prop('value', buttonChars[id]);
 	}
 	// TODO: fix help text too?
 }
@@ -839,7 +839,7 @@ function localizeUI() {
 
 	if (/^fr$|^fr-/.test(lang) == true) {
 		$("#btn_eject").attr('title', 'Ejecter');
-		$("#btn_load").attr('value', 'Charger');
+		$("#btn_load").prop('value', 'Charger');
 		$("#btn_load").attr('title', 'Charger');
 		$("#btn_session_prev").attr('title', 'Session précédente');
 		$("#btn_session_next").attr('title', 'Session suivante');
