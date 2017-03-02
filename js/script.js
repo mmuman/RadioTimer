@@ -676,7 +676,7 @@ $("#btn_item_stop").click(function (e) {
 	update();
 	itemStartTime = startTime = null;
 	//paused = false;
-	//$("#controls>#item_pause").attr('value', buttonChars.item_pause);
+	//$("#btn_item_pause").attr('value', buttonChars.btn_item_pause);
 	if (stopping && $('#settings_export_auto').prop('checked'))
 		exportBookmarks();
 	return false;
@@ -691,7 +691,7 @@ $("#btn_item_play").click(function (e) {
 	$("#btn_session_prev").attr('disabled', 'disabled');
 	$("#btn_session_next").attr('disabled', 'disabled');
 	//paused = false;
-	//$("#controls>#item_pause").attr('value', buttonChars.item_pause);
+	//$("#btn_item_pause").attr('value', buttonChars.btn_item_pause);
 	if (timerHandle)
 		return false;
 	timerHandle = setInterval(timerFunc, 500);
@@ -709,9 +709,9 @@ $("#btn_item_pause").click(function (e) {
 	highlightCurrent();
 	paused = !paused;
 	if (paused)
-		$("#btn_item_pause").attr('value', buttonChars.item_pauseplay);
+		$("#btn_item_pause").attr('value', buttonChars.btn_item_pauseplay);
 	else
-		$("#btn_item_pause").attr('value', buttonChars.item_pause);
+		$("#btn_item_pause").attr('value', buttonChars.btn_item_pause);
 	update();
 	return false;
 });
@@ -799,7 +799,7 @@ $("#pastetarget").on("paste", function(e){
 
 function fixupButtons()
 {
-	//window.alert(buttonChars.item_prev);
+	//window.alert(buttonChars.btn_item_prev);
 	for (id in buttonChars) {
 		$('#' + id).attr('value', buttonChars[id]);
 	}
