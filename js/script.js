@@ -797,6 +797,10 @@ $("#pastetarget").on("paste", function(e){
 	//console.log(text);
 	$("section#contents").empty();
 	$("section#contents").append(text);
+
+	// strip custom styling
+	$('section#contents').find('title,meta,style,script').remove();
+
 	// unwrap h1 h2 ...
 	$('section#contents').contents().children()
 		.filter(function(){return /H1|H2|H3|H4/.test(this.tagName)})
