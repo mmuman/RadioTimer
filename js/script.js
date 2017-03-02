@@ -32,7 +32,9 @@ var buttonChars = {
 	btn_show_titles:"🗏",
 	btn_do_print: "🖶",
 	btn_export_bookmarks: "🔖",
-	btn_show_settings: "🔧"
+	btn_show_settings: "🔧",
+	glyph_chrono: "⏱",
+	glyph_speech_bubble: "🗩"
 };
 
 var buttonCharsMac = {
@@ -48,7 +50,9 @@ var buttonCharsMac = {
 	btn_show_titles:"🗏",
 	btn_do_print: "🖶",
 	btn_export_bookmarks: "🔖",
-	btn_show_settings: "🔧"
+	btn_show_settings: "🔧",
+	glyph_chrono: "⏱",
+	glyph_speech_bubble: "🗩"
 };
 
 var buttonCharsWin = {
@@ -64,7 +68,9 @@ var buttonCharsWin = {
 	btn_show_titles:"▤",
 	btn_do_print: "P",
 	btn_export_bookmarks: "🔖",
-	btn_show_settings: "🔧"
+	btn_show_settings: "🔧",
+	glyph_chrono: "⏱",
+	glyph_speech_bubble: "💬"
 };
 
 var buttonCharsAndroid = {
@@ -80,7 +86,9 @@ var buttonCharsAndroid = {
 	btn_show_titles:"▤",
 	btn_do_print: "P",
 	btn_export_bookmarks: "🔖",
-	btn_show_settings: "🔧"
+	btn_show_settings: "🔧",
+	glyph_chrono: "⏱",
+	glyph_speech_bubble: "🗩"
 };
 
 // work around empty buttons on Android
@@ -97,7 +105,9 @@ var buttonCharsASCII = {
 	btn_show_titles:"T",
 	btn_do_print: "P",
 	btn_export_bookmarks: "🔖",
-	btn_show_settings: "🔧"
+	btn_show_settings: "🔧",
+	glyph_chrono: "⏱",
+	glyph_speech_bubble: "🗩"
 };
 
 var padImportErrorMessage = "Sorry, failed to import pad. Maybe your browser refused the request to CORS policy.";
@@ -425,12 +435,15 @@ function padLoaded(){
 			this.items[i].estimated = t;
 			this.estimated += t;
 			this.words += this.items[i].words;
-			t = " 🗩[" + formatMS(this.items[i].estimated) + "]";
+			t = " "+buttonChars.glyph_speech_bubble;
+			t += "[" + formatMS(this.items[i].estimated) + "]";
 			$('section#contents').children().eq(this.items[i].h2).find('span').append(t);
 		}
 		var t = '<span class="right-align">';
-		t += " ⏱[" + formatMS(this.expected) + "]";
-		t += " 🗩[" + formatMS(this.estimated) + "]";
+		t += " "+buttonChars.glyph_chrono;
+		t += "[" + formatMS(this.expected) + "]";
+		t += " "+buttonChars.glyph_speech_bubble;
+		t += "[" + formatMS(this.estimated) + "]";
 		t += '</span>';
 		$('section#contents').children().eq(this.h1).append(t);
 		//console.log(this);
