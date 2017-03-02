@@ -51,6 +51,22 @@ var buttonCharsMac = {
 	btn_show_settings: "🔧"
 };
 
+var buttonCharsAndroid = {
+	btn_eject:"▲",
+	btn_session_prev:"|⏪",
+	btn_item_prev:"⏪",
+	btn_item_stop:"■",
+	btn_item_play:"▶",
+	btn_item_pause:"||",
+	btn_item_pauseplay:"▶||",
+	btn_item_next:"⏩",
+	btn_session_next:"⏩|",
+	btn_show_titles:"▤",
+	btn_do_print: "P",
+	btn_export_bookmarks: "🔖",
+	btn_show_settings: "🔧"
+};
+
 // work around empty buttons on Android
 var buttonCharsASCII = {
 	btn_eject:"^",
@@ -795,9 +811,13 @@ if (/Safari/.test(navigator.userAgent)) {
 	buttonChars = buttonCharsMac;
 	fixupButtons();
 }
+if (/Android 4\.1/.test(navigator.userAgent)) {
+	buttonChars = buttonCharsAndroid;
+	fixupButtons();
+}
 // attempt to work around boggus Unicode chars in fonts (Android)
-// XXX: /Android/.test(navigator.userAgent) ?
-if ($("#btn_session_prev")[0].clientWidth != $("#btn_item_prev")[0].clientWidth) {
+// We now have a set of glyphs for Android 4.1, so it shouldn't be necessary
+if ($("#btn_session_prev")[0].clientWidth < $("#btn_item_prev")[0].clientWidth) {
 	//window.alert("sz:" + $("#btn_session_prev")[0].clientWidth + ":"+ $("#btn_item_prev")[0].clientWidth);
 	buttonChars = buttonCharsASCII;
 	fixupButtons();
