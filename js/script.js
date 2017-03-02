@@ -462,11 +462,23 @@ function padLoaded(){
 	update();
 }
 
+function sanitizeHTML(text) {
+	// make sure we don't add script elements
+	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt].*\/[^>]*>/, "<!noscript />")
+	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt].*\/[Ss][Cc][Rr][Ii][Pp][Tt][^>]*>/, "<!noscript />")
+	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt]/, "<!-- ")
+	text = text.replace(/<\/[Ss][Cc][Rr][Ii][Pp][Tt].*>/, " -->")
+	// discard other links
+	text = text.replace(/<[Ll][Ii][Nn][Kk]/, "<!link")
+	return text;
+}
+
 function loadEtherpad(url){
 	url += '/export/html';
 	console.log('loadEtherpad: ' + url);
 
 	var r = $.get(url, function(response, status, xhr){
+		response = sanitizeHTML(response);
 		$("section#contents").append(response);
 		// this.remove() doesn't work in Android it seems
 		// it's not a good idea to alter a list while iterating over it anyway
@@ -806,13 +818,7 @@ $("#pastetarget").on("paste", function(e){
 	if (!text)
 		text = e.clipboardData.getData("text/plain");
 
-	// make sure we don't add script elements
-	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt].*\/[^>]*>/, "<!noscript />")
-	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt].*\/[Ss][Cc][Rr][Ii][Pp][Tt][^>]*>/, "<!noscript />")
-	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt]/, "<!-- ")
-	text = text.replace(/<\/[Ss][Cc][Rr][Ii][Pp][Tt].*>/, " -->")
-	// discard other links
-	text = text.replace(/<[Ll][Ii][Nn][Kk]/, "<!link")
+	text = sanitizeHTML(text);
 
 	//console.log(text);
 	$("section#contents").empty();
