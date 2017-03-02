@@ -30,7 +30,9 @@ var buttonChars = {
 	btn_item_next:"⏩",
 	btn_session_next:"⏭",
 	btn_show_titles:"🗏",
-	btn_do_print: "🖶"
+	btn_do_print: "🖶",
+	btn_export_bookmarks: "🔖",
+	btn_show_settings: "🔧"
 };
 
 var buttonCharsMac = {
@@ -44,7 +46,9 @@ var buttonCharsMac = {
 	btn_item_next:"⏩",
 	btn_session_next:"⏭",
 	btn_show_titles:"🗏",
-	btn_do_print: "🖶"
+	btn_do_print: "🖶",
+	btn_export_bookmarks: "🔖",
+	btn_show_settings: "🔧"
 };
 
 // work around empty buttons on Android
@@ -59,7 +63,9 @@ var buttonCharsASCII = {
 	btn_item_next:">>",
 	btn_session_next:">>|",
 	btn_show_titles:"T",
-	btn_do_print: "P"
+	btn_do_print: "P",
+	btn_export_bookmarks: "🔖",
+	btn_show_settings: "🔧"
 };
 
 var padImportErrorMessage = "Sorry, failed to import pad. Maybe your browser refused the request to CORS policy.";
