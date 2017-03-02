@@ -847,10 +847,14 @@ if ($("#btn_session_prev")[0].clientWidth < $("#btn_item_prev")[0].clientWidth) 
 // localise
 function getLang()
 {
-	if (navigator.languages != undefined)
+	if (navigator.languages)
 		return navigator.languages[0];
-	else
+	else if (navigator.language)
 		return navigator.language;
+	else if (navigator.userLanguage)
+		return navigator.userLanguage;
+	else if (navigator.browserLanguage)
+		return navigator.browserLanguage;
 }
 
 function localizeUI() {
