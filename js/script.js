@@ -421,7 +421,8 @@ function padLoaded(){
 	$('div#top')[0].scrollIntoView( true );
 	session = 0;
 	highlightCurrent();
-	$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
+	if (session in sessions)
+		$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
 	update();
 }
 
