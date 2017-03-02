@@ -480,25 +480,7 @@ function loadEtherpad(url){
 	var r = $.get(url, function(response, status, xhr){
 		response = sanitizeHTML(response);
 		$("section#contents").append(response);
-		// this.remove() doesn't work in Android it seems
-		// it's not a good idea to alter a list while iterating over it anyway
-		/*
-		$('section#contents').children().each(function(index){
-			console.log("[%d]: %o %s", index, this, this.tagName);
-			if (/TITLE|META|STYLE|SCRIPT/.test(this.tagName)) {
-				console.log("removing " + this.tagName);
-				//this.remove();
-			}
-			return true;
-		});
-		*/
-		var c = $('section#contents').contents()
-			.not(function(){
-				//console.log("%o %s", this, this.tagName);
-				return /TITLE|META|STYLE|SCRIPT/.test(this.tagName);
-			});
-		$("section#contents").empty();
-		$("section#contents").append(c);
+		$('section#contents').find('title,meta,style,script').remove();
 
 		// doesn't work
 		//var contents = $("section#contents").filter("h1,h2,h3");
