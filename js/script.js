@@ -487,11 +487,12 @@ function loadGoogleDocs(url){
 	var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 	window.alert(iframeDocument.length);
 	*/
-
+/*
 	$.get(url, function(response){
 		$("section#contents").append(response);
 		padLoaded();
 	});
+*/
 }
 
 // generate chapter marks for session 's',
