@@ -51,6 +51,22 @@ var buttonCharsMac = {
 	btn_show_settings: "🔧"
 };
 
+var buttonCharsWin = {
+	btn_eject:"⏏",
+	btn_session_prev:"⏮",
+	btn_item_prev:"⏪",
+	btn_item_stop:"■",
+	btn_item_play:"▶",
+	btn_item_pause:"‖",
+	btn_item_pauseplay:"⏯",
+	btn_item_next:"⏩",
+	btn_session_next:"⏭",
+	btn_show_titles:"▤",
+	btn_do_print: "P",
+	btn_export_bookmarks: "🔖",
+	btn_show_settings: "🔧"
+};
+
 var buttonCharsAndroid = {
 	btn_eject:"▲",
 	btn_session_prev:"|⏪",
@@ -806,9 +822,13 @@ function fixupButtons()
 	// TODO: fix help text too?
 }
 
-// attempt to work around boggus Unicode chars in fonts (Safari)
+// attempt to work around boggus Unicode chars in fonts (Safari), too old fonts (Win)
 if (/Safari/.test(navigator.userAgent)) {
 	buttonChars = buttonCharsMac;
+	fixupButtons();
+}
+if (/Windows NT/.test(navigator.userAgent)) {
+	buttonChars = buttonCharsWin;
 	fixupButtons();
 }
 if (/Android 4\.1/.test(navigator.userAgent)) {
