@@ -550,7 +550,7 @@ $("#live_timer").click(function (e) {
 });
 
 $("#padform").submit(function (e) {
-	var url=$('input[id="url"]').attr("value");
+	var url=$('input[id="url"]').val();
 	console.log('loadPad: ' + url);
 	$("#padform>#url").hide();
 	$("#padform>#progress").show();
@@ -869,7 +869,7 @@ if (document.location.search) {
 	for (i in args) {
 		if (/^pad=/.test(args[i])) {
 			var url = args[i].replace(/^pad=/, "");
-			$('input[id="url"]').attr("value", url);
+			$('input[id="url"]').val(url);
 			$("#padform").submit();
 		}
 	}
