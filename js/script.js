@@ -437,7 +437,11 @@ function sanitizeHTML(text) {
 }
 
 function loadEtherpad(url){
-	url += '/export/html';
+	if (/^https?:\/\/.*pad.*\/p\//.test(url))
+		url += '/export/html';
+	else
+		url = url.replace(/^(https?:\/\/.*pad.*)\/(.*)/,'$1/ep/pad/export/$2/latest?format=html');
+		// old etherpad
 	console.log('loadEtherpad: ' + url);
 
 	var r = $.get(url, function(response, status, xhr){
@@ -561,6 +565,8 @@ $("#padform").submit(function (e) {
 	// TODO: add other paterns
 	//if (/framapad.org\/p\//.test(url)) {
 	if (/^https?:\/\/.*pad.*\/p\//.test(url)) {
+		loadEtherpad(url);
+	} else if (/^https?:\/\/.*pad.*\//.test(url)) {
 		loadEtherpad(url);
 	} else if (/^https:\/\/docs\.google\.com\/document\//.test(url)) {
 		loadGoogleDocs(url);
