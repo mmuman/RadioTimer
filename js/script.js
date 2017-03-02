@@ -783,16 +783,9 @@ $("#pastetarget").on("paste", function(e){
 function fixupButtons()
 {
 	//window.alert(buttonChars.item_prev);
-	$("#btn_eject").attr('value', buttonChars.eject);
-	$("#btn_session_prev").attr('value', buttonChars.session_prev);
-	$("#btn_session_next").attr('value', buttonChars.session_next);
-	$("#btn_item_prev").attr('value', buttonChars.item_prev);
-	$("#btn_item_next").attr('value', buttonChars.item_next);
-	$("#btn_item_play").attr('value', buttonChars.item_play);
-	$("#btn_item_stop").attr('value', buttonChars.item_stop);
-	$("#btn_item_pause").attr('value', buttonChars.item_pause);
-	$("#btn_show_titles").attr('value', buttonChars.show_titles);
-	$("#btn_do_print").attr('value', buttonChars.do_print);
+	for (id in buttonChars) {
+		$('#' + id).attr('value', buttonChars[id]);
+	}
 	// TODO: fix help text too?
 }
 
