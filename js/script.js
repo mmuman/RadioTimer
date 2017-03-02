@@ -430,10 +430,10 @@ function sanitizeHTML(text) {
 	// make sure we don't add script elements
 	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt].*\/[^>]*>/, "<!noscript />")
 	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt].*\/[Ss][Cc][Rr][Ii][Pp][Tt][^>]*>/, "<!noscript />")
-	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt]/, "<!-- ")
-	text = text.replace(/<\/[Ss][Cc][Rr][Ii][Pp][Tt].*>/, " -->")
+	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt]/, "<!-- SCRIPT")
+	text = text.replace(/<\/[Ss][Cc][Rr][Ii][Pp][Tt].*>/, "/SCRIPT -->")
 	// discard other links
-	text = text.replace(/<[Ll][Ii][Nn][Kk]/, "<!link")
+	text = text.replace(/<[Ll][Ii][Nn][Kk](.*)>/, "<!link$1>")
 	return text;
 }
 
@@ -476,6 +476,8 @@ function loadEtherpad(url){
 }
 
 function loadGoogleDocs(url){
+	url = url.replace(/\/edit$/,'');
+	url += '/mobilebasic';
 	console.log('loadGoogleDocs: ' + url);
 	//$.support.cors = true;
 	//console.log($.support.cors);
@@ -495,10 +497,26 @@ function loadGoogleDocs(url){
 	window.alert(iframeDocument.length);
 	*/
 /*
-	$.get(url, function(response){
-		$("section#contents").append(response);
+	var r = $.get(url, function(response, status, xhr){
+		response = sanitizeHTML(response);
+		console.log(response);
+		$("section#contents").append('<code>'+response+'</code>');
+		$('section#contents').find('title,meta,style,script').remove();
+
+		// rewrap text blocks into spans.
+		$('section#contents').contents()
+			.filter(function(){return this.nodeType === 3})
+				.wrap('<span />');
+
 		padLoaded();
 	});
+	r.onerror = function(e) {
+		console.log(e)
+		alert(padImportErrorMessage);
+		$("#padform>#progress").children().children().unwrap();
+		$("#padform>#progress").hide();
+	};
+	console.log(r);
 */
 }
 
