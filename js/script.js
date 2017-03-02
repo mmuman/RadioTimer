@@ -782,6 +782,7 @@ function fixupButtons()
 	//window.alert(buttonChars.btn_item_prev);
 	for (id in buttonChars) {
 		$('#' + id).prop('value', buttonChars[id]);
+		$('.glyph_' + id).text(buttonChars[id]);
 	}
 	// TODO: fix help text too?
 }
