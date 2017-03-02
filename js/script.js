@@ -737,6 +737,8 @@ $('#btn_show_settings').click(function (e) {
 $("#progress_h1").click(function (e) {
 	//console.log(e)
 	highlightCurrent();
+	if (!(session in sessions))
+		return false;
 	var s = sessions[session].h1;
 	$('section#contents').children()[s].scrollIntoView( true );
 	return false;
@@ -745,6 +747,8 @@ $("#progress_h1").click(function (e) {
 $("#progress_h2").click(function (e) {
 	//console.log(e)
 	highlightCurrent();
+	if (!(session in sessions) || !(item in sessions[session].items))
+		return false;
 	var i = sessions[session].items[item].h2;
 	$('section#contents').children()[i].scrollIntoView( true );
 	return false;
