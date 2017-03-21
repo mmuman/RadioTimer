@@ -35,6 +35,7 @@ You can still copy-paste the etherpad content, although it's less easy to use.
 - [x] some documentation.
 - [x] count words automatically, estimate speaking time.
 - [ ] warn on underestimated items.
+- [ ] propose a download (save-as) for the bookmarks, cf. [stackoverflow](http://stackoverflow.com/questions/283956/is-there-any-way-to-specify-a-suggested-filename-when-using-data-uri).
 - [ ] real prompter mode?
 - [ ] allow using a synchronization API to automatically start multiple RadioTimer clients at the same time, cf [French article](https://blog.cloudfrancois.fr/synchroniser-une-presentation-slides-html-css-js-entre-plusieurs-navigateurs/).
 - [x] disable all #contents>A HREF onclick when playing to avoid accidentally replacing the page (actually target a new tab).
