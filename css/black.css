@@ -1,0 +1,55 @@
+/* RadioTimer, Copyright 2016 François Revol */
+body {
+	background-color: black;
+	color: white;
+}
+
+a:link {
+	color: blue;
+}
+a:visited {
+	color: darkviolet;
+}
+a:active {
+	color: darkred;
+}
+
+#live_timer {
+	background: black;
+	color: white;
+	border: 2px solid white;
+}
+
+footer {
+	background-color: black;
+	border-top: 2px solid grey;
+}
+
+input[type="button"] {
+	background-color: black;
+	color: white;
+	-moz-appearance: button;
+	-webkit-appearance: button;
+}
+
+#progress_h2 {
+	background-color: darkgoldenrod;
+	background-color: rgba(184, 134, 11, 128);
+}
+#progress_h1 {
+	background-color: darkred;
+	background-color: rgba(139, 0, 0, 128);
+}
+#bar {
+	background-color: darkgreen;
+}
+.current {
+	background-color: darkgoldenrod;
+	background-color: rgba(184, 134, 11, 128);
+}
+
+h1.current {
+	background-color: darkred;
+	background-color: rgba(139, 0, 0, 128);
+}
+
