@@ -153,6 +153,13 @@ function formatMS(secs){
 	return m + ":" + s;
 }
 
+function updateTitle(padName){
+	var title = "RadioTimer";
+	if (padName)
+		title = padName + " | " + title;
+	$("title").text(title);
+}
+
 function highlightCurrent(doScroll){
 	if (doScroll == null)
 		doScroll = true;
@@ -438,6 +445,9 @@ function sanitizeHTML(text) {
 }
 
 function loadEtherpad(url){
+	var title = url.split('/').pop();
+	updateTitle(null);
+
 	if (/^https?:\/\/.*pad.*\/p\//.test(url))
 		url += '/export/html';
 	else
@@ -464,6 +474,7 @@ function loadEtherpad(url){
 			.filter(function(){return this.nodeType === 3})
 				.wrap('<span />');
 
+		updateTitle(title);
 		padLoaded();
 	});
 	r.onerror = function(e) {
@@ -798,6 +809,9 @@ $("#pastetarget").on("paste", function(e){
 	$("section#contents").empty();
 	$("section#contents").append(text);
 
+	// get a title
+	var title = $('section#contents').find('title').text();
+
 	// strip custom styling
 	$('section#contents').find('title,meta,style,script').remove();
 
@@ -806,6 +820,7 @@ $("#pastetarget").on("paste", function(e){
 		.filter(function(){return /H1|H2|H3|H4/.test(this.tagName)})
 			.unwrap();
 
+	updateTitle(title);
 	padLoaded();
 });
 
