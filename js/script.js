@@ -156,7 +156,7 @@ function formatMS(secs){
 function updateTitle(padName){
 	var title = "RadioTimer";
 	if (padName)
-		title = padName + " | " + title;
+		title = padName.replace('_', ' ') + " | " + title;
 	$("title").text(title);
 }
 
