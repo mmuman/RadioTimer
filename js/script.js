@@ -20,21 +20,21 @@ if (/Android/.test(navigator.userAgent)) {
 */
 
 var buttonChars = {
-	btn_eject:"⏏",
-	btn_session_prev:"⏮",
-	btn_item_prev:"⏪",
-	btn_item_stop:"⏹",
-	btn_item_play:"⏵",
-	btn_item_pause:"⏸",
-	btn_item_pauseplay:"⏯",
-	btn_item_next:"⏩",
-	btn_session_next:"⏭",
-	btn_show_titles:"🗏",
-	btn_do_print: "🖶",
-	btn_export_bookmarks: "🔖",
-	btn_show_settings: "🔧",
-	glyph_chrono: "⏱",
-	glyph_speech_bubble: "🗩"
+	btn_eject:"⏏\uFE0E",
+	btn_session_prev:"⏮\uFE0E",
+	btn_item_prev:"⏪\uFE0E",
+	btn_item_stop:"⏹\uFE0E",
+	btn_item_play:"▶\uFE0E",
+	btn_item_pause:"⏸\uFE0E",
+	btn_item_pauseplay:"⏯\uFE0E",
+	btn_item_next:"⏩\uFE0E",
+	btn_session_next:"⏭\uFE0E",
+	btn_show_titles:"☰\uFE0E",
+	btn_do_print: "⎙\uFE0E",
+	btn_export_bookmarks: "☆\uFE0E",
+	btn_show_settings: "🔧\uFE0E",
+	glyph_chrono: "⏱\uFE0E",
+	glyph_speech_bubble: "🗩\uFE0E"
 };
 
 var buttonCharsMac = {
@@ -83,10 +83,10 @@ var buttonCharsAndroid = {
 	btn_item_pauseplay:"▶‖",
 	btn_item_next:"⏩",
 	btn_session_next:"⏩|",
-	btn_show_titles:"▤",
+	btn_show_titles:"▤\uFE0E",
 	btn_do_print: "P",
-	btn_export_bookmarks: "🔖",
-	btn_show_settings: "🔧",
+	btn_export_bookmarks: "☆\uFE0E",
+	btn_show_settings: "🔧\uFE0E",
 	glyph_chrono: "⏱",
 	glyph_speech_bubble: "🗩"
 };
@@ -837,7 +837,7 @@ function fixupButtons()
 
 // attempt to work around boggus Unicode chars in fonts (Safari), too old fonts (Win)
 if (/Safari/.test(navigator.userAgent)) {
-	buttonChars = buttonCharsMac;
+//	buttonChars = buttonCharsMac;
 }
 if (/Windows NT/.test(navigator.userAgent)) {
 	buttonChars = buttonCharsWin;
