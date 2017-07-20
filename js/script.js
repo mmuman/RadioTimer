@@ -104,10 +104,10 @@ var buttonCharsASCII = {
 	btn_session_next:">>|",
 	btn_show_titles:"T",
 	btn_do_print: "P",
-	btn_export_bookmarks: "🔖",
-	btn_show_settings: "🔧",
-	glyph_chrono: "⏱",
-	glyph_speech_bubble: "🗩"
+	btn_export_bookmarks: "E",
+	btn_show_settings: "S",
+	glyph_chrono: "(t)",
+	glyph_speech_bubble: "(e)"
 };
 
 var padImportErrorMessage = "Sorry, failed to import pad. Maybe your browser refused the request to CORS policy.";
