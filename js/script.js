@@ -838,16 +838,16 @@ function fixupButtons()
 // attempt to work around boggus Unicode chars in fonts (Safari), too old fonts (Win)
 if (/Safari/.test(navigator.userAgent)) {
 	buttonChars = buttonCharsMac;
-	fixupButtons();
 }
 if (/Windows NT/.test(navigator.userAgent)) {
 	buttonChars = buttonCharsWin;
-	fixupButtons();
 }
 if (/Android 4\.1/.test(navigator.userAgent)) {
 	buttonChars = buttonCharsAndroid;
-	fixupButtons();
 }
+
+fixupButtons();
+
 // attempt to work around boggus Unicode chars in fonts (Android)
 // We now have a set of glyphs for Android 4.1, so it shouldn't be necessary
 if ($("#btn_session_prev")[0].clientWidth < $("#btn_item_prev")[0].clientWidth) {
@@ -855,7 +855,6 @@ if ($("#btn_session_prev")[0].clientWidth < $("#btn_item_prev")[0].clientWidth) 
 	buttonChars = buttonCharsASCII;
 	fixupButtons();
 }
-
 
 // localise
 function getLang()
