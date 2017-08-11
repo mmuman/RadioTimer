@@ -912,6 +912,8 @@ if (document.location.search) {
 	for (i in args) {
 		if (/^pad=/.test(args[i])) {
 			var url = args[i].replace(/^pad=/, "");
+			if (!url.includes('/')) // we allow unencoded URLs as well
+				url = decodeURIComponent(url);
 			$('input[id="url"]').val(url);
 			$("#padform").submit();
 		}
