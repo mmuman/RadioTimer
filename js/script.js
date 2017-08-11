@@ -824,6 +824,10 @@ $("#pastetarget").on("paste", function(e){
 	padLoaded();
 });
 
+// fixup bookmarklet
+// note it doesn't work with file: as Firefox disallows access from script.
+$("#bookmarklet").prop("href", "javascript:window.location='" + window.location.toString().replace(window.location.search,'') + "?pad='+encodeURIComponent(location.href);");
+
 
 function fixupButtons()
 {
