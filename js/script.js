@@ -744,6 +744,7 @@ $("#btn_show_titles").click(function (e) {
 	$('section#contents').children().filter(function(){
 		return !(/H1|H2|H3|H4/.test(this.tagName));
 	}).toggle();
+	highlightCurrent(true);
 	return false;
 });
 
