@@ -479,6 +479,7 @@ function loadEtherpad(url){
 	});
 	r.onerror = function(e) {
 		console.log(e)
+		console.log(r.getAllResponseHeaders())
 		alert(padImportErrorMessage);
 		$("#padform>#progress").children().children().unwrap();
 		$("#padform>#progress").hide();
