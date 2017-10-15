@@ -327,6 +327,9 @@ function padLoaded(){
 	$('section#contents').children().each(function(index){
 		if (this.tagName == "H1") {
 			//console.log("[%d]: %o %s", index, this, this.tagName);
+			// strip line breaks
+			this.textContent = this.textContent.replace('\n', ' ');
+
 			session++;
 			item = -1;
 			sessions[session] = {
@@ -339,6 +342,8 @@ function padLoaded(){
 			};
 		} else if (this.tagName == "H2") {
 			//console.log("[%d]: %o %s; %s", index, this, this.tagName, this.innerHTML);
+			// strip line breaks
+			this.textContent = this.textContent.replace('\n', ' ');
 
 			// reformat hints to be right-aligned
 			var re = /^(.*)\s+(\[([0-9]+):([0-9]+)\].*)$/;
