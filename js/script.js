@@ -217,8 +217,8 @@ function update(){
 				itemStartTime = t;
 				if (sessions.length && sessions[session].items.length)
 					sessions[session].items[item].start = (itemStartTime - startTime) / 1000;
+				item++;
 			}
-			item++;
 			p = 0;
 			late = false;
 		}
