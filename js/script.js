@@ -362,7 +362,7 @@ function padLoaded(){
 			re = /.*\[([0-9]+):([0-9]+)\].*/;
 			var m = this.textContent.match(re);
 			//XXX: add item anyway even without time tag?
-			if (m) {
+			if (m && sessions[session]) {
 				item++;
 				var t = parseInt(m[1]) * 60 + parseInt(m[2]);
 				//console.log(t);
@@ -628,7 +628,8 @@ $("#btn_session_prev").click(function (e) {
 	item = 0;
 	highlightCurrent();
 	update();
-	$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
+	if (sessions.length)
+		$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
 	return false;
 });
 
@@ -640,7 +641,8 @@ $("#btn_session_next").click(function (e) {
 	item = 0;
 	highlightCurrent();
 	update();
-	$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
+	if (sessions.length)
+		$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
 	return false;
 });
 
@@ -675,7 +677,7 @@ $("#btn_item_next").click(function (e) {
 		if (sessions.length && sessions[session].items.length)
 			sessions[session].items[item].recorded = (t - itemStartTime) / 1000;
 	}
-	if (item < s.items.length - 1) {
+	if (s && item < s.items.length - 1) {
 		item++;
 	}
 	if (timerHandle) {
