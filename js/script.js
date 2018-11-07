@@ -566,6 +566,22 @@ function generateChapterMarks(s, from, ignore) {
 	return marks;
 }
 
+function generatePSC(s, from, ignore) {
+}
+
+function generateFFMeta(s, from, ignore) {
+}
+
+function generateMKVChapters(s, from, ignore) {
+}
+
+var bookmarkExportFormats = {
+	chaptermarks: { exporter: generateChapterMarks, ext: ".mp4c.txt" },
+	psc:  { exporter: generatePSC, ext: ".psc" },
+	ffmetadata: { exporter: generateFFMeta, ext: ".ffmeta" },
+	mkvchapters: { exporter: generateMKVChapters, ext: ".mkvc.txt" },
+};
+
 function exportBookmarks() {
 	if (sessions.length < 1)
 		return;
@@ -573,10 +589,11 @@ function exportBookmarks() {
 	var from = $('#settings_export_which').val();
 	var bookmarks = null;
 
-	console.log("Exporting "+from+" times to "+format+"...");
-	if (format == 'chaptermarks') {
-		bookmarks = generateChapterMarks(session, from);
-	}
+	if (format in bookmarkExportFormats) {
+		console.log("Exporting "+from+" times to "+format+"...");
+		bookmarks = bookmarkExportFormats[format].exporter(session, from);
+	} else
+		console.log("Unknown export format "+format+"!");
 
 	if (bookmarks) {
 		var win = window.open('data:'+bookmarks.type+','+encodeURIComponent(bookmarks.contents), "Bookmarks Export: " + bookmarks.title);
