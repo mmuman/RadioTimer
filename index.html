@@ -20,18 +20,18 @@
 <div id="debugDiv"></div>
 <section id="manual_text">
 <div style="text-align: center; font-size: 5em;">📻⏳</div>
-<h1 class="en">Welcome to RadioTimer.</h1>
-<h1 class="fr">Bienvenue dans RadioTimer.</h1>
-<p class="en">This allows you to track time when recording a radio session prepared from an etherpad or any other text document with proper H1 and H2 formating.</p>
-<p class="fr">Il permet de suivre le temps d'un enregistrement radio préparé depuis un etherpad ou n'importe-quel document texte formaté avec les H1 et H2 prévu.</p>
-<p class="en">You can prepare several sessions to record separately, each with any number of items you want to track time on. RadioTimer will automatically sum up the expected times for each session.</p>
-<p class="fr">Il est possible de préparer plusieurs sessions à enregistrer séparément. RadioTimer additionnera automatiquement les temps assignés à chaque item pour chaque session.</p>
-<p class="en">Source code is <a href="https://github.com/mmuman/RadioTimer">available on GitHub</a>, under GPLv3.</p>
-<p class="fr">Le code source est <a href="https://github.com/mmuman/RadioTimer">disponible sur GitHub</a>, sous GPLv3.</p>
+<h1 lang="en">Welcome to RadioTimer.</h1>
+<h1 lang="fr">Bienvenue dans RadioTimer.</h1>
+<p lang="en">This allows you to track time when recording a radio session prepared from an etherpad or any other text document with proper H1 and H2 formating.</p>
+<p lang="fr">Il permet de suivre le temps d'un enregistrement radio préparé depuis un etherpad ou n'importe-quel document texte formaté avec les H1 et H2 prévu.</p>
+<p lang="en">You can prepare several sessions to record separately, each with any number of items you want to track time on. RadioTimer will automatically sum up the expected times for each session.</p>
+<p lang="fr">Il est possible de préparer plusieurs sessions à enregistrer séparément. RadioTimer additionnera automatiquement les temps assignés à chaque item pour chaque session.</p>
+<p lang="en">Source code is <a href="https://github.com/mmuman/RadioTimer">available on GitHub</a>, under GPLv3.</p>
+<p lang="fr">Le code source est <a href="https://github.com/mmuman/RadioTimer">disponible sur GitHub</a>, sous GPLv3.</p>
 <br/>
 
-<h2 class="en">Expected content formatting</h2>
-<div class="en">
+<h2 lang="en">Expected content formatting</h2>
+<div lang="en">
 <p>In order for RadioTimer to extract the needed informations, content must be formated as such:
 <ul>
 <li><code>H1</code> (Heading 1) tag mentions the title of each separate session to record.</li>
@@ -41,8 +41,8 @@
 RadioTimer will automatically calculate the total time per session and mention it in the session titles.
 </p>
 </div>
-<h2 class="fr">Formatage attendu du contenu</h2>
-<div class="fr">
+<h2 lang="fr">Formatage attendu du contenu</h2>
+<div lang="fr">
 <p>Pour que RadioTimer puisse extraire les informations pertinentes, le contenu doit être formaté ainsi&nbsp;:
 <ul>
 <li>Un tag <code>H1</code> (Titre 1) mentionne le titre de chaque session à enregistrer.</li>
@@ -53,16 +53,16 @@ RadioTimer will automatically calculate the total time per session and mention i
 </p>
 </div>
 
-<h2 class="en">Pad Controls</h2>
-<div class="en">
+<h2 lang="en">Pad Controls</h2>
+<div lang="en">
 <ul>
 <li><b><span class="glyph_btn_eject">⏏</span> (Eject)</b>: Unload the current content and go back to the welcome page.</li>
 <li><b>URL field</b>: URL of the pad to load from. It must support HTML export and allow cross-site loading.</li>
 <li><b>Load</b>: Load content from the current pad URL (it will use the HTML export from it).</li>
 </ul>
 </div>
-<h2 class="fr">Contrôles du pad</h2>
-<div class="fr">
+<h2 lang="fr">Contrôles du pad</h2>
+<div lang="fr">
 <ul>
 <li><b><span class="glyph_btn_eject">⏏</span> (Ejecter)</b>: Décharger le contenu actuel et revenir à la page d'accueil.</li>
 <li><b>Champ URL</b>: URL du pad où récupérer le contenu. Il doit supporter l'export HTML et le chargement depuis un autre domaine (cross-site).</li>
@@ -70,21 +70,21 @@ RadioTimer will automatically calculate the total time per session and mention i
 </ul>
 </div>
 
-<div class="en">You can also copy from an etherpad, or from LibreOffice and paste as HTML in the input field below:<br/></div>
-<div class="fr">Vous pouvez également copier depuis un etherpad ou depuis LibreOffice et coller en HTML dans le champ texte ci-dessous&nbsp;:<br/></div>
+<div lang="en">You can also copy from an etherpad, or from LibreOffice and paste as HTML in the input field below:<br/></div>
+<div lang="fr">Vous pouvez également copier depuis un etherpad ou depuis LibreOffice et coller en HTML dans le champ texte ci-dessous&nbsp;:<br/></div>
 <form id="pasteform">
 <input type="text" id="pastetarget" placeholder="paste something here…" value=""/>
 </form>
 <br />
 <br />
-<div class="en">And you can add this bookmarklet to your browser (by dragging it or right-click, bookmark), and click it while on the etherpad:<br/></div>
-<div class="fr">Et vous pouvez ajouter ce bookmarklet à votre navigateur (par drag-n-drop ou clic droit, marque-page) et cliquer dessus en étant sur l'etherpad&nbsp;:<br/></div>
+<div lang="en">And you can add this bookmarklet to your browser (by dragging it or right-click, bookmark), and click it while on the etherpad:<br/></div>
+<div lang="fr">Et vous pouvez ajouter ce bookmarklet à votre navigateur (par drag-n-drop ou clic droit, marque-page) et cliquer dessus en étant sur l'etherpad&nbsp;:<br/></div>
 <a id="bookmarklet" href="javascript:">RadioTimer</a>
 <br />
 <br />
 
-<h2 class="en">Session Controls</h2>
-<div class="en">
+<h2 lang="en">Session Controls</h2>
+<div lang="en">
 <ul>
 <li><b><span class="glyph_btn_session_prev">⏮</span> (Previous session)</b>: Go to the previous session. Disabled when playing.</li>
 <li><b><span class="glyph_btn_item_prev">⏪</span> (Previous item)</b>: Forcibly go to previous item in the current session. Session timer keeps running, but item time starts again.</li>
@@ -95,8 +95,8 @@ RadioTimer will automatically calculate the total time per session and mention i
 <li><b><span class="glyph_btn_session_next">⏭</span> (Next session)</b>: Go to next session. Disabled when playing.</li>
 </ul>
 </div>
-<h2 class="fr">Contrôles de session</h2>
-<div class="fr">
+<h2 lang="fr">Contrôles de session</h2>
+<div lang="fr">
 <ul>
 <li><b><span class="glyph_btn_session_prev">⏮</span> (Session précédente)</b>: Aller à la session précédente. Désactivé lors de la lecture.</li>
 <li><b><span class="glyph_btn_item_prev">⏪</span> (Item précédent)</b>: Aller à l'item précédent. Le timer continue, mais le temps de l'item repart à zéro.</li>
@@ -109,8 +109,8 @@ RadioTimer will automatically calculate the total time per session and mention i
 </div>
 <br />
 
-<h2 class="en">Extra buttons</h2>
-<div class="en">
+<h2 lang="en">Extra buttons</h2>
+<div lang="en">
 <ul>
 <li><b><span class="glyph_btn_show_titles">🗏</span> (Show Titles)</b>: Toggle showing only (H1/H2/H3...) titles to see the summary.</li>
 <li><b><span class="glyph_btn_do_print">🖶</span> (Print)</b>: Print the contents.</li>
@@ -118,8 +118,8 @@ RadioTimer will automatically calculate the total time per session and mention i
 <li><b><span class="glyph_btn_show_settings">🔧</span> (Settings)</b>: Show / hide the settings.</li>
 </ul>
 </div>
-<h2 class="fr">Autres boutons</h2>
-<div class="fr">
+<h2 lang="fr">Autres boutons</h2>
+<div lang="fr">
 <ul>
 <li><b><span class="glyph_btn_show_titles">🗏</span> (Montrer les titres)</b>: Montrer les titres seulement (H1/H2/H3...) ou aussi le contenu pour visualiser le sommaire.</li>
 <li><b><span class="glyph_btn_do_print">🖶</span> (Imprimer)</b>: Imprimer le contenu.</li>
@@ -132,45 +132,45 @@ RadioTimer will automatically calculate the total time per session and mention i
 </section>
 
 <section id="settings">
-<h2 class="en">Settings</h2>
-<h2 class="fr">Paramètres</h2>
+<h2 lang="en">Settings</h2>
+<h2 lang="fr">Paramètres</h2>
 <div>
-<label for="settings_wpm"><span class="en">Words per minute:&nbsp;</span><span class="fr">Mots par minute&nbsp;:&nbsp;</span></label>
+<label for="settings_wpm"><span lang="en">Words per minute:&nbsp;</span><span lang="fr">Mots par minute&nbsp;:&nbsp;</span></label>
 <input id="settings_wpm" type="number" value="150" min="50" max="500" step="10">
 </div>
-<p class="en"><i>Specifies the number of <a href="https://en.wikipedia.org/wiki/Words_per_minute">words per minute</a> to account for to calculate reading time. A normal conversation is around 200 words per minute, but for an audio recording it is advised not to speak more than 160.</i></p>
-<p class="fr"><i>Spécifie le nombre de <a href="https://fr.wikipedia.org/wiki/Mot_par_minute">mots par minute</a> en moyenne à prendre en compte pour le temps de lecture. Une conversation normale est autour de 200 mots par minute, mais pour un enregistrement il est recommandé de ne pas dépasser 160.</i></p>
-<p class="en"><b>⚠</b>&nbsp;<i>Changes take effect on pad reload.</i></p>
-<p class="fr"><b>⚠</b>&nbsp;<i>Les changements prennent effet au rechargement du pad.</i></p>
+<p lang="en"><i>Specifies the number of <a href="https://en.wikipedia.org/wiki/Words_per_minute">words per minute</a> to account for to calculate reading time. A normal conversation is around 200 words per minute, but for an audio recording it is advised not to speak more than 160.</i></p>
+<p lang="fr"><i>Spécifie le nombre de <a href="https://fr.wikipedia.org/wiki/Mot_par_minute">mots par minute</a> en moyenne à prendre en compte pour le temps de lecture. Une conversation normale est autour de 200 mots par minute, mais pour un enregistrement il est recommandé de ne pas dépasser 160.</i></p>
+<p lang="en"><b>⚠</b>&nbsp;<i>Changes take effect on pad reload.</i></p>
+<p lang="fr"><b>⚠</b>&nbsp;<i>Les changements prennent effet au rechargement du pad.</i></p>
 <br />
 <div>
-<label for="settings_export_format"><span class="en">Bookmark export format:&nbsp;</span><span class="fr">Format d'export des signets&nbsp;:&nbsp;</span></label>
+<label for="settings_export_format"><span lang="en">Bookmark export format:&nbsp;</span><span lang="fr">Format d'export des signets&nbsp;:&nbsp;</span></label>
 <select id="settings_export_format" size="1">
 <option value="chaptermarks">MP4 Chapter Marks (.txt)</option>
 <option value="psc" disabled>Podlove Simple Chapters (.psc)</option>
 <option value="ffmetadata" disabled>FFmpeg Chapter Metadata</option>
 </select>
 </div>
-<p class="en"><i>The format used to export bookmarks.</i></p>
-<p class="fr"><i>Le format à utiliser pour l'export de signets.</i></p>
+<p lang="en"><i>The format used to export bookmarks.</i></p>
+<p lang="fr"><i>Le format à utiliser pour l'export de signets.</i></p>
 <br />
 <div>
-<label for="settings_export_which"><span class="en">Exported time:&nbsp;</span><span class="fr">Temps à exporter&nbsp;:&nbsp;</span></label>
+<label for="settings_export_which"><span lang="en">Exported time:&nbsp;</span><span lang="fr">Temps à exporter&nbsp;:&nbsp;</span></label>
 <select id="settings_export_which" size="1">
 <option value="recorded" selected>Recorded</option>
 <option value="expected">Expected</option>
 <option value="estimated">Estimated</option>
 </select>
 </div>
-<p class="en"><i>Which time source to use for export.</i></p>
-<p class="fr"><i>Les temps à exporter.</i></p>
+<p lang="en"><i>Which time source to use for export.</i></p>
+<p lang="fr"><i>Les temps à exporter.</i></p>
 <br />
 <div>
 <input id="settings_export_auto" type="checkbox">
-<label for="settings_export_auto"><span class="en">Auto export on stop</span><span class="fr">Export auto au stop</span></label>
+<label for="settings_export_auto"><span lang="en">Auto export on stop</span><span lang="fr">Export auto au stop</span></label>
 </div>
-<p class="en"><i>If we automatically export the times when recording stopped.</i></p>
-<p class="fr"><i>Si on exporte automatiquement les temps après l'enregistrement.</i></p>
+<p lang="en"><i>If we automatically export the times when recording stopped.</i></p>
+<p lang="fr"><i>Si on exporte automatiquement les temps après l'enregistrement.</i></p>
 <br />
 <br />
 <br />
@@ -178,8 +178,8 @@ RadioTimer will automatically calculate the total time per session and mention i
 </section>
 
 <section id="contents">
-<div class="en"><i>This will be replaced by the pad content.</i><br/></div>
-<div class="fr"><i>Ceci sera remplacé par le contenu du pad.</i><br/></div>
+<div lang="en"><i>This will be replaced by the pad content.</i><br/></div>
+<div lang="fr"><i>Ceci sera remplacé par le contenu du pad.</i><br/></div>
 <br />
 <br />
 <br />

@@ -908,12 +908,12 @@ function localizeUI() {
 
 		padImportErrorMessage = "Désolé, le chargement du pad a échoué. Il est probable que la configuration CORS de votre navigateur l'interdise.";
 
-		$(".fr").show();
+		$(":lang(fr)").show();
 	} else
 		hideEn = false;
 
 	if (hideEn)
-		$(".en").hide();
+		$(":lang(en)").hide();
 
 }
 

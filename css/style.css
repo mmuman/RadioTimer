@@ -127,7 +127,7 @@ h2 span.right-align {
 }
 
 /* default: hide translations */
-.fr {
+:lang(fr) {
 	display: none;
 }
 
