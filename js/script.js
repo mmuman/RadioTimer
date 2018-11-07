@@ -145,12 +145,21 @@ if (/Firefox/.test(navigator.userAgent)) {
 	doNextItemScrollArgs = {block: "start", behavior: "smooth"};
 }
 
-function formatMS(secs){
+function formatMS(secs,forceh,showms){
+	var h = "0" + Math.floor(secs / 3600);
+	h = h.substr(h.length-2);
+	secs %= 3600;
 	var m = "0" + Math.floor(secs / 60);
 	m = m.substr(m.length-2);
 	var s = "0" + Math.floor(secs % 60);
 	s = s.substr(s.length-2);
-	return m + ":" + s;
+	var ret = "";
+	if (forceh || (h != "00"))
+		ret = h+":";
+	ret += m + ":" + s;
+	if (showms)
+		ret += "."+(secs%1).toFixed(3).split(".")[1];
+	return ret;
 }
 
 function updateTitle(padName){
@@ -554,7 +563,7 @@ function generateChapterMarks(s, from, ignore) {
 	var title = c.eq(sessions[s].h1).contents().eq(0).text().trim();
 	lines.push("# "+title);
 	for (i in sessions[s].items) {
-		lines.push("00:"+formatMS(t)+" "+c.eq(sessions[s].items[i].h2).contents().eq(0).text().trim());
+		lines.push(formatMS(t,true,true)+" "+c.eq(sessions[s].items[i].h2).contents().eq(0).text().trim());
 		if (from in sessions[s].items[i])
 			t += sessions[s].items[i][from];
 	}
