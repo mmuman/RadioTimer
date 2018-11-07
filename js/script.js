@@ -162,6 +162,14 @@ function formatMS(secs,forceh,showms){
 	return ret;
 }
 
+function encodeXMLEntities(s){
+	return s.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&apos;');
+}
+
 function updateTitle(padName){
 	var title = "RadioTimer";
 	if (padName)
@@ -575,7 +583,32 @@ function generateChapterMarks(s, from, ignore) {
 	return marks;
 }
 
+// cf. https://podlove.org/simple-chapters/
 function generatePSC(s, from, ignore) {
+	if (s == null)
+		s = 0;
+	if (from == null)
+		from = 'expected';
+	if (ignore == null)
+		ignore = 0;
+	var t = 0;
+	var lines = ['<psc:chapters version="1.2" xmlns:psc="http://podlove.org/simple-chapters">'];
+	var c = $("section#contents").children();
+	var title = c.eq(sessions[s].h1).contents().eq(0).text().trim();
+	for (i in sessions[s].items) {
+		var title = c.eq(sessions[s].items[i].h2).contents().eq(0).text().trim();
+		title = encodeXMLEntities(title);
+		lines.push('\t<psc:chapter title="'+title+'" start="'+formatMS(t,true,true)+'"/>');
+		if (from in sessions[s].items[i])
+			t += sessions[s].items[i][from];
+	}
+	lines.push('</psc:chapters>');
+	var marks = {
+		type: 'text/xml;charset=UTF-8',//'text/psc+xml;charset=UTF-8'
+		title: title,
+		contents: lines.join('\n')
+	}
+	return marks;
 }
 
 // cf. https://www.ffmpeg.org/ffmpeg-all.html#Metadata-1
