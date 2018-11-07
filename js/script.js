@@ -569,7 +569,39 @@ function generateChapterMarks(s, from, ignore) {
 function generatePSC(s, from, ignore) {
 }
 
+// cf. https://www.ffmpeg.org/ffmpeg-all.html#Metadata-1
 function generateFFMeta(s, from, ignore) {
+	if (s == null)
+		s = 0;
+	if (from == null)
+		from = 'expected';
+	if (ignore == null)
+		ignore = 0;
+	var t = 0;
+	var c = $("section#contents").children();
+	var title = c.eq(sessions[s].h1).contents().eq(0).text().trim();
+	title = title.replace(/\\/g,'\\\\').replace(/#/g,'\\#');
+	var lines = [
+		";FFMETADATA1",
+		"TITLE="+title,
+		"DATE_RECORDED="+(new Date()).toISOString().replace(/T.*/,"")
+	];
+	for (i in sessions[s].items) {
+		// no timebase = times in ms
+		lines.push("[CHAPTER]");
+		// we can't use item.start in all cases...
+		lines.push("START="+Math.floor(t*1000));
+		if (from in sessions[s].items[i])
+			t += sessions[s].items[i][from];
+		lines.push("END="+Math.floor(t*1000));
+		lines.push("title="+c.eq(sessions[s].items[i].h2).contents().eq(0).text().trim());
+	}
+	var marks = {
+		type: 'text/plain;charset=UTF-8',
+		title: title,
+		contents: lines.join('\n')
+	}
+	return marks;
 }
 
 function generateMKVChapters(s, from, ignore) {
