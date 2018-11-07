@@ -613,7 +613,32 @@ function generateFFMeta(s, from, ignore) {
 	return marks;
 }
 
+// cf. https://wiki.xiph.org/Chapter_Extension#Examples
 function generateMKVChapters(s, from, ignore) {
+	if (s == null)
+		s = 0;
+	if (from == null)
+		from = 'expected';
+	if (ignore == null)
+		ignore = 0;
+	var t = 0;
+	var c = $("section#contents").children();
+	var title = c.eq(sessions[s].h1).contents().eq(0).text().trim();
+	var lines = [];
+	for (i in sessions[s].items) {
+		var ch = (1*i+1).toString().padStart(3,'0');
+		lines.push("CHAPTER"+ch+"="+formatMS(t,true,true));
+		var title = c.eq(sessions[s].items[i].h2).contents().eq(0).text().trim();
+		lines.push("CHAPTER"+ch+"NAME="+title);
+		if (from in sessions[s].items[i])
+			t += sessions[s].items[i][from];
+	}
+	var marks = {
+		type: 'text/plain;charset=UTF-8',
+		title: title,
+		contents: lines.join('\n')
+	}
+	return marks;
 }
 
 var bookmarkExportFormats = {
