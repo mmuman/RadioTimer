@@ -114,7 +114,7 @@ RadioTimer will automatically calculate the total time per session and mention i
 <ul>
 <li><b><span class="glyph_btn_show_titles">🗏</span> (Show Titles)</b>: Toggle showing only (H1/H2/H3...) titles to see the summary.</li>
 <li><b><span class="glyph_btn_do_print">🖶</span> (Print)</b>: Print the contents.</li>
-<li><b><span class="glyph_btn_export_bookmarks">🔖</span> (Bookmarks)</b>: Export bookmarks for the current session. See <a href="#settings">settings</a>.</li>
+<li><b><span class="glyph_btn_show_exports">💾</span> (Exports)</b>: Show / hide the exports.</li>
 <li><b><span class="glyph_btn_show_settings">🔧</span> (Settings)</b>: Show / hide the settings.</li>
 </ul>
 </div>
@@ -123,7 +123,7 @@ RadioTimer will automatically calculate the total time per session and mention i
 <ul>
 <li><b><span class="glyph_btn_show_titles">🗏</span> (Montrer les titres)</b>: Montrer les titres seulement (H1/H2/H3...) ou aussi le contenu pour visualiser le sommaire.</li>
 <li><b><span class="glyph_btn_do_print">🖶</span> (Imprimer)</b>: Imprimer le contenu.</li>
-<li><b><span class="glyph_btn_export_bookmarks">🔖</span> (Signets)</b>: Exporter les signets pour la session courante. Voir les <a href="#settings">paramètres</a>.</li>
+<li><b><span class="glyph_btn_show_exports">💾</span> (Paramètres)</b>: Cacher / montrer les exports.</li>
 <li><b><span class="glyph_btn_show_settings">🔧</span> (Paramètres)</b>: Cacher / montrer les paramètres.</li>
 </ul>
 </div>
@@ -134,6 +134,7 @@ RadioTimer will automatically calculate the total time per session and mention i
 <section id="settings">
 <h2 lang="en">Settings</h2>
 <h2 lang="fr">Paramètres</h2>
+<form id="settingsform">
 <div>
 <label for="settings_wpm"><span lang="en">Words per minute:&nbsp;</span><span lang="fr">Mots par minute&nbsp;:&nbsp;</span></label>
 <input id="settings_wpm" type="number" value="150" min="50" max="500" step="10">
@@ -172,6 +173,19 @@ RadioTimer will automatically calculate the total time per session and mention i
 </div>
 <p lang="en"><i>If we automatically export the times when recording stopped.</i></p>
 <p lang="fr"><i>Si on exporte automatiquement les temps après l'enregistrement.</i></p>
+</form>
+</section>
+
+<section id="exports">
+<h2 lang="en">Exports</h2>
+<h2 lang="fr">Exports</h2>
+<form id="exportsform">
+<div>
+<label for="export_chapters_text"><span lang="en">Chapters (see <a href="#settings_export_format">format settings</a>):&nbsp;</span><span lang="fr">Chapitres (cf. <a href="#settings_export_format">réglages du format</a>)&nbsp;:&nbsp;</span></label>
+<textarea rows="10" cols="80" id="export_chapters_text"></textarea>
+<a id="export_chapters_download">💾&nbsp;<span lang="en">Download</span><span lang="fr">Télécharger</span></a>
+</div>
+</form>
 <br />
 <br />
 <br />
@@ -216,7 +230,8 @@ RadioTimer will automatically calculate the total time per session and mention i
 		<span id="extra_btns">
         <input type="button" id="btn_show_titles" value="🗏" title="Show titles only" />
         <input type="button" id="btn_do_print" value="🖶" title="Print current content" />
-        <input type="button" id="btn_export_bookmarks" value="🔖" title="Export session bookmarks" />
+        <!--<input type="button" id="btn_export_bookmarks" value="🔖" title="Export session bookmarks" />-->
+        <input type="button" id="btn_show_exports" value="💾" title="Show exports" />
         <input type="button" id="btn_show_settings" value="🔧" title="Show settings" />
 		</span>
     </form>

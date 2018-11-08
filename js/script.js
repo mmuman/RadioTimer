@@ -32,6 +32,7 @@ var buttonChars = {
 	btn_show_titles:"☰\uFE0E",
 	btn_do_print: "⎙\uFE0E",
 	btn_export_bookmarks: "☆\uFE0E",
+	btn_show_exports: "💾\uFE0E",
 	btn_show_settings: "🔧\uFE0E",
 	glyph_chrono: "⏱\uFE0E",
 	glyph_speech_bubble: "🗩\uFE0E"
@@ -50,6 +51,7 @@ var buttonCharsMac = {
 	btn_show_titles:"🗏",
 	btn_do_print: "🖶",
 	btn_export_bookmarks: "🔖",
+	btn_show_exports: "💾",
 	btn_show_settings: "🔧",
 	glyph_chrono: "⏱",
 	glyph_speech_bubble: "🗩"
@@ -68,6 +70,7 @@ var buttonCharsWin = {
 	btn_show_titles:"▤",
 	btn_do_print: "P",
 	btn_export_bookmarks: "🔖",
+	btn_show_exports: "💾",
 	btn_show_settings: "🔧",
 	glyph_chrono: "⏱",
 	glyph_speech_bubble: "💬"
@@ -86,6 +89,7 @@ var buttonCharsAndroid = {
 	btn_show_titles:"▤\uFE0E",
 	btn_do_print: "P",
 	btn_export_bookmarks: "☆\uFE0E",
+	btn_show_exports: "💾\uFE0E",
 	btn_show_settings: "🔧\uFE0E",
 	glyph_chrono: "⏱",
 	glyph_speech_bubble: "🗩"
@@ -105,6 +109,7 @@ var buttonCharsASCII = {
 	btn_show_titles:"T",
 	btn_do_print: "P",
 	btn_export_bookmarks: "E",
+	btn_show_exports: "D",
 	btn_show_settings: "S",
 	glyph_chrono: "(t)",
 	glyph_speech_bubble: "(e)"
@@ -325,6 +330,7 @@ function countWords(s) {
 function padLoaded(){
 	$("section#manual_text").hide();
 	$("section#settings").hide();
+	$("section#exports").hide();
 
 	// make sure links do not replace the document, can be annoying when recording
 	// cf. http://html.com/attributes/a-target/#a_target_blank_Open_in_New_Browser_Tab_or_Window
@@ -568,8 +574,8 @@ function generateChapterMarks(s, from, ignore) {
 	var t = 0;
 	var lines = [];
 	var c = $("section#contents").children();
-	var title = c.eq(sessions[s].h1).contents().eq(0).text().trim();
-	lines.push("# "+title);
+	var stitle = c.eq(sessions[s].h1).contents().eq(0).text().trim();
+	lines.push("# "+stitle);
 	for (i in sessions[s].items) {
 		lines.push(formatMS(t,true,true)+" "+c.eq(sessions[s].items[i].h2).contents().eq(0).text().trim());
 		if (from in sessions[s].items[i])
@@ -577,7 +583,7 @@ function generateChapterMarks(s, from, ignore) {
 	}
 	var marks = {
 		type: 'text/plain;charset=UTF-8',
-		title: title,
+		title: stitle,
 		contents: lines.join('\n')
 	}
 	return marks;
@@ -594,7 +600,7 @@ function generatePSC(s, from, ignore) {
 	var t = 0;
 	var lines = ['<psc:chapters version="1.2" xmlns:psc="http://podlove.org/simple-chapters">'];
 	var c = $("section#contents").children();
-	var title = c.eq(sessions[s].h1).contents().eq(0).text().trim();
+	var stitle = c.eq(sessions[s].h1).contents().eq(0).text().trim();
 	for (i in sessions[s].items) {
 		var title = c.eq(sessions[s].items[i].h2).contents().eq(0).text().trim();
 		title = encodeXMLEntities(title);
@@ -605,7 +611,7 @@ function generatePSC(s, from, ignore) {
 	lines.push('</psc:chapters>');
 	var marks = {
 		type: 'text/xml;charset=UTF-8',//'text/psc+xml;charset=UTF-8'
-		title: title,
+		title: stitle,
 		contents: lines.join('\n')
 	}
 	return marks;
@@ -621,11 +627,10 @@ function generateFFMeta(s, from, ignore) {
 		ignore = 0;
 	var t = 0;
 	var c = $("section#contents").children();
-	var title = c.eq(sessions[s].h1).contents().eq(0).text().trim();
-	title = title.replace(/\\/g,'\\\\').replace(/#/g,'\\#');
+	var stitle = c.eq(sessions[s].h1).contents().eq(0).text().trim();
 	var lines = [
 		";FFMETADATA1",
-		"TITLE="+title,
+		"TITLE="+stitle.replace(/\\/g,'\\\\').replace(/#/g,'\\#'),
 		"DATE_RECORDED="+(new Date()).toISOString().replace(/T.*/,"")
 	];
 	for (i in sessions[s].items) {
@@ -640,7 +645,7 @@ function generateFFMeta(s, from, ignore) {
 	}
 	var marks = {
 		type: 'text/plain;charset=UTF-8',
-		title: title,
+		title: stitle,
 		contents: lines.join('\n')
 	}
 	return marks;
@@ -656,7 +661,7 @@ function generateMKVChapters(s, from, ignore) {
 		ignore = 0;
 	var t = 0;
 	var c = $("section#contents").children();
-	var title = c.eq(sessions[s].h1).contents().eq(0).text().trim();
+	var stitle = c.eq(sessions[s].h1).contents().eq(0).text().trim();
 	var lines = [];
 	for (i in sessions[s].items) {
 		var ch = (1*i+1).toString().padStart(3,'0');
@@ -668,7 +673,7 @@ function generateMKVChapters(s, from, ignore) {
 	}
 	var marks = {
 		type: 'text/plain;charset=UTF-8',
-		title: title,
+		title: stitle,
 		contents: lines.join('\n')
 	}
 	return marks;
@@ -681,7 +686,8 @@ var bookmarkExportFormats = {
 	mkvchapters: { exporter: generateMKVChapters, ext: ".mkvc.txt" },
 };
 
-function exportBookmarks() {
+function exportBookmarks(opentab) {
+console.log("exportBookmarks("+opentab+")");
 	if (sessions.length < 1)
 		return;
 	var format = $('#settings_export_format').val();
@@ -695,8 +701,19 @@ function exportBookmarks() {
 		console.log("Unknown export format "+format+"!");
 
 	if (bookmarks) {
-		var win = window.open('data:'+bookmarks.type+','+encodeURIComponent(bookmarks.contents), "Bookmarks Export: " + bookmarks.title);
-		//win.blur();
+		$('#export_chapters_text').val(bookmarks.contents);
+		// get decomposed UTF-8,
+		// remove non-ascii7 chars,
+		// and change non alpha-num to "-"
+		// trim the dashes at start of title
+		var filename = bookmarks.title.normalize('NFD').replace(/[^\x20-\x7E]/g,"").replace(/[^a-zA-Z0-9]/g,"-").replace(/^-*/,"") + bookmarkExportFormats[format].ext;
+		$('#export_chapters_download').prop("download", filename);
+		var datauri = 'data:'+bookmarks.type+','+encodeURIComponent(bookmarks.contents);
+		$('#export_chapters_download').prop("href", datauri);
+		if (opentab) {
+			var win = window.open(datauri, "Bookmarks Export: " + bookmarks.title);
+			//win.blur();
+		}
 	}
 }
 
@@ -823,8 +840,8 @@ $("#btn_item_stop").click(function (e) {
 	itemStartTime = startTime = null;
 	//paused = false;
 	//$("#btn_item_pause").prop('value', buttonChars.btn_item_pause);
-	if (stopping && $('#settings_export_auto').prop('checked'))
-		exportBookmarks();
+	if (stopping)
+		exportBookmarks($('#settings_export_auto').prop('checked'));
 	return false;
 });
 
@@ -882,7 +899,7 @@ $("#btn_do_print").click(function (e) {
 $('#btn_export_bookmarks').click(function (e) {
 	if (sessions.length == 0 || timerHandle != null)
 		return false;
-	exportBookmarks();
+	exportBookmarks(true);
 	return false;
 });
 
@@ -891,6 +908,18 @@ $('#btn_show_settings').click(function (e) {
 		return false;
 	$('section#settings').toggle();
 	$('section#settings').get(0).scrollIntoView(true);
+	return false;
+});
+
+$('#btn_show_exports').click(function (e) {
+	if (timerHandle != null)
+		return false;
+	$('section#exports').toggle();
+	var shown = $('section#exports').css('display') != 'none'
+	$('section#settings').toggle(shown);
+	$('section#exports').get(0).scrollIntoView(true);
+	if (shown)
+		$("#export_chapters_text").get(0).select();
 	return false;
 });
 
@@ -947,6 +976,10 @@ $("#pastetarget").on("paste", function(e){
 
 	updateTitle(title);
 	padLoaded();
+});
+
+$("#settings_export_format, #settings_export_which").on("input", function(e){
+	exportBookmarks(false);
 });
 
 // fixup bookmarklet
@@ -1015,7 +1048,8 @@ function localizeUI() {
 		$("#btn_item_pause").attr('title', 'Pause');
 		$("#btn_show_titles").attr('title', 'Montrer seulement les titres');
 		$("#btn_do_print").attr('title', 'Imprimer le contenu actuel');
-		$("#btn_export_bookmarks").attr('title', 'Exporter les signets pour la session');
+		//$("#btn_export_bookmarks").attr('title', 'Exporter les signets pour la session');
+		$("#btn_show_exports").attr('title', 'Montrer les exports');
 		$("#btn_show_settings").attr('title', 'Montrer les paramètres');
 		$("#pastetarget").attr('placeholder', 'collez ici…');
 		$('#settings_export_which option[value="recorded"]').text('Enregistré');
