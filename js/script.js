@@ -806,6 +806,7 @@ wsAPI = {
 	ws: null,
 	code: null,
 	isServer: false,
+	inNotify: false,
 
 	connectWS: function() {
 		wsAPI.code = $('#settings_sync_ws_code').val();
@@ -828,8 +829,9 @@ wsAPI = {
 		};
 
 		wsAPI.ws.onmessage = function(str) {
+			wsAPI.inNotify = true;
 			var ob = JSON.parse(str.data);
-			if (ob.type == "change-location" && !wsAPI.isServer) {
+			if (ob.type == "change-location" /*&& !wsAPI.isServer*/) {
 				wsAPI.onChangeLocation(ob.url);
 			} else if (ob.type == "ping") {
 				wsAPI.serializeAndSend({type: "pong"}, true);
@@ -839,28 +841,30 @@ wsAPI = {
 				/* ignore the rest */
 				console.log("unknown ws message type:" + ob.type)
 			}
+			wsAPI.inNotify = false;
 		};
 	},
 
 	onChangeLocation: function(ob) {
 		console.log(ob);
-		if ("session" in ob) {
+		if ("session" in ob && session != ob.session) {
 			if (session > -1 && session < sessions.length)
 				session = ob.session;
 			update();
 			highlightCurrent();
 		}
-		if ("item" in ob) {
+		if ("item" in ob && item != ob.item) {
 			update(ob.item);
 			highlightCurrent();
 		}
-		if ("paused" in ob) {
+		if ("paused" in ob && paused != ob.paused) {
 			setPaused(ob.paused);
 		}
 		if ("play" in ob) {
 			if (ob.play) {
-				$("#btn_item_play").click();
-			} else {
+				if (!isPlaying())
+					$("#btn_item_play").click();
+			} else if (isPlaying()) {
 				$("#btn_item_stop").click();
 			}
 		}
@@ -881,7 +885,7 @@ wsAPI = {
 	},
 
 	notifyWS: function(state) {
-		if (!wsAPI.ws || !wsAPI.isServer)
+		if (!wsAPI.ws || !wsAPI.isServer || wsAPI.inNotify)
 			return;
 		wsAPI.serializeAndSend({
 			type: "location-changed",
