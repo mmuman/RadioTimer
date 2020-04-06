@@ -167,6 +167,11 @@ function formatMS(secs,forceh,showms){
 	return ret;
 }
 
+function maybeRoundTime(t) {
+	// TODO: add setting?
+	return Math.floor(t / 1000) * 1000;
+}
+
 function encodeXMLEntities(s){
 	return s.replace(/&/g, '&amp;')
 			.replace(/</g, '&lt;')
@@ -213,8 +218,6 @@ function highlightCurrent(doScroll){
 function update(toItem){
 	var t = (new Date()).getTime();
 	if (toItem != null) {
-		// XXX
-		t = Math.floor(t / 1000) * 1000;
 		if (!(sessions.length && sessions[session].items.length))
 			toItem = null;
 		else
@@ -233,9 +236,9 @@ function update(toItem){
 	d = 0;
 	if (itemStartTime) {
 		d = t - itemStartTime;
-		d /= 1000;
 		if (sessions.length && sessions[session].items.length)
-			sessions[session].items[item].recorded = d;
+			sessions[session].items[item].recorded = maybeRoundTime(d) / 1000;
+		d /= 1000;
 	}
 	p = d * 100 / i;
 	if (d >= i && !(toItem != null)) {
@@ -250,7 +253,7 @@ function update(toItem){
 		if (timerHandle) {
 			itemStartTime = t;
 			if (sessions.length && sessions[session].items.length)
-				sessions[session].items[item].start = (itemStartTime - startTime) / 1000;
+				sessions[session].items[item].start = maybeRoundTime(itemStartTime - startTime) / 1000;
 		}
 		late = false;
 		p = 0;
@@ -838,7 +841,7 @@ $("#btn_item_play").click(function (e) {
 	if (timerHandle)
 		return false;
 	timerHandle = setInterval(timerFunc, 500);
-	itemStartTime = startTime = Math.floor((new Date()).getTime() / 1000) * 1000;
+	itemStartTime = startTime = (new Date()).getTime();
 	if (sessions.length && sessions[session].items.length) {
 		sessions[session].items[item].start = 0;
 		sessions[session].items[item].recorded = 0;
