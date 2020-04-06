@@ -999,7 +999,8 @@ $("#btn_item_play").click(function (e) {
 		sessions[session].items[item].recorded = 0;
 	}
 	update();
-	notifyState({play:true, item:item});
+	// send all the state to make sure we start at the same place.
+	notifyState({play:true, session:session, item:item, paused:paused});
 	return false;
 });
 
