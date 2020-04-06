@@ -23,6 +23,10 @@ footer:hover {
 	/*opacity: 1.0;*/
 }
 
+label {
+	font-weight: bold;
+}
+
 form { display:inline; clear: none }
 
 #live_timer {
