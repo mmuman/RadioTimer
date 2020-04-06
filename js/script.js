@@ -126,7 +126,7 @@ var padImportErrorMessage = "Sorry, failed to import pad. Maybe your browser ref
 //			words:		total word count for the session
 //			items: [
 //				{
-//					h1:			index of the H2 tag in the section#contents
+//					h2:			index of the H2 tag in the section#contents
 //					expected:	expected runtime in seconds
 //					estimated:	estimated runtime in seconds (from reading speed)
 //					words:		total word count for the item
