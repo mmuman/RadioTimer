@@ -210,9 +210,16 @@ function highlightCurrent(doScroll){
 	}
 }
 
-function update(){
+function update(toItem){
 	var t = (new Date()).getTime();
-	//t = Math.floor(t / 1000) * 1000;
+	if (toItem != null) {
+		// XXX
+		t = Math.floor(t / 1000) * 1000;
+		if (!(sessions.length && sessions[session].items.length))
+			toItem = null;
+		else
+			toItem = Math.max(0, Math.min(sessions[session].items.length - 1, toItem))
+	}
 	var s;
 	if (sessions.length)
 		s = sessions[session].expected;
@@ -231,19 +238,22 @@ function update(){
 			sessions[session].items[item].recorded = d;
 	}
 	p = d * 100 / i;
-	if (d >= i) {
+	if (d >= i && !(toItem != null)) {
 		late = true;
 		p = 100;
-		if (!paused && item < sessions[session].items.length - 1) {
-			if (timerHandle) {
-				itemStartTime = t;
-				if (sessions.length && sessions[session].items.length)
-					sessions[session].items[item].start = (itemStartTime - startTime) / 1000;
-				item++;
-			}
-			p = 0;
-			late = false;
+		if (!paused && item < sessions[session].items.length - 1)
+			toItem = item + 1;
+	}
+	if (toItem != null && toItem != item) {
+		console.log("Switching to item " + toItem);
+		item = toItem;
+		if (timerHandle) {
+			itemStartTime = t;
+			if (sessions.length && sessions[session].items.length)
+				sessions[session].items[item].start = (itemStartTime - startTime) / 1000;
 		}
+		late = false;
+		p = 0;
 		highlightCurrent(!paused);
 	}
 	$("#progress_h2>#bar").each(function(index){this.style.width = "" + p + "%";});
@@ -781,45 +791,15 @@ $("#btn_session_next").click(function (e) {
 
 $("#btn_item_prev").click(function (e) {
 	//console.log(e.target)
-	var t = (new Date()).getTime();
-	t = Math.floor(t / 1000) * 1000;
-	var s = sessions[session];
-	if (timerHandle) {
-		if (sessions.length && sessions[session].items.length)
-			sessions[session].items[item].recorded = (t - itemStartTime) / 1000;
-	}
-	if (item > 0) {
-		item--;
-	}
-	if (timerHandle) {
-		itemStartTime = t;
-		if (sessions.length && sessions[session].items.length)
-			sessions[session].items[item].start = (itemStartTime - startTime) / 1000;
-	}
+	update(item - 1);
 	highlightCurrent();
-	update();
 	return false;
 });
 
 $("#btn_item_next").click(function (e) {
 	//console.log(e.target)
-	var t = (new Date()).getTime();
-	t = Math.floor(t / 1000) * 1000;
-	var s = sessions[session];
-	if (timerHandle) {
-		if (sessions.length && sessions[session].items.length)
-			sessions[session].items[item].recorded = (t - itemStartTime) / 1000;
-	}
-	if (s && item < s.items.length - 1) {
-		item++;
-	}
-	if (timerHandle) {
-		itemStartTime = t;
-		if (sessions.length && sessions[session].items.length)
-			sessions[session].items[item].start = (itemStartTime - startTime) / 1000;
-	}
+	update(item + 1);
 	highlightCurrent();
-	update();
 	return false;
 });
 
