@@ -132,6 +132,7 @@ var padImportErrorMessage = "Sorry, failed to import pad. Maybe your browser ref
 //					words:		total word count for the item
 //					music:		true if item is played audio, takes expected time
 //					plus:		true if item is played audio, but we want to add speech time
+//					lsp:		if present, the index of the cue to execute in Linux-Show-Player.
 //				}, ...
 //			]
 //		}, ...
@@ -170,6 +171,10 @@ function formatMS(secs,forceh,showms){
 function maybeRoundTime(t) {
 	// TODO: add setting?
 	return Math.floor(t / 1000) * 1000;
+}
+
+function isPlaying() {
+	return (timerHandle != null)
 }
 
 function encodeXMLEntities(s){
@@ -258,6 +263,7 @@ function update(toItem){
 		late = false;
 		p = 0;
 		highlightCurrent(!paused);
+		notifyState({item:item});
 	}
 	$("#progress_h2>#bar").each(function(index){this.style.width = "" + p + "%";});
 	$("#live_timer #item #running").text(formatMS(d));
@@ -395,6 +401,14 @@ function padLoaded(){
 				plus = m[2] != null;
 			}
 
+			var lsp = null; // item has LSP cue ID
+			re = /.*\[LSP:([0-9]+)\].*/;
+			m = this.textContent.match(re);
+			//console.log(m);
+			if (m) {
+				lsp = parseInt(m[1]);
+			}
+
 			re = /.*\[([0-9]+):([0-9]+)\].*/;
 			var m = this.textContent.match(re);
 			//XXX: add item anyway even without time tag?
@@ -403,7 +417,7 @@ function padLoaded(){
 				var t = parseInt(m[1]) * 60 + parseInt(m[2]);
 				//console.log(t);
 				sessions[session].expected += t;
-				sessions[session].items.push({
+				var it = {
 					h2: index,
 					expected: t,
 					estimated: 0,
@@ -412,7 +426,10 @@ function padLoaded(){
 					words: 0,
 					music: music,
 					plus: plus
-				});
+				};
+				if (lsp != null)
+					it.lsp = lsp;
+				sessions[session].items.push(it);
 			}
 		} else {
 			// skip text before first H1
@@ -730,6 +747,45 @@ console.log("exportBookmarks("+opentab+")");
 	}
 }
 
+function notifyLSP(item) {
+	if (!isPlaying())
+		return;
+	if (!(sessions.length && sessions[session].items.length))
+		return;
+	if (!("lsp" in sessions[session].items[item]))
+		return;
+	var cue = sessions[session].items[item].lsp;
+	var ip = $('#settings_sync_lsp_ip').val();
+	if (ip.length < 1)
+		return;
+	if (!ip.includes(":"))
+		ip = ip + ":8070";
+	var client = new XMLHttpRequest();
+	client.open("POST", "http://" + ip + "/", true); // third parameter indicates sync xhr. :(
+	client.onload = function(e) {
+		if (client.readyState == 4) {
+			if (client.status != 200)
+				console.error(client.statusText);
+		}
+	};
+	client.onerror = function(e) {
+		if (client.statusText)
+			console.error(client.statusText);
+	};
+	// XXX: setting headers triggers CORS error
+	//client.setRequestHeader("Content-Type", "text/xml");
+	//client.setRequestHeader("User-Agent", "RadioTimer/0.1");
+	// XXX: we get a CORS error and miss the reply but the request is really sent. Whatever.
+	client.send("<?xml version='1.0'?><methodCall><methodName>execute</methodName><params><param><value><int>"+cue+"</int></value></param></params></methodCall>");
+}
+
+function notifyState(state) {
+	console.log(state);
+	if (state.hasOwnProperty('item')) {
+		notifyLSP(state.item);
+	}
+}
+
 $("#live_timer").click(function (e) {
 	$("#live_timer #main #running").toggle();
 	$("#live_timer #main #remaining").toggle();
@@ -776,6 +832,7 @@ $("#btn_session_prev").click(function (e) {
 	update();
 	if (sessions.length)
 		$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
+	notifyState({session:session});
 	return false;
 });
 
@@ -789,6 +846,7 @@ $("#btn_session_next").click(function (e) {
 	update();
 	if (sessions.length)
 		$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
+	notifyState({session:session});
 	return false;
 });
 
@@ -823,6 +881,7 @@ $("#btn_item_stop").click(function (e) {
 	itemStartTime = startTime = null;
 	//paused = false;
 	//$("#btn_item_pause").prop('value', buttonChars.btn_item_pause);
+	notifyState({play:false});
 	if (stopping)
 		exportBookmarks($('#settings_export_auto').prop('checked'));
 	return false;
@@ -847,6 +906,7 @@ $("#btn_item_play").click(function (e) {
 		sessions[session].items[item].recorded = 0;
 	}
 	update();
+	notifyState({play:true, item:0});
 	return false;
 });
 
@@ -859,6 +919,7 @@ $("#btn_item_pause").click(function (e) {
 	else
 		$("#btn_item_pause").prop('value', buttonChars.btn_item_pause);
 	update();
+	notifyState({paused:paused});
 	return false;
 });
 
@@ -1062,6 +1123,10 @@ if (document.location.search) {
 				url = decodeURIComponent(url);
 			$('input[id="url"]').val(url);
 			$("#padform").submit();
+		}
+		if (/^lspip=/.test(args[i])) {
+			var ip = decodeURIComponent(args[i].replace(/^lspip=/, ""));
+			$('input[id="settings_sync_lsp_ip"]').val(ip);
 		}
 	}
 }
