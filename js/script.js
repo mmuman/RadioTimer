@@ -1333,24 +1333,22 @@ loadSettings();
 if (document.location.search) {
 	var args = document.location.search.slice(1).split('&');
 	for (i in args) {
-		if (/^pad=/.test(args[i])) {
-			var url = args[i].replace(/^pad=/, "");
+		var param = args[i].split("=");
+		console.log(param);
+		var k = param[0];
+		var v = param[1];
+		if (k == "pad") {
+			var url = v;
 			if (!url.includes('/')) // we allow unencoded URLs as well
 				url = decodeURIComponent(url);
 			$('input[id="url"]').val(url);
 			$("#padform").submit();
 		}
-		if (/^lspip=/.test(args[i])) {
-			var ip = decodeURIComponent(args[i].replace(/^lspip=/, ""));
-			$('input[id="settings_sync_lsp_ip"]').val(ip);
-		}
-		if (/^wsip=/.test(args[i])) {
-			var ip = decodeURIComponent(args[i].replace(/^wsip=/, ""));
-			$('input[id="settings_sync_ws_ip"]').val(ip);
-		}
-		if (/^wscode=/.test(args[i])) {
-			var c = decodeURIComponent(args[i].replace(/^wscode=/, ""));
-			$('input[id="settings_sync_ws_code"]').val(c);
+		var skeys = ["sync_lsp_ip", "sync_ws_ip", "sync_ws_code"];
+		for (sk in skeys) {
+			if (k == skeys[sk]) {
+				$('input[id="settings_'+k+'"]').val(decodeURIComponent(v));
+			}
 		}
 	}
 }
