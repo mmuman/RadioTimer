@@ -941,7 +941,7 @@ $("#btn_session_prev").click(function (e) {
 	update();
 	if (sessions.length)
 		$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
-	notifyState({session:session});
+	notifyState({session:session, item:item});
 	return false;
 });
 
@@ -955,7 +955,7 @@ $("#btn_session_next").click(function (e) {
 	update();
 	if (sessions.length)
 		$('section#contents').children()[sessions[session].h1].scrollIntoView( true );
-	notifyState({session:session});
+	notifyState({session:session, item:item});
 	return false;
 });
 
