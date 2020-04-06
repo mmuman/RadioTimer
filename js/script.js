@@ -313,6 +313,9 @@ function update(toItem, force){
 		$("#progress_h1").prop('title', txt);
 		$("#live_timer #main #remaining").text(txt);
 	}
+	if (isPlaying() && late && sessions.length && sessions[session].items.length && item == sessions[session].items.length-1 && $('#settings_autostop').prop("checked")) {
+		$("#btn_item_stop").click();
+	}
 }
 
 function timerFunc(){
@@ -941,7 +944,7 @@ function loadSettings() {
 	cookie = document.cookie.split("; ").filter(p => p.startsWith("settings=")).join("").replace("settings=","");
 	cookie.split("&").forEach(p => {v = p.split(":"); settings[v[0]] = decodeURIComponent(v[1]);});
 	Object.keys(settings).forEach(s => {
-		if (s == "export_auto" || s == "smooth")
+		if (s == "export_auto" || s == "smooth" || s == "autostop")
 			$('#settings_'+s).prop("checked", settings[s] == "true");
 		else
 			$('#settings_'+s).val(settings[s]);
@@ -953,6 +956,7 @@ function saveSettings() {
 	var cookie = {
 		wpm: $('#settings_wpm').val(),
 		css: $('#settings_css').val(),
+		autostop: $('#settings_autostop').prop("checked"),
 		smooth: $('#settings_smooth').prop("checked"),
 		export_format: $('#settings_export_format').val(),
 		export_which: $('#settings_export_which').val(),

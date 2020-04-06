@@ -151,6 +151,18 @@ RadioTimer will automatically calculate the total time per session and mention i
 <h3 lang="en">Interface Settings</h3>
 <h3 lang="fr">Paramètres de l'Interface</h3>
 <div>
+<input id="settings_autostop" type="checkbox" onchange="saveSettings();">
+<label for="settings_autostop"><span lang="en">Autostop at end of session</span><span lang="fr">Arrêt automatique en fin de session</span></label>
+</div>
+<p lang="en"><i>Stop when the end of the last item is reached.</i></p>
+<p lang="fr"><i>Arrêt lorsque le dernier item se termine.</i></p>
+<div>
+<input id="settings_smooth" type="checkbox" onchange="saveSettings();">
+<label for="settings_smooth"><span lang="en">Smooth Scrolling</span><span lang="fr">Scrolling progressif</span></label>
+</div>
+<p lang="en"><i>Smooth or immediate scrolling to items.</i></p>
+<p lang="fr"><i>Déplacement graduel ou immédiat d'un item à l'autre.</i></p>
+<div>
 <label for="settings_css"><span lang="en">Style:&nbsp;</span><span lang="fr">Style&nbsp;:&nbsp;</span></label>
 <select id="settings_css" size="1" onchange="saveSettings();">
 <option value="default">Default</option>
@@ -158,12 +170,6 @@ RadioTimer will automatically calculate the total time per session and mention i
 </div>
 <p lang="en"><i>The CSS Page Style to use.</i></p>
 <p lang="fr"><i>Le style de page CSS à utiliser.</i></p>
-<div>
-<input id="settings_smooth" type="checkbox" onchange="saveSettings();">
-<label for="settings_smooth"><span lang="en">Smooth Scrolling</span><span lang="fr">Scrolling progressif</span></label>
-</div>
-<p lang="en"><i>Smooth or immediate scrolling to items.</i></p>
-<p lang="fr"><i>Déplacement graduel ou immédiat d'un item à l'autre.</i></p>
 <br />
 
 <h3 lang="en">Synchronization Settings</h3>
