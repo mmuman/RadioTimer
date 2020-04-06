@@ -146,12 +146,6 @@ var itemStartTime = null;
 var timerHandle = null;
 var paused = false;
 
-// scroll to top of next item?
-var doNextItemScrollArgs = true;
-if (/Firefox/.test(navigator.userAgent)) {
-	doNextItemScrollArgs = {block: "start", behavior: "smooth"};
-}
-
 function formatMS(secs,forceh,showms){
 	var h = "0" + Math.floor(secs / 3600);
 	h = h.substr(h.length-2);
@@ -217,6 +211,11 @@ function highlightCurrent(doScroll){
 		}
 	}
 	if (doScroll && sessions.length) {
+		// scroll to top of next item?
+		var doNextItemScrollArgs = true;
+		if (/Firefox/.test(navigator.userAgent) && $('#settings_smooth').prop('checked')) {
+			doNextItemScrollArgs = {block: "start", behavior: "smooth"};
+		}
 		$('section#contents').children().get(i).scrollIntoView( doNextItemScrollArgs );
 	}
 }
@@ -942,7 +941,7 @@ function loadSettings() {
 	cookie = document.cookie.split("; ").filter(p => p.startsWith("settings=")).join("").replace("settings=","");
 	cookie.split("&").forEach(p => {v = p.split(":"); settings[v[0]] = decodeURIComponent(v[1]);});
 	Object.keys(settings).forEach(s => {
-		if (s == "export_auto")
+		if (s == "export_auto" || s == "smooth")
 			$('#settings_'+s).prop("checked", settings[s] == "true");
 		else
 			$('#settings_'+s).val(settings[s]);
@@ -954,6 +953,7 @@ function saveSettings() {
 	var cookie = {
 		wpm: $('#settings_wpm').val(),
 		css: $('#settings_css').val(),
+		smooth: $('#settings_smooth').prop("checked"),
 		export_format: $('#settings_export_format').val(),
 		export_which: $('#settings_export_which').val(),
 		export_auto: $('#settings_export_auto').prop("checked"),
