@@ -59,6 +59,10 @@ form { display:inline; clear: none }
 	display: none;
 }
 
+#notifs {
+	font-size: x-small;
+}
+
 #allbuttons {
 	float: left;
 	clear: none;

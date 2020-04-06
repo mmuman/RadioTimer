@@ -35,7 +35,11 @@ var buttonChars = {
 	btn_show_exports: "💾\uFE0E",
 	btn_show_settings: "🔧\uFE0E",
 	glyph_chrono: "⏱\uFE0E",
-	glyph_speech_bubble: "🗩\uFE0E"
+	glyph_speech_bubble: "🗩\uFE0E",
+	glyph_sync_none: "🏳",
+	glyph_sync_recv: "🏴",
+	glyph_sync_ctrl: "🏁",
+	glyph_lsp: "🐧"
 };
 
 var buttonCharsMac = {
@@ -54,7 +58,11 @@ var buttonCharsMac = {
 	btn_show_exports: "💾",
 	btn_show_settings: "🔧",
 	glyph_chrono: "⏱",
-	glyph_speech_bubble: "🗩"
+	glyph_speech_bubble: "🗩",
+	glyph_sync_none: "🏳",
+	glyph_sync_recv: "🏴",
+	glyph_sync_ctrl: "🏁",
+	glyph_lsp: "🐧"
 };
 
 var buttonCharsWin = {
@@ -73,7 +81,11 @@ var buttonCharsWin = {
 	btn_show_exports: "💾",
 	btn_show_settings: "🔧",
 	glyph_chrono: "⏱",
-	glyph_speech_bubble: "💬"
+	glyph_speech_bubble: "💬",
+	glyph_sync_none: "🏳",
+	glyph_sync_recv: "🏴",
+	glyph_sync_ctrl: "🏁",
+	glyph_lsp: "🐧"
 };
 
 var buttonCharsAndroid = {
@@ -92,7 +104,11 @@ var buttonCharsAndroid = {
 	btn_show_exports: "💾\uFE0E",
 	btn_show_settings: "🔧\uFE0E",
 	glyph_chrono: "⏱",
-	glyph_speech_bubble: "🗩"
+	glyph_speech_bubble: "🗩",
+	glyph_sync_none: "🏳",
+	glyph_sync_recv: "🏴",
+	glyph_sync_ctrl: "🏁",
+	glyph_lsp: "🐧"
 };
 
 // work around empty buttons on Android
@@ -112,7 +128,11 @@ var buttonCharsASCII = {
 	btn_show_exports: "D",
 	btn_show_settings: "S",
 	glyph_chrono: "(t)",
-	glyph_speech_bubble: "(e)"
+	glyph_speech_bubble: "(e)",
+	glyph_sync_none: "N",
+	glyph_sync_recv: "S",
+	glyph_sync_ctrl: "C",
+	glyph_lsp: "L"
 };
 
 var padImportErrorMessage = "Sorry, failed to import pad. Maybe your browser refused the request to CORS policy.";
@@ -823,11 +843,14 @@ wsAPI = {
 
 		wsAPI.ws.onopen = function(event) {
 			console.log("ws: connected");
+			var g = buttonChars[wsAPI.isServer?"glyph_sync_ctrl":"glyph_sync_recv"];
+			$("#live_timer #syncstatus").text(g);
 		};
 
 		wsAPI.ws.onclose = function(event) {
 			console.log("ws: disconnected; reconnecting");
 			setTimeout(wsAPI.connectWS, 2000);
+			$("#live_timer #syncstatus").text(buttonChars["glyph_sync_none"]);
 		};
 
 		wsAPI.ws.onmessage = function(str) {
@@ -839,6 +862,7 @@ wsAPI = {
 				wsAPI.serializeAndSend({type: "pong"}, true);
 			} else if (ob.type == "client-count-updated") {
 				console.log("WS clients: " + ob.count);
+				$("#live_timer #syncpeers").text(ob.count);
 			} else {
 				/* ignore the rest */
 				console.log("unknown ws message type:" + ob.type)
@@ -966,6 +990,10 @@ function saveSettings() {
 		sync_ws_code: $('#settings_sync_ws_code').val()
 	};
 	document.cookie = "settings=" + Object.keys(cookie).map(i => i + ":" + encodeURIComponent(cookie[i])).join("&");
+	if ($('#settings_sync_ws_ip').val() == "")
+		$("#live_timer #syncstatus, #live_timer #syncpeers").text("");
+	var lspstatus = $('#settings_sync_lsp_ip').val() ? buttonChars["glyph_lsp"] : "";
+	$("#live_timer #lspstatus").text(lspstatus);
 }
 
 $("#live_timer").click(function (e) {
