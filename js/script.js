@@ -1352,7 +1352,7 @@ if (document.location.search) {
 			$('input[id="url"]').val(url);
 			$("#padform").submit();
 		}
-		var skeys = ["sync_lsp_ip", "sync_ws_ip", "sync_ws_code"];
+		var skeys = ["wpm", "sync_lsp_ip", "sync_ws_ip", "sync_ws_code"];
 		for (sk in skeys) {
 			if (k == skeys[sk]) {
 				$('input[id="settings_'+k+'"]').val(decodeURIComponent(v));
