@@ -133,6 +133,7 @@ var padImportErrorMessage = "Sorry, failed to import pad. Maybe your browser ref
 //					music:		true if item is played audio, takes expected time
 //					plus:		true if item is played audio, but we want to add speech time
 //					lsp:		if present, the index of the cue to execute in Linux-Show-Player.
+//					paused:		if present, force the paused state
 //				}, ...
 //			]
 //		}, ...
@@ -220,7 +221,7 @@ function highlightCurrent(doScroll){
 	}
 }
 
-function update(toItem){
+function update(toItem, force){
 	var t = (new Date()).getTime();
 	if (toItem != null) {
 		if (!(sessions.length && sessions[session].items.length))
@@ -252,13 +253,19 @@ function update(toItem){
 		if (!paused && item < sessions[session].items.length - 1)
 			toItem = item + 1;
 	}
-	if (toItem != null && toItem != item) {
+	if (toItem != null && (toItem != item || force)) {
 		console.log("Switching to item " + toItem);
 		item = toItem;
 		if (timerHandle) {
 			itemStartTime = t;
-			if (sessions.length && sessions[session].items.length)
+			if (sessions.length && sessions[session].items.length) {
 				sessions[session].items[item].start = maybeRoundTime(itemStartTime - startTime) / 1000;
+				if ("paused" in sessions[session].items[item]) {
+					var p = sessions[session].items[item].paused;
+					console.log(p);
+					setPaused(p == 1 || p == "+");
+				}
+			}
 		}
 		late = false;
 		p = 0;
@@ -409,6 +416,14 @@ function padLoaded(){
 				lsp = parseInt(m[1]);
 			}
 
+			var paused = null; // force paused state
+			re = /.*\[P:([01+-]+)\].*/;
+			m = this.textContent.match(re);
+			//console.log(m);
+			if (m) {
+				paused = parseInt(m[1]);
+			}
+
 			re = /.*\[([0-9]+):([0-9]+)\].*/;
 			var m = this.textContent.match(re);
 			//XXX: add item anyway even without time tag?
@@ -429,6 +444,8 @@ function padLoaded(){
 				};
 				if (lsp != null)
 					it.lsp = lsp;
+				if (paused != null)
+					it.paused = paused;
 				sessions[session].items.push(it);
 			}
 		} else {
@@ -801,8 +818,7 @@ wsAPI = {
 			highlightCurrent();
 		}
 		if ("paused" in ob) {
-			paused = !ob.paused;
-			$("#btn_item_pause").click();
+			setPaused(ob.paused);
 		}
 		if ("play" in ob) {
 			if (ob.play) {
@@ -998,22 +1014,26 @@ $("#btn_item_play").click(function (e) {
 		sessions[session].items[item].start = 0;
 		sessions[session].items[item].recorded = 0;
 	}
-	update();
+	update(item, true);
 	// send all the state to make sure we start at the same place.
 	notifyState({play:true, session:session, item:item, paused:paused});
 	return false;
 });
 
-$("#btn_item_pause").click(function (e) {
-	//console.log(e)
-	highlightCurrent();
-	paused = !paused;
+function setPaused(p) {
+	paused = p;
 	if (paused)
 		$("#btn_item_pause").prop('value', buttonChars.btn_item_pauseplay);
 	else
 		$("#btn_item_pause").prop('value', buttonChars.btn_item_pause);
-	update();
 	notifyState({paused:paused});
+}
+
+$("#btn_item_pause").click(function (e) {
+	//console.log(e)
+	highlightCurrent();
+	setPaused(!paused);
+	update();
 	return false;
 });
 
