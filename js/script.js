@@ -747,6 +747,98 @@ console.log("exportBookmarks("+opentab+")");
 	}
 }
 
+// adapted from https://git.legeox.net/capslock/web-slideshow-sync
+wsAPI = {
+	ws: null,
+	code: null,
+	isServer: false,
+
+	connectWS: function() {
+		wsAPI.code = $('#settings_sync_ws_code').val();
+		wsAPI.isServer = wsAPI.code != "";
+		var ip = $('#settings_sync_ws_ip').val();
+		if (ip.length < 1)
+			return;
+		if (!ip.includes(":"))
+			ip = ip + ":8102";
+		const wsuri = "ws://" + ip + "/";
+		wsAPI.ws = new WebSocket(wsuri);
+
+		wsAPI.ws.onopen = function(event) {
+			console.log("ws: connected");
+		};
+
+		wsAPI.ws.onclose = function(event) {
+			console.log("ws: disconnected; reconnecting");
+			setTimeout(wsAPI.connectWS, 2000);
+		};
+
+		wsAPI.ws.onmessage = function(str) {
+			var ob = JSON.parse(str.data);
+			if (ob.type == "change-location" && !wsAPI.isServer) {
+				wsAPI.onChangeLocation(ob.url);
+			} else if (ob.type == "ping") {
+				wsAPI.serializeAndSend({type: "pong"}, true);
+			} else if (ob.type == "client-count-updated") {
+				console.log("WS clients: " + ob.count);
+			} else {
+				/* ignore the rest */
+				console.log("unknown ws message type:" + ob.type)
+			}
+		};
+	},
+
+	onChangeLocation: function(ob) {
+		console.log(ob);
+		if ("session" in ob) {
+			if (session > -1 && session < sessions.length)
+				session = ob.session;
+			update();
+			highlightCurrent();
+		}
+		if ("item" in ob) {
+			update(ob.item);
+			highlightCurrent();
+		}
+		if ("paused" in ob) {
+			paused = !ob.paused;
+			$("#btn_item_pause").click();
+		}
+		if ("play" in ob) {
+			if (ob.play) {
+				$("#btn_item_play").click();
+			} else {
+				$("#btn_item_stop").click();
+			}
+		}
+	},
+
+	serializeAndSend: function(obj, clientsAllowed) {
+		if (wsAPI.isServer || clientsAllowed) {
+			wsAPI.ws.send(JSON.stringify(obj), function(error) {console.log(error);});
+		}
+	},
+
+	refreshLocation: function(loc) {
+		wsAPI.serializeAndSend({
+			type: "location-refresh",
+			code: wsAPI.code,
+			location: loc || null
+		});
+	},
+
+	notifyWS: function(state) {
+		if (!wsAPI.ws || !wsAPI.isServer)
+			return;
+		wsAPI.serializeAndSend({
+			type: "location-changed",
+			url: state,
+			code: wsAPI.code
+		});
+	}
+
+};
+
 function notifyLSP(item) {
 	if (!isPlaying())
 		return;
@@ -781,6 +873,7 @@ function notifyLSP(item) {
 
 function notifyState(state) {
 	console.log(state);
+	wsAPI.notifyWS(state);
 	if (state.hasOwnProperty('item')) {
 		notifyLSP(state.item);
 	}
@@ -906,7 +999,7 @@ $("#btn_item_play").click(function (e) {
 		sessions[session].items[item].recorded = 0;
 	}
 	update();
-	notifyState({play:true, item:0});
+	notifyState({play:true, item:item});
 	return false;
 });
 
@@ -1128,5 +1221,15 @@ if (document.location.search) {
 			var ip = decodeURIComponent(args[i].replace(/^lspip=/, ""));
 			$('input[id="settings_sync_lsp_ip"]').val(ip);
 		}
+		if (/^wsip=/.test(args[i])) {
+			var ip = decodeURIComponent(args[i].replace(/^wsip=/, ""));
+			$('input[id="settings_sync_ws_ip"]').val(ip);
+		}
+		if (/^wscode=/.test(args[i])) {
+			var c = decodeURIComponent(args[i].replace(/^wscode=/, ""));
+			$('input[id="settings_sync_ws_code"]').val(c);
+		}
 	}
 }
+
+wsAPI.connectWS();
