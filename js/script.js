@@ -726,11 +726,48 @@ function generateMKVChapters(s, from, ignore) {
 	return marks;
 }
 
+// cf. https://www.w3.org/TR/webvtt1/
+// https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API
+function generateVTT(s, from, ignore) {
+	if (s == null)
+		s = 0;
+	if (from == null)
+		from = 'expected';
+	if (ignore == null)
+		ignore = 0;
+	var t = 0;
+	var c = $("section#contents").children();
+	var stitle = c.eq(sessions[s].h1).contents().eq(0).text().trim();
+	var lines = [
+		"WEBVTT - " + stitle,
+		""
+	];
+	for (i in sessions[s].items) {
+		var ch = (1*i+1).toString().padStart(3,'0');
+		lines.push("chapter-"+ch);
+		var start = t;
+		if (from in sessions[s].items[i])
+			t += sessions[s].items[i][from];
+		var end = t;
+		lines.push(""+formatMS(start,true,true)+" --> "+formatMS(end,true,true));
+		var title = c.eq(sessions[s].items[i].h2).contents().eq(0).text().trim();
+		lines.push(""+title);
+		lines.push("");
+	}
+	var marks = {
+		type: 'text/plain;charset=UTF-8',
+		title: stitle,
+		contents: lines.join('\n')
+	}
+	return marks;
+}
+
 var bookmarkExportFormats = {
 	chaptermarks: { exporter: generateChapterMarks, ext: ".mp4c.txt" },
 	psc:  { exporter: generatePSC, ext: ".psc" },
 	ffmetadata: { exporter: generateFFMeta, ext: ".ffmeta" },
 	mkvchapters: { exporter: generateMKVChapters, ext: ".mkvc.txt" },
+	vtt: { exporter: generateVTT, ext: ".vtt" },
 };
 
 function exportBookmarks(opentab) {
