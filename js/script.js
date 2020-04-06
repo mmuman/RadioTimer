@@ -990,7 +990,7 @@ $("#padform").submit(function (e) {
 	return false;
 });
 
-$("#controls").submit(function (e) {
+$("#controls, #tools").submit(function (e) {
 	//console.log(e.target)
 	return false;
 });
