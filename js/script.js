@@ -763,11 +763,11 @@ function generateVTT(s, from, ignore) {
 }
 
 var bookmarkExportFormats = {
-	chaptermarks: { exporter: generateChapterMarks, ext: ".mp4c.txt" },
-	psc:  { exporter: generatePSC, ext: ".psc" },
-	ffmetadata: { exporter: generateFFMeta, ext: ".ffmeta" },
-	mkvchapters: { exporter: generateMKVChapters, ext: ".mkvc.txt" },
-	vtt: { exporter: generateVTT, ext: ".vtt" },
+	chaptermarks: { exporter: generateChapterMarks, ext: ".mp4c.txt", name: "MP4 Chapter Marks (.txt)" },
+	psc:  { exporter: generatePSC, ext: ".psc", name: "Podlove Simple Chapters (.psc)" },
+	ffmetadata: { exporter: generateFFMeta, ext: ".ffmeta", name: "FFmpeg Chapter Metadata" },
+	mkvchapters: { exporter: generateMKVChapters, ext: ".mkvc.txt", name: "MKV/OGG/Vorbis Chapters" },
+	vtt: { exporter: generateVTT, ext: ".vtt", name: "VTT Chapters" },
 };
 
 function exportBookmarks(opentab) {
@@ -1321,6 +1321,14 @@ function buildUI() {
 			opt.value = a.getAttribute("href");
 			sel.appendChild(opt);
 		}
+	}
+
+	sel = document.getElementById("settings_export_format");
+	for (i in bookmarkExportFormats) {
+		var opt = document.createElement('option');
+		opt.appendChild(document.createTextNode(bookmarkExportFormats[i].name));
+		opt.value = i;
+		sel.appendChild(opt);
 	}
 }
 
