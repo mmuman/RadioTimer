@@ -189,14 +189,14 @@ RadioTimer will automatically calculate the total time per session and mention i
 <br />
 <div>
 <label for="settings_sync_ws_ip"><span lang="en">web-slideshow-sync-server host[:port]:&nbsp;</span><span lang="fr">Hôte[:port] web-slideshow-sync-server&nbsp;:&nbsp;</span></label>
-<input type="text" id="settings_sync_ws_ip" size="20" placeholder="192.168.xxx.xxx:8102" />
+<input type="text" id="settings_sync_ws_ip" size="20" placeholder="192.168.xxx.xxx:8102" onchange="wsAPI.connectWS();" />
 </div>
 <p lang="en"><i>The host (and port if not 8102) to connect to <a href="https://git.legeox.net/capslock/web-slideshow-sync">web-slideshow-sync-server</a>.</i></p>
 <p lang="fr"><i>L'hôte (et le port si différent de 8102) pour se connecter à <a href="https://git.legeox.net/capslock/web-slideshow-sync">web-slideshow-sync-server</a>.</i></p>
 <br />
 <div>
 <label for="settings_sync_ws_code"><span lang="en">web-slideshow-sync-server code:&nbsp;</span><span lang="fr">Code web-slideshow-sync-server&nbsp;:&nbsp;</span></label>
-<input type="text" id="settings_sync_ws_code" size="20" />
+<input type="text" id="settings_sync_ws_code" size="20" onchange="wsAPI.connectWS();" />
 </div>
 <p lang="en"><i>The control code for web-slideshow-sync-server.</i></p>
 <p lang="fr"><i>Le code de contrôle pour web-slideshow-sync-server.</i></p>
