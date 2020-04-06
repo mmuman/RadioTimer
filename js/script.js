@@ -942,12 +942,14 @@ function loadSettings() {
 			$('#settings_'+s).prop("checked", settings[s] == "true");
 		else
 			$('#settings_'+s).val(settings[s]);
-	})
+	});
+	settings_css_onChange();
 }
 
 function saveSettings() {
 	var cookie = {
 		wpm: $('#settings_wpm').val(),
+		css: $('#settings_css').val(),
 		export_format: $('#settings_export_format').val(),
 		export_which: $('#settings_export_which').val(),
 		export_auto: $('#settings_export_auto').prop("checked"),
@@ -1203,6 +1205,26 @@ $("#settings_export_format, #settings_export_which").on("input", function(e){
 	exportBookmarks(false);
 });
 
+function settings_css_onChange(e) {
+	var i, a;
+	// list available alternative CSS
+	var css = document.getElementById("settings_css").value;
+	console.log(css);
+	// first disable all, else Firefox doesn't change on page load
+	for (i = 0; (a = document.getElementsByTagName("link")[i]); i++) {
+		if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+			a.disabled = true;
+		}
+	}
+	for (i = 0; (a = document.getElementsByTagName("link")[i]); i++) {
+		if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+			if (a.getAttribute("href") == css)
+				a.disabled = false;
+		}
+	}
+}
+$("#settings_css").on("input", settings_css_onChange);
+
 // fixup bookmarklet
 // note it doesn't work with file: as Firefox disallows access from script.
 $("#bookmarklet").prop("href", "javascript:window.location='" + window.location.toString().replace(window.location.search,'') + "?pad='+encodeURIComponent(location.href);");
@@ -1288,6 +1310,21 @@ function localizeUI() {
 
 }
 
+function buildUI() {
+	var i, a;
+	// list available alternative CSS
+	var sel = document.getElementById("settings_css");
+	for (i = 0; (a = document.getElementsByTagName("link")[i]); i++) {
+		if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+			var opt = document.createElement('option');
+			opt.appendChild(document.createTextNode(a.getAttribute("title")));
+			opt.value = a.getAttribute("href");
+			sel.appendChild(opt);
+		}
+	}
+}
+
+buildUI();
 localizeUI();
 
 loadSettings();
