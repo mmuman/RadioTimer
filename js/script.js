@@ -895,6 +895,32 @@ function notifyState(state) {
 	}
 }
 
+function loadSettings() {
+	cookie = "";
+	settings = {};
+	cookie = document.cookie.split("; ").filter(p => p.startsWith("settings=")).join("").replace("settings=","");
+	cookie.split("&").forEach(p => {v = p.split(":"); settings[v[0]] = decodeURIComponent(v[1]);});
+	Object.keys(settings).forEach(s => {
+		if (s == "export_auto")
+			$('#settings_'+s).prop("checked", settings[s] == "true");
+		else
+			$('#settings_'+s).val(settings[s]);
+	})
+}
+
+function saveSettings() {
+	var cookie = {
+		wpm: $('#settings_wpm').val(),
+		export_format: $('#settings_export_format').val(),
+		export_which: $('#settings_export_which').val(),
+		export_auto: $('#settings_export_auto').prop("checked"),
+		sync_lsp_ip: $('#settings_sync_lsp_ip').val(),
+		sync_ws_ip: $('#settings_sync_ws_ip').val(),
+		sync_ws_code: $('#settings_sync_ws_code').val()
+	};
+	document.cookie = "settings=" + Object.keys(cookie).map(i => i + ":" + encodeURIComponent(cookie[i])).join("&");
+}
+
 $("#live_timer").click(function (e) {
 	$("#live_timer #main #running").toggle();
 	$("#live_timer #main #remaining").toggle();
@@ -1227,6 +1253,8 @@ function localizeUI() {
 
 localizeUI();
 
+loadSettings();
+
 // autoload pad passed as parameter
 if (document.location.search) {
 	var args = document.location.search.slice(1).split('&');
@@ -1252,5 +1280,7 @@ if (document.location.search) {
 		}
 	}
 }
+
+saveSettings();
 
 wsAPI.connectWS();

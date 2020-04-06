@@ -139,7 +139,7 @@ RadioTimer will automatically calculate the total time per session and mention i
 <h3 lang="fr">Paramètres de texte</h3>
 <div>
 <label for="settings_wpm"><span lang="en">Words per minute:&nbsp;</span><span lang="fr">Mots par minute&nbsp;:&nbsp;</span></label>
-<input id="settings_wpm" type="number" value="150" min="50" max="500" step="10">
+<input id="settings_wpm" type="number" value="150" min="50" max="500" step="10" onchange="saveSettings();">
 </div>
 <p lang="en"><i>Specifies the number of <a href="https://en.wikipedia.org/wiki/Words_per_minute">words per minute</a> to account for to calculate reading time. A normal conversation is around 200 words per minute, but for an audio recording it is advised not to speak more than 160.</i></p>
 <p lang="fr"><i>Spécifie le nombre de <a href="https://fr.wikipedia.org/wiki/Mot_par_minute">mots par minute</a> en moyenne à prendre en compte pour le temps de lecture. Une conversation normale est autour de 200 mots par minute, mais pour un enregistrement il est recommandé de ne pas dépasser 160.</i></p>
@@ -150,7 +150,7 @@ RadioTimer will automatically calculate the total time per session and mention i
 <h3 lang="fr">Paramètres d'export</h3>
 <div>
 <label for="settings_export_format"><span lang="en">Bookmark export format:&nbsp;</span><span lang="fr">Format d'export des signets&nbsp;:&nbsp;</span></label>
-<select id="settings_export_format" size="1">
+<select id="settings_export_format" size="1" onchange="saveSettings();">
 <option value="chaptermarks">MP4 Chapter Marks (.txt)</option>
 <option value="psc">Podlove Simple Chapters (.psc)</option>
 <option value="ffmetadata">FFmpeg Chapter Metadata</option>
@@ -162,7 +162,7 @@ RadioTimer will automatically calculate the total time per session and mention i
 <br />
 <div>
 <label for="settings_export_which"><span lang="en">Exported time:&nbsp;</span><span lang="fr">Temps à exporter&nbsp;:&nbsp;</span></label>
-<select id="settings_export_which" size="1">
+<select id="settings_export_which" size="1" onchange="saveSettings();">
 <option value="recorded" selected>Recorded</option>
 <option value="expected">Expected</option>
 <option value="estimated">Estimated</option>
@@ -172,7 +172,7 @@ RadioTimer will automatically calculate the total time per session and mention i
 <p lang="fr"><i>Les temps à exporter.</i></p>
 <br />
 <div>
-<input id="settings_export_auto" type="checkbox">
+<input id="settings_export_auto" type="checkbox" onchange="saveSettings();">
 <label for="settings_export_auto"><span lang="en">Auto export on stop</span><span lang="fr">Export auto au stop</span></label>
 </div>
 <p lang="en"><i>If we automatically export the times when recording stopped.</i></p>
@@ -181,7 +181,7 @@ RadioTimer will automatically calculate the total time per session and mention i
 <h3 lang="fr">Paramètres de synchronisation</h3>
 <div>
 <label for="settings_sync_lsp_ip"><span lang="en">Linux-Show-Player host[:port]:&nbsp;</span><span lang="fr">Hôte[:port] Linux-Show-Player&nbsp;:&nbsp;</span></label>
-<input type="text" id="settings_sync_lsp_ip" size="20" placeholder="192.168.xxx.xxx:8070" />
+<input type="text" id="settings_sync_lsp_ip" size="20" placeholder="192.168.xxx.xxx:8070"  onchange="saveSettings();" />
 </div>
 <p lang="en"><i>The host (and port if not 8070) to connect to Linux-Show-Player.</i></p>
 <p lang="fr"><i>L'hôte (et le port si différent de 8070) pour se connecter à Linux-Show-Player.</i></p>
@@ -189,14 +189,14 @@ RadioTimer will automatically calculate the total time per session and mention i
 <br />
 <div>
 <label for="settings_sync_ws_ip"><span lang="en">web-slideshow-sync-server host[:port]:&nbsp;</span><span lang="fr">Hôte[:port] web-slideshow-sync-server&nbsp;:&nbsp;</span></label>
-<input type="text" id="settings_sync_ws_ip" size="20" placeholder="192.168.xxx.xxx:8102" onchange="wsAPI.connectWS();" />
+<input type="text" id="settings_sync_ws_ip" size="20" placeholder="192.168.xxx.xxx:8102" onchange="wsAPI.connectWS(); saveSettings();" />
 </div>
 <p lang="en"><i>The host (and port if not 8102) to connect to <a href="https://git.legeox.net/capslock/web-slideshow-sync">web-slideshow-sync-server</a>.</i></p>
 <p lang="fr"><i>L'hôte (et le port si différent de 8102) pour se connecter à <a href="https://git.legeox.net/capslock/web-slideshow-sync">web-slideshow-sync-server</a>.</i></p>
 <br />
 <div>
 <label for="settings_sync_ws_code"><span lang="en">web-slideshow-sync-server code:&nbsp;</span><span lang="fr">Code web-slideshow-sync-server&nbsp;:&nbsp;</span></label>
-<input type="text" id="settings_sync_ws_code" size="20" onchange="wsAPI.connectWS();" />
+<input type="text" id="settings_sync_ws_code" size="20" onchange="wsAPI.connectWS(); saveSettings();" />
 </div>
 <p lang="en"><i>The control code for web-slideshow-sync-server.</i></p>
 <p lang="fr"><i>Le code de contrôle pour web-slideshow-sync-server.</i></p>
