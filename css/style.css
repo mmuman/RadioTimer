@@ -62,9 +62,12 @@ form { display:inline; clear: none }
 #allbuttons {
 	float: left;
 	clear: none;
+	padding-bottom: 0.5em;
 }
 input[type="button"] {
 	/*background: ButtonFace;*/
+	vertical-align: middle;
+	height: 2.1em;
 }
 
 #progress_h1_h2 {
