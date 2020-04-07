@@ -32,6 +32,10 @@ input[type="button"] {
 	-webkit-appearance: button;
 }
 
+input[type="button"]:disabled {
+	color: grey;
+}
+
 #progress_h2 {
 	background-color: darkgoldenrod;
 	background-color: rgba(184, 134, 11, 128);
