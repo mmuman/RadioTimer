@@ -532,12 +532,12 @@ function padLoaded(){
 
 function sanitizeHTML(text) {
 	// make sure we don't add script elements
-	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt].*\/[^>]*>/, "<!noscript />")
-	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt].*\/[Ss][Cc][Rr][Ii][Pp][Tt][^>]*>/, "<!noscript />")
-	text = text.replace(/<[Ss][Cc][Rr][Ii][Pp][Tt]/, "<!-- SCRIPT")
-	text = text.replace(/<\/[Ss][Cc][Rr][Ii][Pp][Tt].*>/, "/SCRIPT -->")
+	text = text.replace(/<script.*\/[^>]*>/gi, "<!noscript />")
+	text = text.replace(/<script.*\/script[^>]*>/gi, "<!noscript />")
+	text = text.replace(/<script/gi, "<!-- SCRIPT")
+	text = text.replace(/<\/script.*>/gi, "/SCRIPT -->")
 	// discard other links
-	text = text.replace(/<[Ll][Ii][Nn][Kk](.*)>/, "<!link$1>")
+	text = text.replace(/<link(.*)>/gi, "<!link$1>")
 	return text;
 }
 
