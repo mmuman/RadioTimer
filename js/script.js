@@ -554,6 +554,10 @@ function loadEtherpad(url){
 
 	var r = $.get(url, function(response, status, xhr){
 		response = sanitizeHTML(response);
+		// work around an export bug: headings get surrounded by BR
+		response = response.replace(/<br><><h([123456])>/gi, "<br><h$1>");
+		response = response.replace(/<\/h([123456])><br>/gi, "</h$1>");
+		// inject into our DOM
 		$("section#contents").append(response);
 		$('section#contents').find('title,meta,style,script').remove();
 
