@@ -902,6 +902,10 @@ wsAPI = {
 
 	serializeAndSend: function(obj, clientsAllowed) {
 		if (wsAPI.isServer || clientsAllowed) {
+			if (wsAPI.ws.readyState != WebSocket.OPEN) {
+				console.log("WS: cannot send (not connected)");
+				return;
+			}
 			wsAPI.ws.send(JSON.stringify(obj), function(error) {console.log(error);});
 		}
 	},
