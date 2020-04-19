@@ -1000,7 +1000,9 @@ function notifyState(state) {
 		notifyStartStop(state);
 	}
 	wsAPI.notifyWS(state);
-	if (state.hasOwnProperty('item')) {
+	// avoids playing twice the first item when starting, since we do a forced update just after it.
+	// maybe logic should be simpler, but we must handle also remote starting LSP via notifications
+	if (state.hasOwnProperty('item') && !state.hasOwnProperty('play')) {
 		notifyLSP(state.item);
 	}
 }
@@ -1159,9 +1161,9 @@ $("#btn_item_play").click(function (e) {
 		sessions[session].items[item].start = 0;
 		sessions[session].items[item].recorded = 0;
 	}
-	update(item, true);
 	// send all the state to make sure we start at the same place.
 	notifyState({play:true, session:session, item:item, paused:paused});
+	update(item, true);
 	return false;
 });
 
