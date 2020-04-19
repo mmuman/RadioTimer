@@ -165,6 +165,7 @@ var startTime = null;
 var itemStartTime = null;
 var timerHandle = null;
 var paused = false;
+var stopping = false;
 
 function formatMS(secs,forceh,showms){
 	var h = "0" + Math.floor(secs / 3600);
@@ -962,8 +963,42 @@ function notifyLSP(item) {
 	client.send("<?xml version='1.0'?><methodCall><methodName>execute</methodName><params><param><value><int>"+cue+"</int></value></param></params></methodCall>");
 }
 
+function notifyStartStop(state) {
+	// we only tell to stop if not already stopped
+	if (state.play == false && !stopping)
+		return;
+	var url = $('#settings_sync_startstop').val();
+	if (url.length < 1)
+		return;
+	url = url.replace(/\{([^,}]*),([^,}]*)\}/g, state.play ? '$1' : '$2');
+	var client = new XMLHttpRequest();
+	client.open("GET", url, true);
+	client.onload = function(e) {
+		if (client.readyState == 4) {
+			if (client.status != 200)
+				console.error(client.statusText);
+		}
+	};
+	client.onerror = function(e) {
+		if (client.statusText)
+			console.error(client.statusText);
+	};
+	// XXX: setting headers triggers CORS error
+	//client.setRequestHeader("Content-Type", "text/xml");
+	//client.setRequestHeader("User-Agent", "RadioTimer/0.1");
+	// XXX: we get a CORS error and miss the reply but the request is really sent. Whatever.
+	client.send("");
+	// force some sleep to leave time for the recording to actually start, since we can't monitor it.
+	var t1 = (new Date()).getTime() + 100;
+	//while ((new Date()).getTime()<t1);
+}
+
 function notifyState(state) {
 	console.log(state);
+	if (state.hasOwnProperty('play')) {
+		// should really be first
+		notifyStartStop(state);
+	}
 	wsAPI.notifyWS(state);
 	if (state.hasOwnProperty('item')) {
 		notifyLSP(state.item);
@@ -993,6 +1028,7 @@ function saveSettings() {
 		export_format: $('#settings_export_format').val(),
 		export_which: $('#settings_export_which').val(),
 		export_auto: $('#settings_export_auto').prop("checked"),
+		sync_startstop: $('#settings_sync_startstop').val(),
 		sync_lsp_ip: $('#settings_sync_lsp_ip').val(),
 		sync_ws_ip: $('#settings_sync_ws_ip').val(),
 		sync_ws_code: $('#settings_sync_ws_code').val()
@@ -1089,7 +1125,7 @@ $("#btn_item_stop").click(function (e) {
 	$("#btn_eject").removeAttr('disabled', 'disabled');
 	$("#btn_session_prev").removeAttr('disabled', 'disabled');
 	$("#btn_session_next").removeAttr('disabled', 'disabled');
-	var stopping = false;
+	stopping = false;
 	if (timerHandle) {
 		clearInterval(timerHandle);
 		timerHandle = null;

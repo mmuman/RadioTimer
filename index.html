@@ -175,6 +175,14 @@ RadioTimer will automatically calculate the total time per session and mention i
 <h3 lang="en">Synchronization Settings</h3>
 <h3 lang="fr">Paramètres de synchronisation</h3>
 <div>
+<label for="settings_sync_startstop"><span lang="en">recording start/stop URL:&nbsp;</span><span lang="fr">URL pour commande start/stop enregistrement&nbsp;:&nbsp;</span></label>
+<input type="text" id="settings_sync_startstop" size="20" placeholder="http://foo/{startcommand,stopcommand}"  onchange="saveSettings();" />
+</div>
+<p lang="en"><i>The URL(s) to connect to for starting/stopping recording. You can specify start/stop URL differences with <tt>{}</tt>, like: <tt>http://example.com/{start,stop}</tt></i></p>
+<p lang="fr"><i>L (les) URL où se connecter pour démarrer/arrêter l'enregistrement. Vous pouvez spécifier une différence entre les deux URLs avec <tt>{}</tt>, comme&nbsp;: <tt>http://example.com/{start,stop}</tt></i></p>
+<br />
+<br />
+<div>
 <label for="settings_sync_lsp_ip"><span lang="en">Linux-Show-Player host[:port]:&nbsp;</span><span lang="fr">Hôte[:port] Linux-Show-Player&nbsp;:&nbsp;</span></label>
 <input type="text" id="settings_sync_lsp_ip" size="20" placeholder="192.168.xxx.xxx:8070"  onchange="saveSettings();" />
 </div>
