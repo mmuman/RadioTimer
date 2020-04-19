@@ -176,18 +176,18 @@ RadioTimer will automatically calculate the total time per session and mention i
 <h3 lang="fr">Paramètres de synchronisation</h3>
 <div>
 <label for="settings_sync_startstop"><span lang="en">recording start/stop URL:&nbsp;</span><span lang="fr">URL pour commande start/stop enregistrement&nbsp;:&nbsp;</span></label>
-<input type="text" id="settings_sync_startstop" size="20" placeholder="http://foo/{startcommand,stopcommand}"  onchange="saveSettings();" />
+<input type="text" id="settings_sync_startstop" size="30" placeholder="http://foo/{startcmd,stopcmd}"  onchange="saveSettings();" />
 </div>
-<p lang="en"><i>The URL(s) to connect to for starting/stopping recording. You can specify start/stop URL differences with <tt>{}</tt>, like: <tt>http://example.com/{start,stop}</tt></i></p>
-<p lang="fr"><i>L (les) URL où se connecter pour démarrer/arrêter l'enregistrement. Vous pouvez spécifier une différence entre les deux URLs avec <tt>{}</tt>, comme&nbsp;: <tt>http://example.com/{start,stop}</tt></i></p>
+<p lang="en"><i>The URL(s) to connect to for starting/stopping recording. You can specify start/stop URL differences with <tt>{}</tt>, like: <tt>http://example.com/{start,stop}</tt>. Make sure you only have this set once in all your open tabs or you will end up triggering twice (starting then stopping right away if both commands are the same).</i></p>
+<p lang="fr"><i>L'(les) URL où se connecter pour démarrer/arrêter l'enregistrement. Vous pouvez spécifier une différence entre les deux URLs avec <tt>{}</tt>, comme&nbsp;: <tt>http://example.com/{start,stop}</tt>. Assurez-vous de n'avoir ce champ remplis qu'une seule fois dans les onglets ouverts ou vous risquez de déclancher plusieurs fois de suite (démarrer et arrêter tout de suite si les deux commandes sont indifférenciées).</i></p>
 <br />
 <br />
 <div>
 <label for="settings_sync_lsp_ip"><span lang="en">Linux-Show-Player host[:port]:&nbsp;</span><span lang="fr">Hôte[:port] Linux-Show-Player&nbsp;:&nbsp;</span></label>
 <input type="text" id="settings_sync_lsp_ip" size="20" placeholder="192.168.xxx.xxx:8070"  onchange="saveSettings();" />
 </div>
-<p lang="en"><i>The host (and port if not 8070) to connect to Linux-Show-Player.</i></p>
-<p lang="fr"><i>L'hôte (et le port si différent de 8070) pour se connecter à Linux-Show-Player.</i></p>
+<p lang="en"><i>The host (and port if not 8070) to connect to Linux-Show-Player. Make sure you only have this set once in all your open tabs or you will end up triggering twice (starting then stopping right away).</i></p>
+<p lang="fr"><i>L'hôte (et le port si différent de 8070) pour se connecter à Linux-Show-Player. Assurez-vous de n'avoir ce champ remplis qu'une seule fois dans les onglets ouverts ou vous risquez de déclancher plusieurs fois de suite (démarrer et arrêter tout de suite).</i></p>
 <br />
 <br />
 <div>
