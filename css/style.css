@@ -13,7 +13,7 @@ footer {
 	bottom: 0em;
 	left: 0em;
 	padding: 0.5em;
-	background-color: LightSlateGrey;
+	background-color: lightslategrey;
 	/*background-color: Menu;*/
 	/*background-color: -moz-Dialog;*/
 	/*background-color: -moz-Combobox;*/
@@ -25,6 +25,9 @@ footer:hover {
 
 footer #toolbar {
 	padding-right: 0.5em;
+}
+footer input {
+	background-color: LightSlateGrey;
 }
 
 label {
@@ -97,13 +100,13 @@ input[type="button"] {
 	padding: 0.3em;
 	display: inline-block;
 }
-#progress_h2 {
-	background-color: goldenrod;
-	background-color: rgba(218, 165, 32, 128);
-}
-#progress_h1 {
+#progress_h1, h1.current {
 	background-color: orangered;
 	background-color: rgba(255, 69, 0, 128);
+}
+#progress_h2, h2.current {
+	background-color: goldenrod;
+	background-color: rgba(218, 165, 32, 128);
 }
 #current_h1,
 #current_h2 {
@@ -124,15 +127,6 @@ input[type="button"] {
 	/* setting opacity seems to change the z-order */
 	/*opacity: .70;*/
 }
-.current {
-	background-color: goldenrod;
-	background-color: rgba(218, 165, 32, 128);
-}
-
-h1.current {
-	background-color: orangered;
-	background-color: rgba(255, 69, 0, 128);
-}
 #contents h1,
 #contents h2 {
 	clear: both;
@@ -145,6 +139,33 @@ h2 span.right-align {
 /* default: hide translations */
 :lang(fr) {
 	display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+	* {
+		scrollbar-color: #3a3c3e #1c1e1f;
+	}
+	html, body, input, textarea, select, button, footer input {
+		background-color: #181a1b;
+	}
+	html, body, input, textarea, select, button, footer input {
+		border-color: #575757;
+		color: #e8e6e3;
+	}
+	footer {
+		background: #181a1b;
+		border-top: solid 1px #3a3c3e;
+	}
+	#live_timer {
+		background: #0b0d0e;
+		border: solid 1px #3a3c3e;
+	}
+	#progress_h1, h1.current {
+		background-color: darkred;
+	}
+	#progress_h2, h2.current {
+		background-color: darkgoldenrod;
+	}
 }
 
 @media print {
