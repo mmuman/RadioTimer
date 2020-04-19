@@ -990,7 +990,7 @@ function notifyStartStop(state) {
 	client.send("");
 	// force some sleep to leave time for the recording to actually start, since we can't monitor it.
 	var t1 = (new Date()).getTime() + 100;
-	//while ((new Date()).getTime()<t1);
+	while ((new Date()).getTime()<t1);
 }
 
 function notifyState(state) {
