@@ -561,6 +561,8 @@ function loadEtherpad(url){
 		// inject into our DOM
 		$("section#contents").append(response);
 		$('section#contents').find('title,meta,style,script').remove();
+		// work around bug on pad.chapril.org where the banner sneaks in the HTML export
+		$('section#contents').find('header#chapril-banner').remove();
 
 		// doesn't work
 		//var contents = $("section#contents").filter("h1,h2,h3");
