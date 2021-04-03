@@ -639,7 +639,7 @@ function loadGoogleDocs(url){
 // generate chapter marks for session 's',
 // for 'from' times (expected, estimated, real),
 // omitting items less than 'ignore' seconds
-function generateChapterMarks(s, from, ignore) {
+function generateChapterMarksGen(s, from, ignore, showms) {
 	//00:00:00[.000] Intro
 	if (s == null)
 		s = 0;
@@ -653,7 +653,7 @@ function generateChapterMarks(s, from, ignore) {
 	var stitle = c.eq(sessions[s].h1).contents().eq(0).text().trim();
 	lines.push("# "+stitle);
 	for (i in sessions[s].items) {
-		lines.push(formatMS(t,true,true)+" "+c.eq(sessions[s].items[i].h2).contents().eq(0).text().trim());
+		lines.push(formatMS(t,true,showms)+" "+c.eq(sessions[s].items[i].h2).contents().eq(0).text().trim());
 		if (from in sessions[s].items[i])
 			t += sessions[s].items[i][from];
 	}
@@ -663,6 +663,16 @@ function generateChapterMarks(s, from, ignore) {
 		contents: lines.join('\n')
 	}
 	return marks;
+}
+
+// the regular chapter marks
+function generateChapterMarks(s, from, ignore) {
+	return generateChapterMarksGen(s, from, ignore, true);
+}
+
+// youtube timestamps are the same without ms
+function generateYoutubeTimestamps(s, from, ignore) {
+	return generateChapterMarksGen(s, from, ignore, false);
 }
 
 // cf. https://podlove.org/simple-chapters/
@@ -793,6 +803,7 @@ function generateVTT(s, from, ignore) {
 
 var bookmarkExportFormats = {
 	chaptermarks: { exporter: generateChapterMarks, ext: ".mp4c.txt", name: "MP4 Chapter Marks (.txt)" },
+	youtubetimestamps: { exporter: generateYoutubeTimestamps, ext: ".ytts.txt", name: "Youtube Timestamps (.txt)" },
 	psc:  { exporter: generatePSC, ext: ".psc", name: "Podlove Simple Chapters (.psc)" },
 	ffmetadata: { exporter: generateFFMeta, ext: ".ffmeta", name: "FFmpeg Chapter Metadata" },
 	mkvchapters: { exporter: generateMKVChapters, ext: ".mkvc.txt", name: "MKV/OGG/Vorbis Chapters" },
