@@ -17,5 +17,5 @@ pin="$1"
 	#echo "GET / \r\n\r\n";
 	sleep 1
 	echo "LO_SERVER_CLIENT_PAIR\n$name\n$pin\n\n";
-	while true; do printf 'HTTP/1.1 100 OK\n\n' | nc -q 0 -l "$lspport"; echo "transition_next\n\n"; done
+	while true; do printf 'HTTP/1.1 100 OK\n\n' | nc -q 0 -l "$lspport" >/dev/null 2>&1; echo "transition_next\n\n"; done
 ) | nc 127.0.0.1 "$port"

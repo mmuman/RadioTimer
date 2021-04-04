@@ -12,4 +12,4 @@ fi
 key="$1"
 
 
-while true; do printf 'HTTP/1.1 100 OK\n\n' | nc -q 0 -l "$port"; xdotool search --name "OBS 26" windowactivate --sync %1 key "$key" windowactivate $(xdotool getactivewindow); done
+while true; do printf 'HTTP/1.1 100 OK\n\n' | nc -q 0 -l "$port" >/dev/null 2>&1; xdotool search --name "OBS 26" windowactivate --sync %1 key "$key" windowactivate $(xdotool getactivewindow); done
