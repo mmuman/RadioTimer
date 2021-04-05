@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# TODO: make a python script for OBS instead?
+# cf. /usr/share/obs/obs-plugins/frontend-tools/scripts/
+
 port="8010"
 
 if [ "$#" -lt 1 ]; then
@@ -12,4 +15,4 @@ fi
 key="$1"
 
 
-while true; do printf 'HTTP/1.1 100 OK\n\n' | nc -q 0 -l "$port" >/dev/null 2>&1; xdotool search --name "OBS 26" windowactivate --sync %1 key "$key" windowactivate $(xdotool getactivewindow); done
+while true; do printf 'HTTP/1.1 200 OK\r\nConnection: close\r\nAccess-Control-Allow-Origin: *\r\n\r\n<xml></xml>' | nc -N -l "$port" >/dev/null 2>&1; xdotool search --name "OBS 26" windowactivate --sync %1 key "$key" windowactivate $(xdotool getactivewindow); done
