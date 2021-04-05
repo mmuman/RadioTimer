@@ -153,6 +153,7 @@ var padImportErrorMessage = "Sorry, failed to import pad. Maybe your browser ref
 //					music:		true if item is played audio, takes expected time
 //					plus:		true if item is played audio, but we want to add speech time
 //					lsp:		if present, the index of the cue to execute in Linux-Show-Player.
+//					loi:		if present, the slide nr or command to send to LibreOffice Impress.
 //					paused:		if present, force the paused state
 //				}, ...
 //			]
@@ -439,6 +440,14 @@ function padLoaded(){
 				lsp = parseInt(m[1]);
 			}
 
+			var loi = null; // item has LibreOffice Impress slide or command
+			re = /.*\[LOI:([0-9stnpbr]+)\].*/;
+			m = this.textContent.match(re);
+			//console.log(m);
+			if (m) {
+				loi = m[1];
+			}
+
 			var paused = null; // force paused state
 			re = /.*\[P:([01+-]+)\].*/;
 			m = this.textContent.match(re);
@@ -467,6 +476,8 @@ function padLoaded(){
 				};
 				if (lsp != null)
 					it.lsp = lsp;
+				if (loi != null)
+					it.loi = loi;
 				if (paused != null)
 					it.paused = paused;
 				sessions[session].items.push(it);
@@ -976,6 +987,37 @@ function notifyLSP(item) {
 	client.send("<?xml version='1.0'?><methodCall><methodName>execute</methodName><params><param><value><int>"+cue+"</int></value></param></params></methodCall>");
 }
 
+function notifyLOImpress(item) {
+	if (!isPlaying())
+		return;
+	if (!(sessions.length && sessions[session].items.length))
+		return;
+	if (!("loi" in sessions[session].items[item]))
+		return;
+	var cmd = sessions[session].items[item].loi;
+	//console.log("loimpress:" + cmd);
+	var ip = $('#settings_sync_loi_ip').val();
+	if (ip.length < 1)
+		return;
+	if (!ip.includes(":"))
+		ip = ip + ":8060";
+	var client = new XMLHttpRequest();
+	client.open("POST", "http://" + ip + "/" + cmd, true); // third parameter indicates sync xhr. :(
+	client.onload = function(e) {
+		if (client.readyState == 4) {
+			if (client.status != 200)
+				console.error(client.statusText);
+		}
+	};
+	client.onerror = function(e) {
+		if (client.statusText)
+			console.error(client.statusText);
+	};
+	// by convention we send cmd both as body and path,
+	// since our script it simpler when matching path
+	client.send(cmd);
+}
+
 function notifyStartStop(state) {
 	// we only tell to stop if not already stopped
 	if (state.play == false && !stopping)
@@ -1017,6 +1059,7 @@ function notifyState(state) {
 	// maybe logic should be simpler, but we must handle also remote starting LSP via notifications
 	if (state.hasOwnProperty('item') && !state.hasOwnProperty('play')) {
 		notifyLSP(state.item);
+		notifyLOImpress(state.item);
 	}
 }
 

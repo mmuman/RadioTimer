@@ -191,6 +191,14 @@ RadioTimer will automatically calculate the total time per session and mention i
 <br />
 <br />
 <div>
+<label for="settings_sync_loi_ip"><span lang="en">LibreOffice Impress sync host[:port]:&nbsp;</span><span lang="fr">Hôte[:port] synchro LibreOffice Impress&nbsp;:&nbsp;</span></label>
+<input type="text" id="settings_sync_loi_ip" size="20" placeholder="192.168.xxx.xxx:8060"  onchange="saveSettings();" />
+</div>
+<p lang="en"><i>The host (and port if not 8060) to connect to the LibreOffice Impress remote sync script (loimpress-sync.sh). Make sure you only have this set once in all your open tabs or you will end up triggering twice (like advancing two slides instead of one).</i></p>
+<p lang="fr"><i>L'hôte (et le port si différent de 8060) pour se connecter au script de synchronisation de la télécommande LibreOffice Impress (loimpress-sync.sh). Assurez-vous de n'avoir ce champ remplis qu'une seule fois dans les onglets ouverts ou vous risquez de déclancher plusieurs fois de suite (comme avancer de deux diapos au lieu d'une).</i></p>
+<br />
+<br />
+<div>
 <label for="settings_sync_ws_ip"><span lang="en">web-slideshow-sync-server host[:port]:&nbsp;</span><span lang="fr">Hôte[:port] web-slideshow-sync-server&nbsp;:&nbsp;</span></label>
 <input type="text" id="settings_sync_ws_ip" size="20" placeholder="192.168.xxx.xxx:8102" onchange="wsAPI.connectWS(); saveSettings();" />
 </div>
