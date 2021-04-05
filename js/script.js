@@ -1091,7 +1091,7 @@ function saveSettings() {
 		sync_ws_ip: $('#settings_sync_ws_ip').val(),
 		sync_ws_code: $('#settings_sync_ws_code').val()
 	};
-	document.cookie = "settings=" + Object.keys(cookie).map(i => i + ":" + encodeURIComponent(cookie[i])).join("&") + ";max-age=31536000"; // expire in 1 year
+	document.cookie = "settings=" + Object.keys(cookie).map(i => i + ":" + encodeURIComponent(cookie[i])).join("&") + ";samesite=strict;max-age=31536000"; // expire in 1 year
 	if ($('#settings_sync_ws_ip').val() == "")
 		$("#live_timer #syncstatus, #live_timer #syncpeers").text("");
 	var lspstatus = $('#settings_sync_lsp_ip').val() ? buttonChars["glyph_lsp"] : "";
