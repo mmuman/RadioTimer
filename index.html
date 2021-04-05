@@ -37,6 +37,14 @@
 <li><code>H1</code> (Heading 1) tag mentions the title of each separate session to record.</li>
 <li><code>H2</code> (Heading 2) tag mentions the title of each item in the session .</li>
 <li>H2 tags shall have a <code>[MM:SS]</code> mark in the text to indicate the expected run time of the item.</li>
+<li>H2 tags can also contain several codes  (the <code>?</code> is replaces by a value):
+<ul>
+<li><code>[P:?]</code>: activate (<code>1</code>) or deactivates (<code>0</code>) the pause mode starting from this item.</li>
+<li><code>[LSP:?]</code>: Starts a cue in Linux-Show-Player. The parameter is the cue number.</li>
+<li><code>[LOI:?]</code>: Sends a command to LibreOffice Impress. The parameter is the slide number or a command letter (<code>s</code>tart, s<code>t</code>top, <code>n</code>ext, <code>p</code>revious, <code>b</code>lank, <code>r</code>esume).</li>
+<li><code>ZIK</code> / <code>MUSIC</code> / <code>AUDIO</code>: Indicates that this item is a music, and that the reading time is added to the indicated time in the H2 for the estimation.</li>
+</ul>
+</li>
 </ul>
 RadioTimer will automatically calculate the total time per session and mention it in the session titles.
 </p>
@@ -48,8 +56,16 @@ RadioTimer will automatically calculate the total time per session and mention i
 <li>Un tag <code>H1</code> (Titre 1) mentionne le titre de chaque session à enregistrer.</li>
 <li>Un tag <code>H2</code> (Titre 2) mentionne le nom de chaque item dans la session.</li>
 <li>Les tags H2 doivent contenir une marque <code>[MM:SS]</code> indiquant la durée estimée de l'item.</li>
+<li>Les tags H2 peuvent également contenir plusieurs marques (le <code>?</code> étant remplacé par une valeur)&nbsp;:
+<ul>
+<li><code>[P:?]</code>&nbsp;: active (<code>1</code>) ou désactive (<code>0</code>) le mode pause à partir de cet item.</li>
+<li><code>[LSP:?]</code>&nbsp;: Lance un son dans Linux-Show-Player. Le paramètre est le numéro du son.</li>
+<li><code>[LOI:?]</code>&nbsp;: Envoie une commande à LibreOffice Impress. Le paramètre est le numéro de la diapo ou une lettre de commande (<code>s</code>tart, s<code>t</code>top, <code>n</code>ext, <code>p</code>revious, <code>b</code>lank, <code>r</code>esume).</li>
+<li><code>ZIK</code> / <code>MUSIC</code> / <code>AUDIO</code>&nbsp;: Indique que l'item courant est une musique, et qu'il faut ajouter le temps de lecture du texte au temps indiqué dans le H2 dans l'estimation.</li>
 </ul>
-RadioTimer will automatically calculate the total time per session and mention it in the session titles.
+</li>
+</ul>
+RadioTimer calculera automatiquement le temps total par session et le mentionnera dans les titres de session.
 </p>
 </div>
 
