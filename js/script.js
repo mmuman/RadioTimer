@@ -1088,6 +1088,7 @@ function saveSettings() {
 		export_auto: $('#settings_export_auto').prop("checked"),
 		sync_startstop: $('#settings_sync_startstop').val(),
 		sync_lsp_ip: $('#settings_sync_lsp_ip').val(),
+		sync_loi_ip: $('#settings_sync_loi_ip').val(),
 		sync_ws_ip: $('#settings_sync_ws_ip').val(),
 		sync_ws_code: $('#settings_sync_ws_code').val()
 	};
