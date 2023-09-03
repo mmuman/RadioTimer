@@ -553,6 +553,43 @@ function sanitizeHTML(text) {
 	return text;
 }
 
+function loadMarkdown(url){
+	var title = url.split('/').pop();
+	updateTitle(null);
+
+	console.log('loadMarkdown: ' + url);
+
+	var r = $.ajax({url: url, /*headers: {'Referrer-Policy': 'no-referrer'}, */dataType: undefined, type: 'GET', success: function(response, status, xhr){
+		sd = new Slimdown();
+		response = sd.render(response);
+		response = sanitizeHTML(response);
+		// work around an export bug: headings get surrounded by BR
+		response = response.replace(/<br><><h([123456])>/gi, "<br><h$1>");
+		response = response.replace(/<\/h([123456])><br>/gi, "</h$1>");
+		// inject into our DOM
+		$("section#contents").append(response);
+		$('section#contents').find('title,meta,style,script').remove();
+		// work around bug on pad.chapril.org where the banner sneaks in the HTML export
+		$('section#contents').find('header#chapril-banner').remove();
+
+		// rewrap text blocks into spans.
+		$('section#contents').contents()
+			.filter(function(){return this.nodeType === 3})
+				.wrap('<span />');
+
+		updateTitle(title);
+		padLoaded();
+	}});
+	r.onerror = function(e) {
+		console.log(e)
+		console.log(r.getAllResponseHeaders())
+		alert(padImportErrorMessage);
+		$("#padform>#progress").children().children().unwrap();
+		$("#padform>#progress").hide();
+	};
+	console.log(r);
+}
+
 function loadEtherpad(url){
 	var title = url.split('/').pop();
 	updateTitle(null);
@@ -1119,6 +1156,12 @@ $("#padform").submit(function (e) {
 		loadEtherpad(url);
 	} else if (/^https?:\/\/.*pad.*\//.test(url)) {
 		loadEtherpad(url);
+	} else if (/^https?:\/\/.*cloud.*\/s\//.test(url)) {
+		console.log("cloud");
+		loadMarkdown(url);
+	} else if (/^https?:\/\/.*\.md$/.test(url)) {
+		console.log("cloud");
+		loadMarkdown(url);
 	} else if (/^https:\/\/docs\.google\.com\/document\//.test(url)) {
 		loadGoogleDocs(url);
 	} else {
