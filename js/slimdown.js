@@ -1,7 +1,6 @@
-'use strict';
-
 // from https://gist.github.com/renehamburger/12f14a9bd9297394e5bd
 
+'use strict';
 
 /**
  * Javascript version of https://gist.github.com/jbroadway/2836900
@@ -28,19 +27,31 @@ function Slimdown() {
 
   // Rules
   this.rules =  [
-    {regex: /(#+)(.*)/g, replacement: header},                                         // headers
+    {regex: /\n(#+)(.*)/g, replacement: header},                                         // headers
     {regex: /!\[([^\[]+)\]\(([^\)]+)\)/g, replacement: '<img src=\'$2\' alt=\'$1\'>'}, // image
     {regex: /\[([^\[]+)\]\(([^\)]+)\)/g, replacement: '<a href=\'$2\'>$1</a>'},        // hyperlink
-    {regex: /(\*\*|__)(.*?)\1/g, replacement: '<strong>$2</strong>'},                  // bold
-    {regex: /(\*|_)(.*?)\1/g, replacement: '<em>$2</em>'},                             // emphasis
+// _ can be used in URLs and we do not want to mess them up.
+//    {regex: /(\*\*|__)(.*?)\1/g, replacement: '<strong>$2</strong>'},                // bold
+//    {regex: /(\*\*)(.*?)\1/g, replacement: '<strong>$2</strong>'},                   // bold
+    {regex: /([^\\])(\*\*|__)(.*?)\2/g, replacement: '$1<strong>$3</strong>'},         // bold
+//    {regex: /(\*|_)(.*?)\1/g, replacement: '<em>$2</em>'},                           // emphasis
+//    {regex: /(\*)(.*?)\1/g, replacement: '<em>$2</em>'},                             // emphasis
+    {regex: /([^\\])(\*|_)(.*?)\2/g, replacement: '$1<em>$3</em>'},                    // emphasis
     {regex: /\~\~(.*?)\~\~/g, replacement: '<del>$1</del>'},                           // del
     {regex: /\:\"(.*?)\"\:/g, replacement: '<q>$1</q>'},                               // quote
     {regex: /`(.*?)`/g, replacement: '<code>$1</code>'},                               // inline code
-    {regex: /\n\*(.*)/g, replacement: ulList},                                         // ul lists
+    {regex: /\n( *)(\*|-)(.*)/g, replacement: ulList},                                         // ul lists
     {regex: /\n[0-9]+\.(.*)/g, replacement: olList},                                   // ol lists
     {regex: /\n(&gt;|\>)(.*)/g, replacement: blockquote},                              // blockquotes
     {regex: /\n-{5,}/g, replacement: '\n<hr />'},                                      // horizontal rule
-    {regex: /\n([^\n]+)\n/g, replacement: para},                                       // add paragraphs
+    {regex: /\n\n([^\n]+)\n\n/g, replacement: para},                                       // add paragraphs
+    {regex: /([^>])\\?\n([^<])/g, replacement: '$1<br/>$2'},                           // newlines
+    {regex: /\\(.)/g, replacement: '$1'},                                              // unescape
+    {regex: /<\/ul>\s?<ul>/g, replacement: ''},                                        // fix extra ul
+    {regex: /<\/ul>\s?<ul>/g, replacement: ''},                                        // fix extra ul
+    {regex: /<\/ul>\s?<ul>/g, replacement: ''},                                        // fix extra ul
+    {regex: /<\/ul>\s?<ul>/g, replacement: ''},                                        // fix extra ul
+    {regex: /<\/ul>\s?<ul>/g, replacement: ''},                                        // fix extra ul
     {regex: /<\/ul>\s?<ul>/g, replacement: ''},                                        // fix extra ul
     {regex: /<\/ol>\s?<ol>/g, replacement: ''},                                        // fix extra ol
     {regex: /<\/blockquote><blockquote>/g, replacement: '\n'}                          // fix extra blockquote
@@ -63,7 +74,7 @@ function Slimdown() {
   };
 
   function para (text, line) {
-    debugger;
+    //debugger;
     var trimmed = line.trim();
     if (/^<\/?(ul|ol|li|h|p|bl)/i.test(trimmed)) {
       return '\n' + line + '\n';
@@ -71,8 +82,10 @@ function Slimdown() {
     return '\n<p>' + trimmed + '</p>\n';
   }
 
-  function ulList (text, item) {
-    return '\n<ul>\n\t<li>' + item.trim() + '</li>\n</ul>';
+  function ulList (text, level, bullet, item) {
+    level = 1+Math.floor(level.length/2);
+    // Not really correct but seems to work in Firefox and Chromium at least
+    return '\n<ul>'.repeat(level) + '\n\t<li>' + item.trim() + '</li>' + '\n</ul>'.repeat(level);
   }
 
   function olList (text, item) {
@@ -85,6 +98,6 @@ function Slimdown() {
 
   function header (text, chars, content) {
     var level = chars.length;
-    return '<h' + level + '>' + content.trim() + '</h' + level + '>';
+    return '\n<h' + level + '>' + content.trim() + '</h' + level + '>';
   }
 }
